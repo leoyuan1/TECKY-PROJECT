@@ -23,7 +23,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node server.ts"
+    "start": "ts-node start.ts"
   },
   "author": "",
   "license": "ISC",
