@@ -68,11 +68,15 @@ CREATE TABLE community (
 CREATE table community_members (
     id SERIAL primary key,
     community_id INTEGER not null,
-    user_id INTEGER not null
+    FOREIGN key(community_id) REFERENCES community(id),
+    user_id INTEGER not null,
+    FOREIGN key(user_id) REFERENCES users(id)
 );
 CREATE table community_messages (
     id SERIAL primary key,
+    FOREIGN key(id) REFERENCES community(id),
     from_id INTEGER not null,
+    FOREIGN key (from_id) REFERENCES users(id),
     content text,
     community_id INTEGER not null
 );
