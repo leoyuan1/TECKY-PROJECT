@@ -82,7 +82,7 @@ CREATE table community_messages (
     from_id INTEGER not null,
     FOREIGN key (from_id) REFERENCES users(id),
     content text,
-    community_id INTEGER not null created_at date DEFAULT now(),
+    community_id INTEGER not null,
     created_at date DEFAULT now(),
     updated_at date DEFAULT now()
 );
