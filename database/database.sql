@@ -60,4 +60,19 @@ CREATE TABLE post_comments (
     created_by TIMESTAMP not null,
     updated_at TIMESTAMP not null,
     updated_by TIMESTAMP not null
-)
+);
+CREATE TABLE community (
+    id SERIAL primary key,
+    title TEXT not null
+);
+CREATE table community_members (
+    id SERIAL primary key,
+    community_id INTEGER not null,
+    user_id INTEGER not null
+);
+CREATE table community_messages (
+    id SERIAL primary key,
+    from_id INTEGER not null,
+    content text,
+    community_id INTEGER not null
+);
