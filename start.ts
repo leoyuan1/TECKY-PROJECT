@@ -68,14 +68,14 @@ main();
 // });
 
 // static files 
-// app.use(express.static("public"));
+app.use(express.static("public"));
 
 
-// //  404
-// app.use((req, res) => {
-//     res.redirect('404.html')
-// })
+//  404
+app.use((req, res) => {
+    res.redirect('404.html')
+})
 
-// app.listen(8080, () => {
-//     console.log(`Listening at http://localhost:8080`);
-// });
+app.listen(8080, () => {
+    console.log(`Listening at http://localhost:8080`);
+});
