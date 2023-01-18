@@ -2,9 +2,9 @@ import express from 'express';
 import { Request, Response } from 'express';
 
 import { logger } from './util/logger';
-import { formidablePromise } from "./util/formidable"
-import { client } from './util/psql-config';
-import { io } from './util/connection-config';
+// import { formidablePromise } from "./util/formidable"
+// import { client } from './util/psql-config';
+// import { io } from './util/connection-config';
 
 export const petRoutes = express.Router();
 
@@ -23,7 +23,7 @@ async function getPets(req: Request, res: Response) {
 
         // send data to client
         res.json({
-            data: pets,
+            // data: pets,
             message: "Get pets success",
         });
 

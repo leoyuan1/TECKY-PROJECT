@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { app, PORT, server } from "./connection-config";
+import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./util/login";
 
 const Files = {
