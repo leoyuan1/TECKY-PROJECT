@@ -1,25 +1,20 @@
 import express from "express";
-import dotenv from "dotenv";
 import http from "http";
 import { Server as SocketIO } from "socket.io";
-dotenv.config();
-
+import { userRoutes } from "./util/login";
 
 const app = express();
 const server = new http.Server(app);
 const io = new SocketIO(server);
 
-
-
 io.on("connection", function (socket) {
     console.log(socket);
 })
 
-
+app.use(userRoutes)
 // static files 
 // app.use(express.static("pet template"));
 app.use(express.static("public"));
-
 
 //  404
 app.use((req, res) => {
