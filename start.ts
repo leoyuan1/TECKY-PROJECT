@@ -35,8 +35,9 @@ async function main() {
     const species = {
         name: "Persian cat"
     };
-    await client.query("INSERT INTO species (type, created_at, updated_at) values ($1,now(),now())", [
+    await client.query("INSERT INTO species (name, pet_type_id) values ($1,$2)", [
         species.name,
+        1,
     ])
 
     const post = {
@@ -45,19 +46,22 @@ async function main() {
         birthday: "2022-10-22",
         description: "good cat",
         status: "waiting",
-        size: "small"
+        size: "small",
+        price: 1000,
+        request_nos: 0,
     };
-    await client.query("INSERT INTO posts (pet_name, gender, birthday, description, status, size, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,now(),now())", [
+    await client.query("INSERT INTO posts (user_id,pet_name, gender, birthday, description, status, size,price,request_nos, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,now(),now())", [
+        1,
         post.pet_name,
         post.gender,
         post.birthday,
         post.description,
         post.status,
-        post.size
+        post.size,
+        post.price,
+        post.request_nos,
+        1,
     ])
-
-
-
 }
 
 main();
@@ -67,15 +71,15 @@ main();
 //     res.end("Hello World");
 // });
 
-// static files 
-app.use(express.static("public"));
+// // static files 
+// app.use(express.static("public"));
 
 
-//  404
-app.use((req, res) => {
-    res.redirect('404.html')
-})
+// //  404
+// app.use((req, res) => {
+//     res.redirect('404.html')
+// })
 
-app.listen(8080, () => {
-    console.log(`Listening at http://localhost:8080`);
-});
+// app.listen(8080, () => {
+//     console.log(`Listening at http://localhost:8080`);
+// });
