@@ -63,19 +63,11 @@ async function main() {
         post.request_nos,
         1,
     ])
-<<<<<<< HEAD:start.ts
-=======
-
-
-    await client.end()
-    console.log('database is disconnected')
->>>>>>> 6d11c89535b723de1e828994090c6af34c8fec6f:initdata.ts
 }
 
 main();
 
 
-<<<<<<< HEAD:start.ts
 // app.get("/", function (req: Request, res: Response) {
 //     res.end("Hello World");
 // });
@@ -92,5 +84,3 @@ main();
 // app.listen(8080, () => {
 //     console.log(`Listening at http://localhost:8080`);
 // });
-=======
->>>>>>> 6d11c89535b723de1e828994090c6af34c8fec6f:initdata.ts

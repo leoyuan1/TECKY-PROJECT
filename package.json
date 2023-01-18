@@ -24,12 +24,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "server": "ts-node server.ts",
-    "start": "ts-node start.ts"
-=======
-    "server": "ts-node-dev server.ts"
->>>>>>> 6d11c89535b723de1e828994090c6af34c8fec6f
+    "server": "ts-node server.ts"
   },
   "author": "",
   "license": "ISC",
