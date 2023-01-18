@@ -14,18 +14,17 @@ petRoutes.put('/pets/:id', updatePets);
 petRoutes.delete('/pets/:id', deletePets);
 
 
-// API --- get Memos
+// API --- get Pets
 async function getPets(req: Request, res: Response) {
     try {
 
         // find data from database
-        const result = await client.query("select * from memos");
-        const memos = result.rows;
+
 
         // send data to client
         res.json({
-            data: memos,
-            message: "Get memos success",
+            data: pets,
+            message: "Get pets success",
         });
 
     } catch (error) {
@@ -39,29 +38,18 @@ async function postPets(req: Request, res: Response) {
     try {
 
         // receive data from client
-        const { fields, files } = await formidablePromise(req);
-        const { content } = fields;
-        const imageName: string = files.image ? files.image["newFilename"] : "";
-        if (!content) {
-            logger.error("... [MEM011] No content from client ... ");
-            res.status(400).end("[MEM011] Invalid application input");
-            return;
-        }
+
 
         // insert data to database
-        await client.query(
-            `INSERT INTO memos (content, image, created_at, updated_at) 
-                VALUES ($1, $2, NOW(), NOW())`,
-            [content, imageName]
-        );
+
 
         // msg to client
         res.json({
-            message: "memo posted",
+            message: "pet posted",
         });
 
         // broadcast to everyone
-        io.emit("new-memo");
+        // io.emit("new-pet");
 
     } catch (error) {
         logger.error("... [MEM010] Server error ... " + error);
@@ -70,24 +58,18 @@ async function postPets(req: Request, res: Response) {
 }
 
 
-// API --- update memo (req is json)
+// API --- update pet (req is json)
 async function updatePets(req: Request, res: Response) {
     try {
 
         // receive data from client
-        const memoID = req.params.id;
-        const newContent = req.body.content;
+
 
         // update data at database
-        await client.query(
-            "update memos set content = $1, updated_at = now() where id = $2",
-            [newContent, memoID]
-        );
+
 
         // msg to client
-        res.json({
-            message: "memo updated",
-        });
+
 
     } catch (error) {
         logger.error("... [MEM020] Server error ... " + error);
@@ -96,22 +78,18 @@ async function updatePets(req: Request, res: Response) {
 }
 
 
-// API --- delete memo
+// API --- delete pet
 async function deletePets(req: Request, res: Response) {
     try {
 
         // receive data from client
-        const memoID = req.params.id;
+
 
         // read data from server
-        await client.query(
-            "delete from memos where id = $1", [memoID]
-        );
+
 
         // msg to client
-        res.json({
-            message: "memo deleted",
-        });
+
 
     } catch (error) {
         logger.error("... [MEM030] Server error ... " + error);
