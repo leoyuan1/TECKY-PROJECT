@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Pet Adopt</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+
+  <!-- bootstrap css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+  <!-- unique style for adopt-pets section -->
+  <link href="css/adopt-pets.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="hero_area">
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="">
+            <span>
+              Pet Adopt
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="post-pets.html">Post Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="community.html">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="donate.html">Donate</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
+              </form>
+            </div>
+            <div class="quote_btn-container  d-flex justify-content-center">
+              <a href="">
+                Login / Signup
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+
+    <!-- animals section -->
+    <div class="animal_section container-fluid">
+
+      <div class="top-container">
+
+        <div id="header-selector" class="selector">
+          <div class="header-selector-row type">
+            <input class="selector-radio" type="radio" name="selector-radio" value="all" id="selector_radio_1"
+              checked="checked">
+            <label class="selector-label" for="selector_radio_1">
+              <span> 所有 </span>
+              <img src="images/adoption-icons/all-icon.svg" alt="selector radio 1 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="cat" id="selector_radio_2">
+            <label class="selector-label" for="selector_radio_2">
+              <span> 貓咪 </span>
+              <img src="images/adoption-icons/cat-icon.svg" alt="selector radio 2 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="dog" id="selector_radio_3">
+            <label class="selector-label" for="selector_radio_3">
+              <span> 狗狗 </span>
+              <img src="images/adoption-icons/dog-icon.svg" alt="selector radio 3 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="rabbit" id="selector_radio_4">
+            <label class="selector-label" for="selector_radio_4">
+              <span> 兔兔 </span>
+              <img src="images/adoption-icons/rabbit-icon.svg" alt="selector radio 4 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="others" id="selector_radio_5">
+            <label class="selector-label" for="selector_radio_5">
+              <span> 其他 </span>
+              <img src="images/adoption-icons/others-icon.svg" alt="selector radio 5 icon">
+            </label>
+          </div>
+          <label class="header-selector-section-title">性別</label>
+          <div class="header-selector-row gender">
+            <input class="selector-radio" type="radio" name="selector-radio-gender" value="all"
+              id="selector_radio_gender_1" checked="checked">
+            <label class="selector-label selector-gender" for="selector_radio_gender_1">
+              <span> 所有 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-gender" value="m"
+              id="selector_radio_gender_2">
+            <label class="selector-label selector-gender" for="selector_radio_gender_2">
+              <span> 仔 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-gender" value="f"
+              id="selector_radio_gender_3">
+            <label class="selector-label selector-gender" for="selector_radio_gender_3">
+              <span> 女 </span>
+            </label>
+          </div>
+          <label class="header-selector-section-title">年齡</label>
+          <div class="header-selector-row age">
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="all" id="selector_radio_age_1"
+              checked="checked">
+            <label class="selector-label selector-age" for="selector_radio_age_1">
+              <span> 所有 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="b6m" id="selector_radio_age_2">
+            <label class="selector-label selector-age" for="selector_radio_age_2">
+              <span> 6個月以下 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="6m1y" id="selector_radio_age_3">
+            <label class="selector-label selector-age" for="selector_radio_age_3">
+              <span> 6個月至1歲 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="1y3y" id="selector_radio_age_4">
+            <label class="selector-label selector-age" for="selector_radio_age_4">
+              <span> 1歲至3歲 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="3y8y" id="selector_radio_age_5">
+            <label class="selector-label selector-age" for="selector_radio_age_5">
+              <span> 3歲至8歲 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="8yu" id="selector_radio_age_6">
+            <label class="selector-label selector-age" for="selector_radio_age_6">
+              <span> 8歲以上 </span>
+            </label>
+          </div>
+          <input type="hidden" name="language" value="chi">
+        </div>
+
+        <ul id="header-selector-expender" class="full-width-container selector-expender"
+          onclick="if (!window.__cfRLUnblockHandlers) return false; expendSelector()">
+          <li><span><strong>進階搜尋</strong></span></li>
+          <li>
+            <div id="expender-arrow" class="arrow-up"></div>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="row">
+
+        <div class="left-container col-2">
+
+          <div class="box mfilter-box mfilter-column_left init" id="mfilter-box-1">
+            <div class="box-heading">寵物搜尋</div>
+            <div class="box-content mfilter-content mfilter-hide-counter">
+              <div class="mfilter-button mfilter-button-top"><a href="#" class="mfilter-button-reset"><i
+                    class="mfilter-reset-icon"></i>重設</a></div>
+              <ul style="padding-left:0px;">
+                <li data-type="search" data-base-type="search" data-id="search" data-seo-name="search"
+                  data-display-options-as="" data-display-live-filter="0" data-display-list-of-items=""
+                  class="mfilter-filter-item mfilter-search mfilter-search">
+
+                  <div class="mfilter-heading">
+                    <div class="mfilter-heading-content">
+                      <div class="mfilter-heading-text"><span>搜尋</span></div>
+                      <i class="mfilter-head-icon"></i>
+                    </div>
+                  </div>
+
+                  <div class="mfilter-content-opts">
+                    <div class="mfilter-opts-container">
+                      <div class="mfilter-content-wrapper">
+                        <div class="mfilter-options">
+                          <div class="mfilter-option mfilter-search">
+                            <input id="mfilter-opts-search" type="text" data-refresh-delay="1000" value="">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li data-type="checkbox" data-base-type="attribute" data-id="4" data-seo-name="4-"
+                  data-display-options-as="" data-display-live-filter="0" data-display-list-of-items=""
+                  class="mfilter-filter-item mfilter-checkbox mfilter-attribute mfilter-attributes">
+
+                  <div class="mfilter-heading">
+                    <div class="mfilter-heading-content">
+                      <div class="mfilter-heading-text"><span>種類 </span></div>
+                      <i class="mfilter-head-icon"></i>
+                    </div>
+                  </div>
+
+                  <div class="mfilter-content-opts" style="display: block;">
+                    <div class="mfilter-opts-container">
+                      <div class="mfilter-content-wrapper">
+                        <div class="mfilter-options">
+                          <div class="mfilter-options-container">
+                            <div class="mfilter-tb">
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-4-5090e44ef940af08f45a982d87d02db4" name="4-"
+                                    type="checkbox" value="狗">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-4-5090e44ef940af08f45a982d87d02db4">
+                                  狗 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li data-type="checkbox" data-base-type="attribute" data-id="2" data-seo-name="2-"
+                  data-display-options-as="" data-display-live-filter="0" data-display-list-of-items=""
+                  class="mfilter-filter-item mfilter-checkbox mfilter-attribute mfilter-attributes">
+
+                  <div class="mfilter-heading">
+                    <div class="mfilter-heading-content">
+                      <div class="mfilter-heading-text"><span>品種 </span></div>
+                      <i class="mfilter-head-icon"></i>
+                    </div>
+                  </div>
+
+                  <div class="mfilter-content-opts">
+                    <div class="mfilter-opts-container">
+                      <div class="mfilter-content-wrapper">
+                        <div class="mfilter-options">
+                          <div class="mfilter-options-container">
+                            <div class="mfilter-tb">
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-6142c88345229bed8ee333e175f01a8b" name="2-"
+                                    type="checkbox" value="史納莎">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-6142c88345229bed8ee333e175f01a8b">
+                                  史納莎 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-2868a21f93ffb73256e8fa70c6d88536" name="2-"
+                                    type="checkbox" value="唐狗">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-2868a21f93ffb73256e8fa70c6d88536">
+                                  唐狗 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-3be2264e7fc90c14843863a47b9a0ade" name="2-"
+                                    type="checkbox" value="拉布拉多犬">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-3be2264e7fc90c14843863a47b9a0ade">
+                                  拉布拉多犬 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-af265c6bf36c9d982645b3c3371eba19" name="2-"
+                                    type="checkbox" value="比高">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-af265c6bf36c9d982645b3c3371eba19">
+                                  比高 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-56cd49fe020f2c0927c8654b10ecb81c" name="2-"
+                                    type="checkbox" value="混種小型犬">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-56cd49fe020f2c0927c8654b10ecb81c">
+                                  混種小型犬 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-fcef3f8af3c5f99f9347a96272202ca9" name="2-"
+                                    type="checkbox" value="貴婦">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-fcef3f8af3c5f99f9347a96272202ca9">
+                                  貴婦 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-e96da99e968e711d06130415c786f83b" name="2-"
+                                    type="checkbox" value="迷你牧羊">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-e96da99e968e711d06130415c786f83b">
+                                  迷你牧羊 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-2-591b37e19c6ecb34095dc9cdf142460e" name="2-"
+                                    type="checkbox" value="阿拉斯加雪橇">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-2-591b37e19c6ecb34095dc9cdf142460e">
+                                  阿拉斯加雪橇 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li data-type="checkbox" data-base-type="attribute" data-id="1" data-seo-name="1-"
+                  data-display-options-as="" data-display-live-filter="0" data-display-list-of-items=""
+                  class="mfilter-filter-item mfilter-checkbox mfilter-attribute mfilter-attributes">
+
+                  <div class="mfilter-heading">
+                    <div class="mfilter-heading-content">
+                      <div class="mfilter-heading-text"><span>性別 </span></div>
+                      <i class="mfilter-head-icon"></i>
+                    </div>
+                  </div>
+
+                  <div class="mfilter-content-opts">
+                    <div class="mfilter-opts-container">
+                      <div class="mfilter-content-wrapper">
+                        <div class="mfilter-options">
+                          <div class="mfilter-options-container">
+                            <div class="mfilter-tb">
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-1-87c835a6b1749374a7524a596087b296" name="1-"
+                                    type="checkbox" value="女">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-1-87c835a6b1749374a7524a596087b296">
+                                  女 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                              <div class="mfilter-option mfilter-tb-as-tr">
+                                <div class="mfilter-tb-as-td mfilter-col-input">
+                                  <input id="mfilter-opts-attribs-1-1-36a4908a557796858a347c063a73ce60" name="1-"
+                                    type="checkbox" value="男">
+                                </div>
+                                <label class="mfilter-tb-as-td"
+                                  for="mfilter-opts-attribs-1-1-36a4908a557796858a347c063a73ce60">
+                                  男 </label>
+                                <div class="mfilter-tb-as-td mfilter-col-count"><span class="mfilter-counter">0</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div class="mfilter-button mfilter-button-bottom"><a href="#" class="mfilter-button-reset"><i
+                    class="mfilter-reset-icon"></i>重設</a></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="right-container col-10">
+        </div>
+
+      </div>
+
+    </div>
+    <!-- end animals section -->
+
+  </div>
+
+  <!-- about section -->
+  <!-- end about section -->
+
+  <!-- service section -->
+  <!-- end service section -->
+
+  <!-- gallery section -->
+  <!-- end gallery section -->
+
+  <!-- buy section -->
+  <!-- end buy section -->
+
+  <!-- client section -->
+  <!-- end client section -->
+
+  <!-- map section -->
+  <!-- end map section -->
+
+  <!-- info section -->
+  <!-- end info_section -->
+
+  <!-- footer section -->
+  <!-- end footer section -->
+
+  <!-- bootstrap script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+
+  <!-- added by justin -->
+  <script type="module" src="js/adopt-pets.js"></script>
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+
+  <!-- google map js -->
+  <!-- end google map js -->
+
+</body>
+</body>
+
+</html>
