@@ -9,6 +9,7 @@ app.use(
         secret: "Tecky Academy teaches typescript",
         resave: true,
         saveUninitialized: true,
+        cookie: { secure: false },
     })
 );
 
