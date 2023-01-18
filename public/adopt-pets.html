@@ -27,6 +27,8 @@
   <link href="css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
+  <!-- unique style for adopt-pets section -->
+  <link href="css/adopt-pets.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -83,6 +85,93 @@
 
     <!-- animals section -->
     <div class="animal_section container-fluid">
+      
+      <div class="top-container">
+        <div id="header-selector" class="selector collapse">
+          <div class="header-selector-row type">
+            <input class="selector-radio" type="radio" name="selector-radio" value="all" id="selector_radio_1"
+              checked="checked">
+            <label class="selector-label" for="selector_radio_1">
+              <span> 所有 </span>
+              <img src="icons/adoption-icons/all-icon.svg" alt="selector radio 1 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="cat" id="selector_radio_2">
+            <label class="selector-label" for="selector_radio_2">
+              <span> 貓咪 </span>
+              <img src="icons/adoption-icons/cat-icon.svg" alt="selector radio 2 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="dog" id="selector_radio_3">
+            <label class="selector-label" for="selector_radio_3">
+              <span> 狗狗 </span>
+              <img src="icons/adoption-icons/dog-icon.svg" alt="selector radio 3 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="rabbit" id="selector_radio_4">
+            <label class="selector-label" for="selector_radio_4">
+              <span> 兔兔 </span>
+              <img src="icons/adoption-icons/rabbit-icon.svg" alt="selector radio 4 icon">
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio" value="others" id="selector_radio_5">
+            <label class="selector-label" for="selector_radio_5">
+              <span> 其他 </span>
+              <img src="icons/adoption-icons/others-icon.svg" alt="selector radio 5 icon">
+            </label>
+          </div>
+          <label class="header-selector-section-title">性別</label>
+          <div class="header-selector-row gender">
+            <input class="selector-radio" type="radio" name="selector-radio-gender" value="all"
+              id="selector_radio_gender_1" checked="checked">
+            <label class="selector-label selector-gender" for="selector_radio_gender_1">
+              <span> 所有 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-gender" value="m"
+              id="selector_radio_gender_2">
+            <label class="selector-label selector-gender" for="selector_radio_gender_2">
+              <span> 仔 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-gender" value="f"
+              id="selector_radio_gender_3">
+            <label class="selector-label selector-gender" for="selector_radio_gender_3">
+              <span> 女 </span>
+            </label>
+          </div>
+          <label class="header-selector-section-title">年齡</label>
+          <div class="header-selector-row age">
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="all" id="selector_radio_age_1"
+              checked="checked">
+            <label class="selector-label selector-age" for="selector_radio_age_1">
+              <span> 所有 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="b6m" id="selector_radio_age_2">
+            <label class="selector-label selector-age" for="selector_radio_age_2">
+              <span> 6個月以下 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="6m1y" id="selector_radio_age_3">
+            <label class="selector-label selector-age" for="selector_radio_age_3">
+              <span> 6個月至1歲 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="1y3y" id="selector_radio_age_4">
+            <label class="selector-label selector-age" for="selector_radio_age_4">
+              <span> 1歲至3歲 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="3y8y" id="selector_radio_age_5">
+            <label class="selector-label selector-age" for="selector_radio_age_5">
+              <span> 3歲至8歲 </span>
+            </label>
+            <input class="selector-radio" type="radio" name="selector-radio-age" value="8yu" id="selector_radio_age_6">
+            <label class="selector-label selector-age" for="selector_radio_age_6">
+              <span> 8歲以上 </span>
+            </label>
+          </div>
+          <input type="hidden" name="language" value="chi">
+        </div>
+      </div>
+
+      <div class="left-container">
+      </div>
+
+      <div class="right-container">
+      </div>
+
     </div>
     <!-- end animals section -->
 

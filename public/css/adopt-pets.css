@@ -1,0 +1,16 @@
+.selector.collapse {
+    height: 100px;
+}
+
+.selector {
+    height: 310px;
+    width: 100%;
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    border-style: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #e6e6e6;
+}
