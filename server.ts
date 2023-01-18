@@ -1,12 +1,7 @@
 import express from "express";
-import http from "http";
-import { Server as SocketIO } from "socket.io";
+import path from "path";
+import { app, PORT, server } from "./connection-config";
 import { userRoutes } from "./util/login";
-
-const app = express();
-const server = new http.Server(app);
-const io = new SocketIO(server);
-
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -67,6 +62,6 @@ app.use((req, res) => {
     res.redirect('404.html')
 })
 
-server.listen(8080, () => {
-    console.log(`Listening at http://localhost:8080`);
+server.listen(PORT, () => {
+    console.log(`Listening at http://localhost:${PORT}`);
 });
