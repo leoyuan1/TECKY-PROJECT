@@ -1,10 +1,10 @@
 import express from 'express';
 import { Request, Response } from 'express';
 
-import { logger } from './logger';
-import { formidablePromise } from "./formidable"
-import { client } from './psql-config';
-import { io } from './connection-config';
+import { logger } from './util/logger';
+import { formidablePromise } from "./util/formidable"
+import { client } from './util/psql-config';
+import { io } from './util/connection-config';
 
 export const petRoutes = express.Router();
 
