@@ -23,10 +23,11 @@ app.use(userRoutes)
 // app.use(express.static("pet template"));
 app.use(express.static("public"));
 
-//  404
-app.use((req, res) => {
-    res.redirect('404.html')
-})
+
+// //  404
+// app.use((req, res) => {
+//     res.redirect('404.html')
+// })
 
 server.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}`);
