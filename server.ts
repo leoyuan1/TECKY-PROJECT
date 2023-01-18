@@ -9,6 +9,8 @@ const app = express();
 const server = new http.Server(app);
 const io = new SocketIO(server);
 
+
+
 io.on("connection", function (socket) {
     console.log(socket);
 })
@@ -24,6 +26,6 @@ app.use((req, res) => {
     res.redirect('404.html')
 })
 
-app.listen(8080, () => {
+server.listen(8080, () => {
     console.log(`Listening at http://localhost:8080`);
 });
