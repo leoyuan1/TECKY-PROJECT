@@ -42,6 +42,8 @@ CREATE TABLE posts (
     FOREIGN KEY(pet_type_id) REFERENCES pet_types(id),
     status TEXT,
     size TEXT,
+    price INTEGER,
+    reqest_nos INTEGER,
     created_at date DEFAULT now(),
     updated_at date DEFAULT now()
 );
