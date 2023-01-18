@@ -2,8 +2,8 @@ import express from 'express';
 import { Request, Response } from 'express';
 
 import { logger } from './util/logger';
-// import { formidablePromise } from "./util/formidable"
 // import { client } from './util/psql-config';
+// import { formidablePromise } from "./util/formidable"
 // import { io } from './util/connection-config';
 
 export const petRoutes = express.Router();
@@ -19,7 +19,7 @@ async function getPets(req: Request, res: Response) {
     try {
 
         // find data from database
-
+        // const result = await client.query("select * from posts");
 
         // send data to client
         res.json({
