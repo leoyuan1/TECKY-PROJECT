@@ -1,9 +1,8 @@
-// import express from "express";
 import pg from "pg";
 import dotenv from "dotenv";
 
 dotenv.config();
-// const app = express();
+
 
 const client = new pg.Client({
     database: process.env.DB_NAME,
@@ -13,6 +12,8 @@ const client = new pg.Client({
 
 async function main() {
     await client.connect();
+    console.log('database is connected')
+
     const user = {
         email: "testing@gmail.com",
         username: "test name",
@@ -57,7 +58,8 @@ async function main() {
     ])
 
 
-
+    await client.end()
+    console.log('database is disconnected')
 }
 
 main();
