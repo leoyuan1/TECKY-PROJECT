@@ -1,5 +1,6 @@
 CREATE TABLE users (
     id SERIAL primary key,
+    icon text,
     email TEXT not null,
     username TEXT not null,
     password TEXT not null,
@@ -30,34 +31,34 @@ CREATE TABLE species (
 );
 CREATE TABLE posts (
     id SERIAL primary key,
-    FOREIGN KEY(id) REFERENCES users(id),
     pet_name TEXT,
     species_id INTEGER,
     FOREIGN KEY(species_id) REFERENCES species(id),
     gender TEXT,
     birthday DATE,
     user_id INTEGER,
+    FOREIGN KEY(user_id) REFERENCES users(id),
     description TEXT,
     pet_type_id INTEGER,
     FOREIGN KEY(pet_type_id) REFERENCES pet_types(id),
     status TEXT,
     size TEXT,
     price INTEGER,
-    reqest_nos INTEGER,
+    request_nos INTEGER,
     created_at date DEFAULT now(),
     updated_at date DEFAULT now()
 );
 CREATE TABLE post_media (
     id SERIAL primary key,
-    FOREIGN KEY(id) REFERENCES posts(id),
     file_name TEXT,
     post_id INTEGER,
+    FOREIGN KEY(post_id) REFERENCES posts(id),
     type TEXT
 );
 CREATE TABLE post_comments (
     id SERIAL primary key,
-    FOREIGN KEY(id) REFERENCES posts(id),
     post_id INTEGER not null,
+    FOREIGN KEY(post_id) REFERENCES posts(id),
     created_at date DEFAULT now(),
     updated_at date DEFAULT now(),
     created_by text not null,
@@ -80,11 +81,11 @@ CREATE table community_members (
 );
 CREATE table community_messages (
     id SERIAL primary key,
-    FOREIGN key(id) REFERENCES community(id),
     from_id INTEGER not null,
     FOREIGN key (from_id) REFERENCES users(id),
     content text,
     community_id INTEGER not null,
+    FOREIGN key(community_id) REFERENCES community(id),
     created_at date DEFAULT now(),
     updated_at date DEFAULT now()
 );

@@ -76,7 +76,8 @@ io.on("connection", function (socket) {
 
 
 // static files 
-app.use(express.static("pet template"));
+// app.use(express.static("pet template"));
+app.use(express.static("public"));
 
 
 //  404

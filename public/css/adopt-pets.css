@@ -1,0 +1,92 @@
+.selector.collapse {
+    height: 100px;
+    display: block;
+}
+
+.selector {
+    height: 310px;
+    width: 100%;
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    border-style: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #e6e6e6;
+    transition: height .3s ease-out;
+}
+
+.header-selector-row {
+    width: 100%;
+    margin: 15px 0;
+}
+
+.selector-label {
+    border: none;
+    padding: 5px;
+    margin: 0 4px;
+    background: #fff;
+    width: 110px;
+    border-radius: 10px;
+}
+
+.selector-label img {
+    width: 36px;
+    height: 36px;
+    margin: 0 0 0 4px;
+}
+
+.header-selector-section-title {
+    width: 100%;
+    margin: 11px 0 0;
+}
+
+.full-width-container {
+    height: auto;
+    width: 100%;
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    border-style: none;
+}
+
+.selector-expender {
+    height: 40px;
+    padding: 0;
+    background: #999;
+    color: #fff;
+    cursor: pointer;
+    vertical-align: middle;
+    padding-top: 8px;
+}
+
+.full-width-container li {
+    display: inline-block;
+    list-style-type: none;
+    padding: 10px;
+    margin: 10px;
+}
+
+.selector-expender li {
+    margin: 2px;
+    padding: 0;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #fff;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+}
