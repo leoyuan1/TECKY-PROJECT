@@ -7,8 +7,54 @@ const app = express();
 const server = new http.Server(app);
 const io = new SocketIO(server);
 
-io.on("connection", function (socket) {
-    console.log(socket);
+
+const Files = {
+    APPLICATIONS: path.resolve("applications.json"),
+};
+interface Application {
+    title: string;
+    createdDate: string;
+    updatedDate: string;
+}
+
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.json());
+
+// user can upload media
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.resolve("./uploads"));
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${file.originalname.split(".")[0]}-${Date.now()}.${file.originalname.split(".")[1]
+            }`
+        );
+    },
+});
+const upload = multer({ storage });
+
+// routes//
+
+app.post("/application", async (req, res, next) => {
+    try {
+        const { title, created_at, updated_at } = req.body;
+        const users: Application[] = await jsonfile.readFile(
+            Files.APPLICATIONS
+        );
+        if (!title) {
+            res.redirect("Must write the title");
+            return;
+        }
+        users.push({
+            title,
+            createdDate: format(new Date(), "YYYY-MM-DD HH:mm:ss"),
+            updatedDate: format(new Date(), "YYYY-MM-DD HH:mm:ss")
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 app.use(userRoutes)

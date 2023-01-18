@@ -1,34 +1,26 @@
 // query selectors
 let headerSelectorExpander = document.querySelector('#header-selector-expender');
+// let mfilterHeadingElems = document.querySelectorAll('.mfilter-heading');
 
 // add event listeners
-headerSelectorExpander.addEventListener('click', expendSelector);
+headerSelectorExpander.addEventListener('click', expandSelector);
+// for (let mfilterHeadingElem of mfilterHeadingElems) {
+//     mfilterHeadingElem.addEventListener('click', expandMfilter);
+// }
 
 // for headerSelectorExpander
-function toggleCollapse() {
-
-    // toggle selector between collaspe and expand
-    document.querySelector('#header-selector').classList.toggle('collapse');
-
-    // toggle arrow between up and down
-    const expanderElem = document.querySelector('#expander-arrow');
-    if (expanderElem.className === 'arrow-up') {
-        expanderElem.className = 'arrow-down';
+function expandSelector() {
+    if ($('#header-selector').hasClass('collapse')) {
+        $('#header-selector').removeClass('collapse');
+        $('#expender-arrow').removeClass('arrow-down');
+        $('#expender-arrow').addClass('arrow-up');
     } else {
-        expanderElem.className = 'arrow-up';
+        $('#header-selector').addClass('collapse');
+        $('#expender-arrow').removeClass('arrow-up');
+        $('#expender-arrow').addClass('arrow-down');
     }
-
 }
 
-// for headerSelectorExpander
-function expendSelector() {
-	if ($('#header-selector').hasClass('collapse')) {
-		$('#header-selector').removeClass('collapse'); 
-		$('#expender-arrow').removeClass('arrow-down');
-		$('#expender-arrow').addClass('arrow-up');
-	} else {
-		$('#header-selector').addClass('collapse');
-		$('#expender-arrow').removeClass('arrow-up');
-		$('#expender-arrow').addClass('arrow-down');
-	}
+function expandMfilter() {
+
 }
