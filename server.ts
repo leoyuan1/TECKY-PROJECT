@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./util/login";
 
@@ -19,6 +20,8 @@ app.use(express.json());
 // user can upload media
 
 app.use(userRoutes)
+app.use('/pets', petRoutes);
+
 // static files 
 // app.use(express.static("pet template"));
 app.use(express.static("public"));
