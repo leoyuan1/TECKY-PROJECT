@@ -4,7 +4,8 @@ dotenv.config();
 const app = express();
 
 // static files 
-app.use(express.static("pet template"));
+// app.use(express.static("pet template"));
+app.use(express.static("public"));
 
 
 //  404
