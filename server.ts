@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
-import { app, PORT, server } from "./connection-config";
+import { petRoutes } from "./petRoutes";
+import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./util/login";
 
 const Files = {
@@ -19,14 +20,17 @@ app.use(express.json());
 // user can upload media
 
 app.use(userRoutes)
+app.use('/pets', petRoutes);
+
 // static files 
 // app.use(express.static("pet template"));
 app.use(express.static("public"));
 
-//  404
-app.use((req, res) => {
-    res.redirect('404.html')
-})
+
+// //  404
+// app.use((req, res) => {
+//     res.redirect('404.html')
+// })
 
 server.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}`);
