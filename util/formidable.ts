@@ -1,8 +1,10 @@
 import formidable from "formidable";
 import express from "express";
 import fs from "fs";
+
 const uploadDir = "uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
+
 const form = formidable({
     uploadDir,
     keepExtensions: true,

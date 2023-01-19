@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Pet Adopt</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+
+  <!-- Custom styles for navbar -->
+  <link href="css/style.css" rel="stylesheet" />
+
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+  <!-- unique style for post-pets section -->
+  <link href="css/post-pets.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <div class="hero_area">
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="">
+            <span>
+              Pet Adopt
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="post-pets.html">Post Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./community/index.html">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="donate.html">Donate</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
+              </form>
+            </div>
+            <div class="quote_btn-container  d-flex justify-content-center">
+              <a type="button" class="loginOrSignup-btn">
+                Login / Signup
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+
+    <!-- list section -->
+    <div class="container-fluid">
+      <div class="row">
+        <div id="adoption_animal_list" class="col-sm-12 center-column">
+          <legend>
+            登記待領養寵物
+            <a href="https://www.pethaven.com.hk/index.php?route=product/register&amp;path=adoption&amp;action=form"
+              class="btn btn-info legend-btn" style="background:#e52226">+ 新增待領寵物</a>
+            <a href="adopt-pets.html" class="btn btn-info legend-btn"
+              style="background:black">領養動物主頁</a>
+          </legend>
+          <table class="adoption-list-table table table-bordered">
+            <thead>
+              <tr>
+                <td class="name-col">名稱/標題</td>
+                <td class="add-date-col">加入日期</td>
+                <td class="status-col">狀態</td>
+                <td class="adopted-col" style="width:93px">已被領養? </td>
+                <td class="buttons-col"></td>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- end list section -->
+
+  </div>
+
+  <script type="module" src="js/post-pets.js"></script>
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+
+</body>
+</body>
+
+</html>
