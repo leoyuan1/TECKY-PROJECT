@@ -1,3 +1,17 @@
+// query selectors
+const postPetElem = document.querySelector('#add-adoption-item-form');
+
+// event listeners
+postPetElem.addEventListener('submit', postPets);
+
+function postPets(event) {
+    event.preventDefault();
+    const form = event.target;
+    console.log(form);
+}
+
+
+// from others
 function checkAdopted(adoptionItemNum, cid) {
     var url = ($('#is-adopted-' + adoptionItemNum).is(':checked')) ? "catalog/controller/adoption/mark_adopted.php" : "catalog/controller/adoption/unmark_adopted.php";
     $.post(url, {
@@ -6,6 +20,7 @@ function checkAdopted(adoptionItemNum, cid) {
     });
 }
 
+// from others
 function confirmDeleteAdoptionItem(formNum) {
     $("#notification .modal-title").html('確定');
     $("#notification .modal-footer button").html('取消');
