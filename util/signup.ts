@@ -26,5 +26,7 @@ async function signup(req: express.Request, res: express.Response) {
     )
     console.log(writeData)
     io.emit('ok')
+
+    
 }
 
