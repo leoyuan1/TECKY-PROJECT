@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Pet Adopt</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+
+  <!-- Custom styles for navbar -->
+  <link href="css/style.css" rel="stylesheet" />
+
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+  <!-- unique style for post-pets section -->
+  <link href="css/post-pets.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <div class="hero_area">
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="">
+            <span>
+              Pet Adopt
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="post-pets.html">Post Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./community/index.html">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="donate.html">Donate</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit"></button>
+              </form>
+            </div>
+            <div class="quote_btn-container  d-flex justify-content-center">
+              <a type="button" class="loginOrSignup-btn">
+                Login / Signup
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+
+    <!-- list section -->
+    <form action="/pets" method="post"
+      enctype="multipart/form-data" class="form-horizontal" id="add-adoption-item-form">
+      <fieldset>
+        <legend>加入待領養寵物</legend>
+        <div class="form-group required">
+          <label class="col-sm-3 control-label" for="input-adoption-item-name">名稱/標題 </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_name" id="input-adoption-item-name" class="form-control"
+              maxlength="70">
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-3 control-label" for="input-adoption-item-type">品種</label>
+          <div class="col-sm-9">
+            <select name="adoption_item_type" id="input-adoption-item-type" style="display:inline-block;width:34%;">
+              <option value="" disabled="" selected="" hidden="">--- 請選擇類別 ---</option>
+              <option value="cat">貓咪</option>
+              <option value="dog">狗狗</option>
+              <option value="rabbit">兔兔</option>
+              <option value="others">其他</option>
+            </select>
+            <input type="text" name="adoption_item_type_details" placeholder="品種名稱"
+              id="input-adoption-item-type-details" class="form-control" style="display:inline-block;width:65%;"
+              maxlength="250">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="input-adoption-item-gender">性別</label>
+          <div class="col-sm-9">
+            <select name="adoption_item_gender" id="input-adoption-item-gender" style="width:100%;">
+              <option value="" disabled="" selected="" hidden="">--- 請選擇性別 ---</option>
+              <option value="m">仔</option>
+              <option value="f">女</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="input-adoption-item-age-type">年齡</label>
+          <div class="col-sm-9">
+            <select name="adoption_item_age_type" id="input-adoption-item-age-type"
+              style="display:inline-block;width:34%;">
+              <option value="" disabled="" selected="" hidden="">--- 請選擇年齡類別 ---</option>
+              <option value="year">歲</option>
+              <option value="month">月</option>
+            </select>
+            <input type="text" name="adoption_item_age" placeholder="年齡" id="input-adoption-item-age"
+              class="form-control" style="display:inline-block;width:65%;" maxlength="4">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label">基本資料</label>
+          <div class="col-sm-9">
+            <input type="checkbox" id="info_adoption_item_fine_with_children" name="adoption_item_fine_with_children">
+            <label for="info_adoption_item_fine_with_children">可與小孩子相處</label><br>
+            <input type="checkbox" id="info_adoption_item_fine_with_cat" name="adoption_item_fine_with_cat">
+            <label for="info_adoption_item_fine_with_cat">可與貓咪相處</label><br>
+            <input type="checkbox" id="info_adoption_item_fine_with_dog" name="adoption_item_fine_with_dog">
+            <label for="info_adoption_item_fine_with_dog">可與狗狗相處</label><br>
+            <input type="checkbox" id="info_adoption_item_need_outing" name="adoption_item_need_outing">
+            <label for="info_adoption_item_need_outing">每天要出外散步</label><br>
+            <input type="checkbox" id="info_adoption_item_know_hygiene" name="adoption_item_know_hygiene">
+            <label for="info_adoption_item_know_hygiene">懂得指定地方大小便</label><br>
+            <input type="checkbox" id="info_adoption_item_know_instruc" name="adoption_item_know_instruc">
+            <label for="info_adoption_item_know_instruc">懂得聽簡單指令</label><br>
+            <input type="checkbox" id="info_adoption_item_neutered" name="adoption_item_neutered">
+            <label for="info_adoption_item_neutered">已絕育</label><br>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="input-adoption-item-other-info">其他資料</label>
+          <div class="col-sm-9">
+            <textarea id="input-adoption-item-other-info" name="adoption_item_other_info" row="14"
+              style="width:100%;border-color: rgb(217,217,217);" maxlength="1000"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group required">
+          <label class="col-sm-3 control-label" for="input-adoption-item-image">照片</label>
+          <div class="col-sm-9">
+            <div class="dropzone dz-clickable" id="input-adoption-item-image">
+
+              <div class="dz-default dz-message"><span>拖曳檔案到此 或 按此上傳檔案</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label additional-padding" for="input-adoption-item-youtube">Youtube影片連結
+          </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_youtube" id="input-adoption-item-youtube" class="form-control"
+              maxlength="250">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label additional-padding" for="input-adoption-item-address">待領動物現時住址 </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_address" id="input-adoption-item-address" class="form-control"
+              maxlength="450">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="input-adoption-item-owner-name" style="padding-left:10px"
+            ;="">待領動物負責人姓名(如有) </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_owner_name" id="input-adoption-item-owner-name" class="form-control"
+              maxlength="250">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="input-adoption-item-owner-phone" style="padding-left:10px"
+            ;="">待領動物負責人聯絡電話(如有) </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_owner_phone" id="input-adoption-item-owner-phone"
+              class="form-control" maxlength="40">
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-3 control-label" for="input-adoption-item-contact-name">聯絡人姓名 </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_contact_name" id="input-adoption-item-contact-name"
+              class="form-control" maxlength="250">
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-3 control-label" for="input-adoption-item-contact-whatsapp">聯絡人Whatsapp號碼 </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_contact_whatsapp" id="input-adoption-item-contact-whatsapp"
+              class="form-control" maxlength="40">
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-3 control-label" for="input-adoption-item-contact-phone">聯絡人電話 </label>
+          <div class="col-sm-9">
+            <input type="text" name="adoption_item_contact_phone" id="input-adoption-item-contact-phone"
+              class="form-control" maxlength="40">
+          </div>
+        </div>
+        <div class="form-group required">
+          <label class="col-sm-3 control-label additional-padding" for="input-adoption-item-contact-email">聯絡人電郵地址
+          </label>
+          <div class="col-sm-9">
+            <input type="email" name="adoption_item_contact_email" id="input-adoption-item-contact-email"
+              class="form-control" maxlength="70">
+          </div>
+        </div>
+        <input type="hidden" value="39" name="form-id">
+
+        <input type="hidden" name="image-folder" value="392392120230119">
+        <input type="hidden" name="num-of-img" id="num-of-img">
+
+      </fieldset>
+      <input type="submit" style="display:none;">
+    </form>
+
+    <div class="buttons clearfix" style="text-align: center;">
+      <a href="adopt-pets.html"
+        class="adoption-item-form-back-btn btn btn-info">返回</a>
+      <button class="adoption-item-form-submit-btn btn btn-info"
+        onclick="if (!window.__cfRLUnblockHandlers) return false; confirmEditAdoptionItem()">提交 </button>
+    </div>
+
+    <!-- end list section -->
+
+  </div>
+
+  <script type="module" src="js/post-pets.js"></script>
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+
+</body>
+</body>
+
+</html>

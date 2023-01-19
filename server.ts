@@ -1,7 +1,10 @@
 import express from "express";
 import path from "path";
-import { app, PORT, server } from "./connection-config";
-import { userRoutes } from "./util/login";
+import { petRoutes } from "./petRoutes";
+import { app, PORT, server } from "./util/connection-config";
+import { userRoutes } from "./util/signup";
+import { client } from './util/psql-config';
+import { logger } from './util/logger';
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -16,9 +19,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
+// connect to database
+client.connect();
+logger.debug("database is connected.");
+
 // user can upload media
 
 app.use(userRoutes)
+app.use('/pets', petRoutes);
+
 // static files 
 // app.use(express.static("pet template"));
 app.use(express.static("public"));

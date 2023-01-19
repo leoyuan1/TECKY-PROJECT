@@ -1,17 +1,39 @@
-const signupFormElm = document.querySelector('.signup-form')
 
-signupFormElm.addEventListener('submit', async (event) => {
-    event.preventDefault()
-    let formData = new FormData(signupFormElm)
+const signupFormElm = document.querySelector('.signup-btn')
 
-    const res = await fetch('/signup', {
-        method: 'POST',
-        body: formData
+signupFormElm.addEventListener('click', async () => {
+    let result;
+    await Swal.fire({
+        title: 'Sign-up Form',
+        html: `<form id="form"><input type="text" id="email" class="swal2-input" placeholder="Email address">
+        <input type="password" id="password" class="swal2-input" placeholder="Password">
+        <input type="username" id="username" class="swal2-input" placeholder="Username">
+        <input type="file" name="image" id="image" />
+        </form>
+        `,
+        confirmButtonText: 'Sign up',
+        focusConfirm: false,
+        showCancelButton: true,
+        preConfirm: async () => {
+            const email = Swal.getPopup().querySelector('#email').value
+            const password = Swal.getPopup().querySelector('#password').value
+            const username = Swal.getPopup().querySelector('#username').value
+            if (!email || !password || !username) {
+                Swal.showValidationMessage(`Please enter email, password and username`)
+            }
+
+            const data = Swal.getPopup().querySelector('#form')
+            result = new FormData(data)
+            let res = await fetch('/signup', {
+                method: 'POST',
+                body: result
+            })
+            if (res.ok) {
+                await Swal.fire(`
+                email: ${email}
+                註冊成功
+                `.trim())
+            }
+        }
     })
-    if (res.ok) {
-        let data = await res.json()
-        signupFormElm.reset()
-    } else {
-        alert('fail')
-    }
 })
