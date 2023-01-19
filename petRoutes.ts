@@ -2,16 +2,16 @@ import express from 'express';
 import { Request, Response } from 'express';
 
 import { logger } from './util/logger';
-// import { client } from './util/psql-config';
+import { client } from './util/psql-config';
 // import { formidablePromise } from "./util/formidable"
 // import { io } from './util/connection-config';
 
 export const petRoutes = express.Router();
 
-petRoutes.get('/pets', getPets);
-petRoutes.post('/pets', postPets);
-petRoutes.put('/pets/:id', updatePets);
-petRoutes.delete('/pets/:id', deletePets);
+petRoutes.get('/', getPets);
+petRoutes.post('/', postPets);
+petRoutes.put('/:id', updatePets);
+petRoutes.delete('/:id', deletePets);
 
 
 // API --- get Pets
@@ -19,11 +19,12 @@ async function getPets(req: Request, res: Response) {
     try {
 
         // find data from database
-        // const result = await client.query("select * from posts");
+        const result = await client.query("select * from posts");
+        const pets = result.rows;
 
         // send data to client
         res.json({
-            // data: pets,
+            data: pets,
             message: "Get pets success",
         });
 
