@@ -1,5 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import { formidablePromise } from './util/formidable';
 
 import { logger } from './util/logger';
 import { client } from './util/psql-config';
@@ -39,7 +40,9 @@ async function postPets(req: Request, res: Response) {
     try {
 
         // receive data from client
-
+        const { fields, files } = await formidablePromise(req);
+        logger.debug(`fields = ${fields}`);
+        logger.debug(`files = ${files}`);
 
         // insert data to database
 
