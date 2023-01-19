@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
-import { userRoutes } from "./util/login";
+import { userRoutes } from "./util/signup";
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
