@@ -1,5 +1,5 @@
 // query selectors
-let headerSelectorExpander = document.querySelector('#header-selector-expender');
+const headerSelectorExpander = document.querySelector('#header-selector-expender');
 
 // add event listeners
 headerSelectorExpander.addEventListener('click', expandSelector);

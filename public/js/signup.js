@@ -22,7 +22,10 @@ signupFormElm.addEventListener('click', async () => {
                 Swal.showValidationMessage(`Please enter email, password and username`)
             }
 
-            const data = Swal.getPopup().querySelector('#form')
+            console.log('testing 1');
+
+            const data = document.querySelector('#form')
+            console.log(data);
             result = new FormData(data)
             let res = await fetch('/signup', {
                 method: 'POST',

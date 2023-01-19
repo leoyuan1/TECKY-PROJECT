@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
-import { userRoutes } from "./util/signup";
+import { userRoutes } from "./signup";
 import { client } from './util/psql-config';
 import { logger } from './util/logger';
 
@@ -25,7 +25,7 @@ logger.debug("database is connected.");
 
 // user can upload media
 
-app.use(userRoutes)
+app.use('/', userRoutes)
 app.use('/pets', petRoutes);
 
 // static files 
