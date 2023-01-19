@@ -1,5 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import { formidablePromise } from './util/formidable';
 
 import { logger } from './util/logger';
 import { client } from './util/psql-config';
@@ -39,10 +40,36 @@ async function postPets(req: Request, res: Response) {
     try {
 
         // receive data from client
+        const { fields, files } = await formidablePromise(req);
+        logger.debug(`fields = ${fields}`);
+        logger.debug(`files = ${files}`);
+
+        // prepare data
+        const {
+
+            adoption_pet_name,
+            adoption_pet_type,
+            adoption_species_name,
+            adoption_pet_gender,
+            adoption_pet_age_type,
+            adoption_pet_age,
+
+            adoption_pet_fine_with_children,
+            adoption_pet_fine_with_cat,
+            adoption_pet_fine_with_dog,
+            adoption_pet_need_outing,
+            adoption_pet_know_hygiene,
+            adoption_pet_know_instruc,
+            adoption_pet_neutered,
+
+            adoption_pet_other_info
+
+        } = fields;
+
+        const { image } = files;
 
 
         // insert data to database
-
 
         // msg to client
         res.json({

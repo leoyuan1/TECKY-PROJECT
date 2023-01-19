@@ -25,7 +25,7 @@ logger.debug("database is connected.");
 
 // user can upload media
 
-app.use(userRoutes)
+app.use('/', userRoutes)
 app.use('/pets', petRoutes);
 app.use(
     expressSession({
