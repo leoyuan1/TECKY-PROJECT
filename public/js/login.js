@@ -1,4 +1,3 @@
-
 const logInFormElm = document.querySelector('.login-btn')
 
 logInFormElm.addEventListener('click', async () => {
@@ -18,14 +17,28 @@ logInFormElm.addEventListener('click', async () => {
                 Swal.showValidationMessage(`Please enter email and password`)
             }
             result = { email: email, password: password }
-            const res = await fetch('/login', {
-                method: 'POST',
-                body: result
+            let res = await fetch('/login', {
+                method: 'post',
+                body: JSON.stringify(result),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
+            let data = await res.json()
+            if (data.message === "email not register") {
+                await Swal.fire(`
+                email: ${result.email}
+                未註冊
+                `.trim())
+            } else if (data.message === "Invalid email or password") {
+                await Swal.fire(`
+                email or password 錯誤
+                `.trim())
+            } else if (data.message === "correct") {
+                await Swal.fire(`
+                登入成功
+                `.trim())
+            }
         }
     })
-    await Swal.fire(`
-        email: ${result.email}
-        Password: ${result.password}
-        `.trim())
 })

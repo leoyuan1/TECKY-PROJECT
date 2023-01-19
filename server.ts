@@ -2,9 +2,10 @@ import express from "express";
 import path from "path";
 import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
-import { userRoutes } from "./util/signup";
+import { userRoutes } from "./signup";
 import { client } from './util/psql-config';
 import { logger } from './util/logger';
+import expressSession from "express-session";
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -20,14 +21,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // connect to database
-client.connect();
 logger.debug("database is connected.");
 
 // user can upload media
 
 app.use(userRoutes)
 app.use('/pets', petRoutes);
-
+app.use(
+    expressSession({
+        secret: "Tecky Academy teaches typescript",
+        resave: true,
+        saveUninitialized: true,
+        cookie: { secure: false },
+    })
+);
 // static files 
 // app.use(express.static("pet template"));
 app.use(express.static("public"));
