@@ -3,6 +3,8 @@ import path from "path";
 import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./util/login";
+import { client } from './util/psql-config';
+import { logger } from './util/logger';
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -16,6 +18,10 @@ interface Application {
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
+
+// connect to database
+client.connect();
+logger.debug("database is connected.");
 
 // user can upload media
 
