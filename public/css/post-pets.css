@@ -1,0 +1,246 @@
+.adoption-list-table-button {
+    padding: 9px 18px;
+}
+
+#adoption-list-table-button-edit {
+    background: #f36b2c;
+}
+
+#adoption-list-table-button-edit:hover {
+    background: #f48b55;
+}
+
+#adoption-list-table-button-delete {
+    background: #a7a9ac;
+}
+
+#adoption-list-table-button-delete:hover {
+    background: #b0b0b0;
+}
+
+.adoption-list-table {
+    table-layout: fixed;
+    word-break: break-all;
+}
+
+.adoption-list-table td {
+    vertical-align: middle;
+}
+
+.name-col {
+    width: 35%;
+}
+
+.add-date-col {
+    width: 20%;
+}
+
+.status-col {
+    width: 15%;
+}
+
+.buttons-col {
+    width: 170px;
+    text-align: center !important;
+}
+
+
+/* Edit Adoption Image */
+.form-edit-adoption-existing-image-box {
+    width: 100%;
+    padding: 10px 20px 5px 10px;
+    vertical-align: middle;
+}
+
+.existing-image {
+    display: inline-block;
+
+    width: 64px;
+    height: 64px;
+    vertical-align: middle;
+}
+
+.existing-image-name {
+    display: inline-block;
+    width: 40%;
+    vertical-align: middle;
+    padding-left: 50px;
+    color: blue;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.existing-image-size {
+    display: inline-block;
+    width: 20%;
+    vertical-align: middle;
+    padding-left: 1px;
+}
+
+.delete-existing-image {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    padding: 9px 13px;
+    background-color: #e52226;
+    color: white;
+    vertical-align: middle;
+    margin-top: 0px;
+    margin-left: 2px;
+
+}
+
+.delete-adoption-image {
+    display: none;
+}
+
+
+
+.control-label {
+    padding-top: 3px !important;
+}
+
+
+.adoption-item-form-back-btn {
+    display: inline-block;
+    background: #a2a2a3;
+    border-style: none;
+}
+
+.adoption-item-form-submit-btn {
+    display: inline-block;
+    background: #e52226;
+    border-style: none;
+}
+
+.red-text {
+    color: #e52226 !important;
+}
+
+.form-adoption-list-button {
+    margin: 5px;
+}
+
+legend .legend-btn {
+    float: right;
+    height: 100%;
+    border-style: none;
+    padding: 5px 10px;
+    margin: 0px 5px 5px 5px;
+}
+
+@media screen and (max-width: 1270px) {
+
+    .buttons-col {
+        width: 170px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    .buttons-col {
+        width: 15%;
+    }
+
+    .adoption-list-table-button {
+        text-align: center;
+        display: inline-block;
+        width: 90%;
+        padding: 9px;
+    }
+
+    .form-adoption-list-button {
+        display: inline-block;
+        width: 90%;
+    }
+
+    .existing-image {
+        width: 48px;
+        height: 48px;
+
+    }
+
+    .existing-image-name {
+        padding-left: 5px;
+
+    }
+
+    .add-date-col {
+        width: 25% !important;
+    }
+
+    .status-col {
+        width: 18% !important;
+    }
+}
+
+@media screen and (max-width: 479px) {
+
+    .name-col {
+        width: 25%;
+    }
+
+    .add-date-col {
+        width: 55px !important;
+    }
+
+    .status-col {
+        width: 20% !important;
+    }
+
+    .buttons-col {
+        width: 15%;
+    }
+
+    .adoption-list-table-button {
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+        padding: 9px 5px;
+    }
+
+    .form-adoption-list-button {
+        display: inline-block;
+        width: 100%;
+        margin: 5px 0px;
+    }
+
+    legend .legend-btn {
+        padding: 3px 2px !important;
+        margin: 0px 1px 5px 1px !important;
+    }
+
+    .buttons-col {
+        padding: 4px !important;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .control-label {
+        width: 120px;
+    }
+
+    .additional-padding {
+        padding-left: 46px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1099px) {
+    .control-label {
+        width: 87px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .additional-padding {
+        padding-left: 34px;
+    }
+
+    .add-date-col {
+        width: 25% !important;
+    }
+
+    .status-col {
+        width: 18% !important;
+    }
+}
