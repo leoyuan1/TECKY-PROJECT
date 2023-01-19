@@ -44,8 +44,32 @@ async function postPets(req: Request, res: Response) {
         logger.debug(`fields = ${fields}`);
         logger.debug(`files = ${files}`);
 
-        // insert data to database
+        // prepare data
+        const {
 
+            adoption_pet_name,
+            adoption_pet_type,
+            adoption_species_name,
+            adoption_pet_gender,
+            adoption_pet_age_type,
+            adoption_pet_age,
+
+            adoption_pet_fine_with_children,
+            adoption_pet_fine_with_cat,
+            adoption_pet_fine_with_dog,
+            adoption_pet_need_outing,
+            adoption_pet_know_hygiene,
+            adoption_pet_know_instruc,
+            adoption_pet_neutered,
+
+            adoption_pet_other_info
+
+        } = fields;
+
+        const { image } = files;
+
+
+        // insert data to database
 
         // msg to client
         res.json({

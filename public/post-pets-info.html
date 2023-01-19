@@ -88,35 +88,35 @@
 
     <!-- list section -->
     <form action="/pets" method="post" enctype="multipart/form-data" class="form-horizontal container-fluid"
-      id="add-adoption-item-form">
+      id="add-adoption-pet-form">
       <fieldset>
         <legend>加入待領養寵物</legend>
         <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-name">名稱/標題 </label>
+          <label class="col-sm-3 control-label" for="input-adoption-pet-name">名稱/標題 </label>
           <div class="col-sm-9">
-            <input type="text" name="adoption_item_name" id="input-adoption-item-name" class="form-control"
+            <input type="text" name="adoption_pet_name" id="input-adoption-pet-name" class="form-control"
               maxlength="70">
           </div>
         </div>
         <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-type">品種</label>
+          <label class="col-sm-3 control-label" for="input-adoption-pet-type">品種</label>
           <div class="col-sm-9">
-            <select name="adoption_item_type" id="input-adoption-item-type" style="display:inline-block;width:34%;">
+            <select name="adoption_pet_type" id="input-adoption-pet-type" style="display:inline-block;width:34%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇類別 ---</option>
               <option value="cat">貓咪</option>
               <option value="dog">狗狗</option>
               <option value="rabbit">兔兔</option>
               <option value="others">其他</option>
             </select>
-            <input type="text" name="adoption_item_type_details" placeholder="品種名稱"
-              id="input-adoption-item-type-details" class="form-control" style="display:inline-block;width:65%;"
+            <input type="text" name="adoption_species_name" placeholder="品種名稱"
+              id="input-adoption-species-name" class="form-control" style="display:inline-block;width:65%;"
               maxlength="250">
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-gender">性別</label>
+          <label class="col-sm-3 control-label" for="input-adoption-pet-gender">性別</label>
           <div class="col-sm-9">
-            <select name="adoption_item_gender" id="input-adoption-item-gender" style="width:100%;">
+            <select name="adoption_pet_gender" id="input-adoption-pet-gender" style="width:100%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇性別 ---</option>
               <option value="m">仔</option>
               <option value="f">女</option>
@@ -124,49 +124,49 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-age-type">年齡</label>
+          <label class="col-sm-3 control-label" for="input-adoption-pet-age-type">年齡</label>
           <div class="col-sm-9">
-            <select name="adoption_item_age_type" id="input-adoption-item-age-type"
+            <select name="adoption_pet_age_type" id="input-adoption-pet-age-type"
               style="display:inline-block;width:34%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇年齡類別 ---</option>
               <option value="year">歲</option>
               <option value="month">月</option>
             </select>
-            <input type="text" name="adoption_item_age" placeholder="年齡" id="input-adoption-item-age"
+            <input type="text" name="adoption_pet_age" placeholder="年齡" id="input-adoption-pet-age"
               class="form-control" style="display:inline-block;width:65%;" maxlength="4">
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 control-label">基本資料</label>
           <div class="col-sm-9">
-            <input type="checkbox" id="info_adoption_item_fine_with_children" name="adoption_item_fine_with_children">
-            <label for="info_adoption_item_fine_with_children">可與小孩子相處</label><br>
-            <input type="checkbox" id="info_adoption_item_fine_with_cat" name="adoption_item_fine_with_cat">
-            <label for="info_adoption_item_fine_with_cat">可與貓咪相處</label><br>
-            <input type="checkbox" id="info_adoption_item_fine_with_dog" name="adoption_item_fine_with_dog">
-            <label for="info_adoption_item_fine_with_dog">可與狗狗相處</label><br>
-            <input type="checkbox" id="info_adoption_item_need_outing" name="adoption_item_need_outing">
-            <label for="info_adoption_item_need_outing">每天要出外散步</label><br>
-            <input type="checkbox" id="info_adoption_item_know_hygiene" name="adoption_item_know_hygiene">
-            <label for="info_adoption_item_know_hygiene">懂得指定地方大小便</label><br>
-            <input type="checkbox" id="info_adoption_item_know_instruc" name="adoption_item_know_instruc">
-            <label for="info_adoption_item_know_instruc">懂得聽簡單指令</label><br>
-            <input type="checkbox" id="info_adoption_item_neutered" name="adoption_item_neutered">
-            <label for="info_adoption_item_neutered">已絕育</label><br>
+            <input type="checkbox" id="info_adoption_pet_fine_with_children" name="adoption_pet_fine_with_children">
+            <label for="info_adoption_pet_fine_with_children">可與小孩子相處</label><br>
+            <input type="checkbox" id="info_adoption_pet_fine_with_cat" name="adoption_pet_fine_with_cat">
+            <label for="info_adoption_pet_fine_with_cat">可與貓咪相處</label><br>
+            <input type="checkbox" id="info_adoption_pet_fine_with_dog" name="adoption_pet_fine_with_dog">
+            <label for="info_adoption_pet_fine_with_dog">可與狗狗相處</label><br>
+            <input type="checkbox" id="info_adoption_pet_need_outing" name="adoption_pet_need_outing">
+            <label for="info_adoption_pet_need_outing">每天要出外散步</label><br>
+            <input type="checkbox" id="info_adoption_pet_know_hygiene" name="adoption_pet_know_hygiene">
+            <label for="info_adoption_pet_know_hygiene">懂得指定地方大小便</label><br>
+            <input type="checkbox" id="info_adoption_pet_know_instruc" name="adoption_pet_know_instruc">
+            <label for="info_adoption_pet_know_instruc">懂得聽簡單指令</label><br>
+            <input type="checkbox" id="info_adoption_pet_neutered" name="adoption_pet_neutered">
+            <label for="info_adoption_pet_neutered">已絕育</label><br>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-other-info">其他資料</label>
+          <label class="col-sm-3 control-label" for="input-adoption-pet-other-info">其他資料</label>
           <div class="col-sm-9">
-            <textarea id="input-adoption-item-other-info" name="adoption_item_other_info" row="14"
+            <textarea id="input-adoption-pet-other-info" name="adoption_pet_other_info" row="14"
               style="width:100%;border-color: rgb(217,217,217);" maxlength="1000"></textarea>
           </div>
         </div>
 
         <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-image">照片</label>
+          <label class="col-sm-3 control-label" for="input-adoption-pet-image">照片</label>
           <div class="col-sm-9">
-            <!-- <div class="dropzone dz-clickable" id="input-adoption-item-image">
+            <!-- <div class="dropzone dz-clickable" id="input-adoption-pet-image">
               <div class="dz-default dz-message">
                 <span>拖曳檔案到此 或 按此上傳檔案</span>
               </div>
@@ -174,75 +174,12 @@
             <input type="file" class="top-spacing" name="image">
           </div>
         </div>
-        <!-- <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-youtube">Youtube影片連結
-          </label>
-          <div class="col-sm-9">
-            <input type="text" name="adoption_item_youtube" id="input-adoption-item-youtube" class="form-control"
-              maxlength="250">
-          </div>
-        </div> -->
-        <!-- <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-address">待領動物現時住址
-          </label>
-          <div class="col-sm-9">
-            <input type="text" name="adoption_item_address" id="input-adoption-item-address" class="form-control"
-              maxlength="450">
-          </div>
-        </div> -->
-        <!-- <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-owner-name">待領動物負責人姓名(如有) </label>
-          <div class="col-sm-9">
-            <input type="text" name="adoption_item_owner_name" id="input-adoption-item-owner-name" class="form-control"
-              maxlength="250">
-          </div>
-        </div> -->
-        <!-- <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-owner-phone">待領動物負責人聯絡電話(如有) </label>
-          <div class="col-sm-9">
-            <input type="text" name="adoption_item_owner_phone" id="input-adoption-item-owner-phone"
-              class="form-control" maxlength="40">
-          </div>
-        </div> -->
-        <!-- <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-contact-name">聯絡人姓名 </label>
-          <div class="col-sm-9">
-            <input type="text" name="adoption_item_contact_name" id="input-adoption-item-contact-name"
-              class="form-control" maxlength="250">
-          </div>
-        </div> -->
-        <!-- <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-contact-whatsapp">聯絡人Whatsapp號碼 </label>
-          <div class="col-sm-9">
-            <input type="text" name="adoption_item_contact_whatsapp" id="input-adoption-item-contact-whatsapp"
-              class="form-control" maxlength="40">
-          </div>
-        </div> -->
-        <!-- <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-contact-phone">聯絡人電話 </label>
-          <div class="col-sm-9">
-            <input type="text" name="adoption_item_contact_phone" id="input-adoption-item-contact-phone"
-              class="form-control" maxlength="40">
-          </div>
-        </div> -->
-        <!-- <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-item-contact-email">聯絡人電郵地址
-          </label>
-          <div class="col-sm-9">
-            <input type="email" name="adoption_item_contact_email" id="input-adoption-item-contact-email"
-              class="form-control" maxlength="70">
-          </div>
-        </div> -->
-        <input type="hidden" value="39" name="form-id">
-
-        <input type="hidden" name="image-folder" value="392392120230119">
-        <input type="hidden" name="num-of-img" id="num-of-img">
 
       </fieldset>
 
       <div class="buttons clearfix" style="text-align: center;">
-        <a href="adopt-pets.html" class="adoption-item-form-back-btn btn btn-info">返回</a>
-        <input type="submit" class="adoption-item-form-submit-btn btn btn-info" value="提交">
+        <a href="adopt-pets.html" class="adoption-pet-form-back-btn btn btn-info">返回</a>
+        <input type="submit" class="adoption-pet-form-submit-btn btn btn-info" value="提交">
       </div>
 
     </form>
