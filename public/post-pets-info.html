@@ -101,16 +101,20 @@
         <div class="form-group required row">
           <label class="col-sm-3 control-label" for="input-adoption-pet-type">品種</label>
           <div class="col-sm-9">
-            <select name="adoption_pet_type" id="input-adoption-pet-type" style="display:inline-block;width:34%;">
+            <select name="adoption_pet_type" id="input-adoption-pet-type" style="display:inline-block;width:100%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇類別 ---</option>
               <option value="cat">貓咪</option>
               <option value="dog">狗狗</option>
               <option value="rabbit">兔兔</option>
               <option value="others">其他</option>
             </select>
-            <input type="text" name="adoption_species_name" placeholder="品種名稱"
-              id="input-adoption-species-name" class="form-control" style="display:inline-block;width:65%;"
-              maxlength="250">
+            <select name="adoption_species_example" id="input-adoption-species-example"
+              style="display:inline-block;width:34%;">
+              <option value="" disabled="" selected="" hidden="">--- 選擇自動填寫品種 ---</option>
+              <option value="others">其他</option>
+            </select>
+            <input type="text" name="adoption_species_name" placeholder="品種名稱" id="input-adoption-species-name"
+              class="form-control" style="display:inline-block;width:65%;" maxlength="250">
           </div>
         </div>
         <div class="form-group row">
@@ -132,8 +136,8 @@
               <option value="year">歲</option>
               <option value="month">月</option>
             </select>
-            <input type="text" name="adoption_pet_age" placeholder="年齡" id="input-adoption-pet-age"
-              class="form-control" style="display:inline-block;width:65%;" maxlength="4">
+            <input type="text" name="adoption_pet_age" placeholder="年齡" id="input-adoption-pet-age" class="form-control"
+              style="display:inline-block;width:65%;" maxlength="4">
           </div>
         </div>
         <div class="form-group row">
