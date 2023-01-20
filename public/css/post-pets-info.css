@@ -1,0 +1,7 @@
+.form-group {
+    padding: 20px 0;
+}
+
+.form-group > label {
+    text-align: right;
+}
