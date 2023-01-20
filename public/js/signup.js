@@ -1,14 +1,11 @@
-
-const signupFormElm = document.querySelector('.signup-btn')
-
-signupFormElm.addEventListener('click', async () => {
+async function signup() {
     let result;
     await Swal.fire({
         title: 'Sign-up Form',
         html: `<form id="form"><input type="text" id="email" class="swal2-input" name="email" placeholder="Email address">
         <input type="password" id="password" class="swal2-input" name="password" placeholder="Password">
         <input type="username" id="username" class="swal2-input" name="username" placeholder="Username">
-        <div>Icon</div><input type="file" name="image" id="image" placeholder="Icon" />
+        <button class="icon">Icon upload<input type="file" name="image" id="image" /></button>
         </form>
         `,
         confirmButtonText: 'Sign up',
@@ -48,4 +45,4 @@ signupFormElm.addEventListener('click', async () => {
             }
         }
     })
-})
+}

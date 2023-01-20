@@ -574,3 +574,22 @@ a:focus {
 .login-btn {
   margin-left: 15px;
 }
+
+.swal2-footer {
+  flex-direction: column;
+}
+
+.btn-success {
+  margin: auto;
+}
+
+.signup-btn {
+  margin: 10px auto;
+}
+
+.icon {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
