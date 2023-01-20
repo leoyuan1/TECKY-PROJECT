@@ -25,3 +25,14 @@ document.querySelector('.new-post-container [type=file]').addEventListener('chan
     let imageURL = getObjectURL(image)
     document.querySelector('#preview').src = imageURL
 })
+
+function showPreview(event) {
+    if (event.target.files.length > 0) {
+        let src = URL.createObjectURL(event.target.files[0]);
+        let preview = document.getElementById('#preview');
+        preview.src = src;
+        preview.style.display = "block";
+    }
+}
+
+showPreview();

@@ -13,8 +13,12 @@
 	<!-- Fonts -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.css"
+		integrity="sha512-JzSVRb7c802/njMbV97pjo1wuJAE/6v9CvthGTDxiaZij/TFpPQmQPTcdXyUVucsvLtJBT6YwRb5LhVxX3pQHQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- Custom styles for this template -->
 	<link href="assets/css/mediumish.css" rel="stylesheet">
+	<link href="css/newpost.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -117,7 +121,11 @@
 			<p class="lead">
 				Share about your pet and Story
 			</p>
+			<button type="button" class="btn btn-link" id="postaddbtn">
+				Add your post +
+			</button>
 		</div>
+
 		<!-- End Site Title
 ================================================== -->
 
@@ -125,9 +133,8 @@
 	================================================== -->
 		<section class="featured-posts">
 			<div class="section-title">
-				<h2><span>Featured</span></h2>
-				<a type="button" class="btn btn-link" data-mdb-ripple-color="dark" href="./postadd.html">Add your
-					post +</a>
+				<h2><span>Pop Today</span></h2>
+
 			</div>
 			<div class="card-columns listfeaturedtag">
 
@@ -303,8 +310,8 @@
 		<section class="recent-posts">
 			<div class="section-title">
 				<h2><span>All Stories</span></h2>
-				<a type="button" class="btn btn-link" data-mdb-ripple-color="dark" href="./postadd.html">Add your story
-					+</a>
+				<!-- <a type="button" class="btn btn-link" data-mdb-ripple-color="dark" href="./postadd.html">Add your story
+					+</a> -->
 			</div>
 			<div class="card-columns listrecent">
 
@@ -536,11 +543,15 @@
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="assets/js/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
 		integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-		crossorigin="anonymous"></script>
+		crossorigin="anonymous"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.js"
+		integrity="sha512-IYzd4A07K9kxY3b8YIXi8L0BmUPVvPlI+YpLOzKrIKA3sQ4gt43dYp+y6ip7C7LRLXYfMHikpxeprZh7dYQn+g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+	<script src="./comm-index.js"></script>
 </body>
 
 </html>
