@@ -10,8 +10,7 @@ export const userRoutes = express.Router()
 userRoutes.post('/signup', signup)
 userRoutes.post('/login', login)
 userRoutes.get('/login/google', loginGoogle)
-userRoutes.get('/session', getSession)
-
+userRoutes.get('/session', isUser)
 
 declare module "express-session" {
     interface SessionData {
@@ -19,14 +18,15 @@ declare module "express-session" {
     }
 }
 
-async function getSession(req: express.Request, res: express.Response) {
-
+export async function isUser(req: express.Request, res: express.Response) {
     if (!req.session.user) {
         res.json({
-            message: '123'
+            message: 'no session data'
         })
     }
-
+    res.json({
+        message: 'isUser'
+    })
 }
 
 async function signup(req: express.Request, res: express.Response) {
@@ -75,7 +75,7 @@ async function login(req: express.Request, res: express.Response) {
     try {
         let { email, password } = await req.body
         let selectUserResult = await client.query(`select * from users where email = $1`, [email])
-        let foundUser: User = selectUserResult.rows[0]
+        let foundUser = selectUserResult.rows[0]
         if (!foundUser) {
             res.json({
                 message: "email not register"
@@ -90,7 +90,7 @@ async function login(req: express.Request, res: express.Response) {
             })
             return
         }
-
+        delete foundUser.password
         req.session.user = foundUser
         res.json({
             message: "correct"
@@ -132,5 +132,6 @@ async function loginGoogle(req: express.Request, res: express.Response) {
     }
     delete user.password
     req.session['user'] = user
-    res.redirect('/')
+    res.redirect('/admin.html')
 }
+

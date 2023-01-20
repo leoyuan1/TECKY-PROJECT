@@ -1,4 +1,6 @@
+
 const logInFormElm = document.querySelector('.login-btn')
+const logOutElm = document.querySelector('#logout-btn')
 logInFormElm.addEventListener('click', async () => {
     let result;
     await Swal.fire({
@@ -19,8 +21,6 @@ logInFormElm.addEventListener('click', async () => {
                 Swal.showValidationMessage(`Please enter email and password`)
                 return
             }
-            console.log(password);
-            console.log(email);
             result = { email: email, password: password }
             let res = await fetch('/login', {
                 method: 'post',
@@ -49,7 +49,17 @@ logInFormElm.addEventListener('click', async () => {
     })
 })
 
-function isUser() {
-    document.getElementById("login-btn").style.display = "none";
-    document.getElementById("logined-btn").style.display = "block"
+async function isUser() {
+    let res = await fetch("/session")
+    let result = await res.json()
+    if (result.message === 'isUser') {
+        document.getElementById("login-btn").style.display = "none";
+        document.getElementById("welcome-btn").style.display = "block"
+        document.getElementById("setting-btn").style.display = "block"
+        document.getElementById("logout-btn").style.display = "block"
+    }
 }
+
+logOutElm.addEventListener('click', () => {
+    location.reload('/')
+})

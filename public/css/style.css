@@ -590,6 +590,14 @@ a:focus {
   align-items: center;
 }
 
-.logined-btn {
+#welcome-btn {
+  display: none;
+}
+
+#setting-btn {
+  display: none;
+}
+
+#logout-btn {
   display: none;
 }

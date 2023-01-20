@@ -37,6 +37,7 @@ async function signup() {
                             email: ${email}
                             註冊成功
                             `.trim())
+                    isUser()
                 } else if (data.message === 'email registered') {
                     await Swal.fire(`
                     email: ${email}
