@@ -1,3 +1,11 @@
+function validateEmail(email) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        return true
+    }
+    return false
+}
+
+
 async function signup() {
     let result;
     await Swal.fire({
@@ -18,6 +26,12 @@ async function signup() {
             if (!email || !password || !username) {
                 Swal.showValidationMessage(`Please enter email, password and username`)
             }
+            let emailResult = (validateEmail(email))
+            if (emailResult === false) {
+                Swal.showValidationMessage(`Invalid email`)
+                return
+            }
+
             const formData = Swal.getPopup().querySelector('#form')
             if (email && password && username) {
                 result = new FormData(formData)
@@ -46,3 +60,4 @@ async function signup() {
         }
     })
 }
+
