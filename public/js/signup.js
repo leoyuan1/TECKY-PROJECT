@@ -1,11 +1,3 @@
-function validateEmail(email) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        return true
-    }
-    return false
-}
-
-
 async function signup() {
     let result;
     await Swal.fire({
@@ -60,4 +52,12 @@ async function signup() {
         }
     })
 }
+
+function validateEmail(email) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        return true
+    }
+    return false
+}
+
 

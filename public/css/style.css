@@ -571,10 +571,6 @@ a:focus {
 /* end footer section*/
 /*# sourceMappingURL=style.css.map */
 
-.login-btn {
-  margin-left: 15px;
-}
-
 .swal2-footer {
   flex-direction: column;
 }
@@ -592,4 +588,8 @@ a:focus {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.logined-btn {
+  display: none;
 }

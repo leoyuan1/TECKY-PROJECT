@@ -10,12 +10,24 @@ export const userRoutes = express.Router()
 userRoutes.post('/signup', signup)
 userRoutes.post('/login', login)
 userRoutes.get('/login/google', loginGoogle)
+userRoutes.get('/session', getSession)
+
+
 declare module "express-session" {
     interface SessionData {
         user?: User;
     }
 }
 
+async function getSession(req: express.Request, res: express.Response) {
+
+    if (!req.session.user) {
+        res.json({
+            message: '123'
+        })
+    }
+
+}
 
 async function signup(req: express.Request, res: express.Response) {
     try {

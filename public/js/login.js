@@ -43,8 +43,13 @@ logInFormElm.addEventListener('click', async () => {
                 await Swal.fire(`
                 登入成功
                 `.trim())
+                isUser()
             }
         }
     })
 })
 
+function isUser() {
+    document.getElementById("login-btn").style.display = "none";
+    document.getElementById("logined-btn").style.display = "block"
+}
