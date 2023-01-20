@@ -6,12 +6,16 @@ async function init() {
     const speciesNameElem = document.querySelector('#input-adoption-species-name');
     const ageTypeElem = document.querySelector('#input-adoption-pet-age-type');
     const ageElem = document.querySelector('#input-adoption-pet-age');
+    const imageInputElems = document.querySelectorAll('.input-adoption-pet-image');
     const postPetElem = document.querySelector('#add-adoption-pet-form');
 
     // event listeners
     petTypeElem.addEventListener('change', changeSpeciesChoice);
     speciesChoiceElem.addEventListener('change', showSpeciesNameInputBox);
-    ageTypeElem.addEventListener('change', showAgeInputBox)
+    ageTypeElem.addEventListener('change', showAgeInputBox);
+    for (let imageInputElem of imageInputElems) {
+        imageInputElem.addEventListener('change', previewImage);
+    }
     postPetElem.addEventListener('submit', postPets);
 
     // functions
@@ -68,6 +72,17 @@ async function init() {
         }
     }
 
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const imageInputID = event.target.id.replace('input-image-', '');
+        const previewElem = document.querySelector(`#preview-image-${imageInputID}`);
+        if (file) {
+            previewElem.src = URL.createObjectURL(file);
+        } else {
+            previewElem.src = "";
+        }
+    }
+
     async function postPets(event) {
 
         event.preventDefault();
@@ -79,6 +94,9 @@ async function init() {
             method: 'POST',
             body: formData,
         })
+
+        const data = await res.json();
+        console.log(data.message);
 
     }
 

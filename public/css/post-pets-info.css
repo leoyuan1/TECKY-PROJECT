@@ -5,3 +5,10 @@
 .form-group > label {
     text-align: right;
 }
+
+.form-group img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 5px 0;
+}

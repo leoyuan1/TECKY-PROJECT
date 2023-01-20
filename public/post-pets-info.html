@@ -169,13 +169,25 @@
 
         <div class="form-group required row">
           <label class="col-sm-2 control-label" for="input-adoption-pet-image">照片</label>
-          <div class="col-sm-10">
+          <div class="col-sm-5 image-box" id="image-box-1">
             <!-- <div class="dropzone dz-clickable" id="input-adoption-pet-image">
               <div class="dz-default dz-message">
                 <span>拖曳檔案到此 或 按此上傳檔案</span>
               </div>
             </div> -->
-            <input type="file" class="top-spacing" name="image">
+            <input type="file" class="input-adoption-pet-image" name="image1" id="input-image-1" accept="image/*">
+            <img class="preview-adoption-pet-image" id="preview-image-1" src="">
+          </div>
+          <div class="col-sm-5 image-box" id="image-box-2">
+            <input type="file" class="input-adoption-pet-image" name="image2" id="input-image-2" accept="image/*">
+            <img class="preview-adoption-pet-image" id="preview-image-2" src="">
+          </div>
+        </div>
+
+        <div class="form-group required row">
+          <label class="col-sm-2 control-label" for="input-adoption-pet-video">影片</label>
+          <div class="col-sm-10">
+            <input type="file" class="top-spacing" name="video" id="input-adoption-pet-video" accept="video/*">
           </div>
         </div>
 

@@ -88,8 +88,6 @@ async function postPets(req: Request, res: Response) {
 
         // receive data from client
         const { fields, files } = await formidablePromise(req);
-        logger.debug(`fields = ${fields}`);
-        logger.debug(`files = ${files}`);
 
         // prepare data
         const userID = 1;
@@ -114,20 +112,20 @@ async function postPets(req: Request, res: Response) {
             adoption_pet_other_info
 
         } = fields;
-        
-        const { image } = files;
 
         // prepare species id
         let speciesID = adoption_species_choice;
         if (speciesID == 'define') {
-            const alreadyExistSpeciesID = (await client.query("select id from species where name = $1", [adoption_species_name])).rows[0].id;
-            if (alreadyExistSpeciesID) {
-                speciesID = alreadyExistSpeciesID
+            const alreadyExistSpecies = (await client.query("select id from species where name = $1", [adoption_species_name])).rows[0];
+            if (alreadyExistSpecies) {
+                speciesID = alreadyExistSpecies.id;
+            } else {
+                speciesID = await client.query("insert into species (pet_type_id, name) values ($1, $2) returning id", [
+                    adoption_pet_type,
+                    adoption_species_name
+                ])
+                speciesID = speciesID.rows[0].id;
             }
-            speciesID = await client.query("insert into species (pet_type_id, name) values ($1, $2) returning id", [
-                adoption_pet_type,
-                adoption_species_name
-            ])
         }
 
         // prepare birthday
@@ -142,13 +140,13 @@ async function postPets(req: Request, res: Response) {
         }
 
         // set default status
-        const defaultStatus = 'posted';
+        const defaultStatus = 'waiting';
 
         // set default price
         const defaultPrice = 0;
 
-        // insert data to database
-        await client.query(`insert into posts (
+        // insert data to database (posts)
+        const postedResult = await client.query(`insert into posts (
             user_id, 
             pet_name, 
             pet_type_id, 
@@ -167,24 +165,37 @@ async function postPets(req: Request, res: Response) {
             price,
             created_at,
             updated_at
-            ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,now(),now())`, [
-                userID,
-                adoption_pet_name,
-                adoption_pet_type,
-                speciesID,
-                adoption_pet_gender,
-                birthday,
-                adoption_pet_fine_with_children,
-                adoption_pet_fine_with_cat,
-                adoption_pet_fine_with_dog,
-                adoption_pet_need_outing,
-                adoption_pet_know_hygiene,
-                adoption_pet_know_instruc,
-                adoption_pet_neutered,
-                adoption_pet_other_info,
-                defaultStatus,
-                defaultPrice,
-            ]);
+            ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,now(),now()) returning id`, [
+            userID,
+            adoption_pet_name,
+            adoption_pet_type,
+            speciesID,
+            adoption_pet_gender,
+            birthday,
+            adoption_pet_fine_with_children,
+            adoption_pet_fine_with_cat,
+            adoption_pet_fine_with_dog,
+            adoption_pet_need_outing,
+            adoption_pet_know_hygiene,
+            adoption_pet_know_instruc,
+            adoption_pet_neutered,
+            adoption_pet_other_info,
+            defaultStatus,
+            defaultPrice,
+        ]);
+
+        const postID = postedResult.rows[0].id;
+
+        // insert data to database (post_media)
+        if (files) {
+            for (let media in files) {
+                const fileName = files[media].newFilename;
+                await client.query(`insert into post_media (file_name, post_id) values ($1,$2)`, [
+                    fileName,
+                    postID
+                ])
+            }
+        }
 
         // msg to client
         res.json({
