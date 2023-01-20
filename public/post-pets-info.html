@@ -29,6 +29,9 @@
   <!-- unique style for post-pets section -->
   <link href="css/post-pets.css" rel="stylesheet" />
 
+  <!-- unique style for post-pets-info section -->
+  <link href="css/post-pets-info.css" rel="stylesheet" />
+
   <!-- dropzone style -->
   <!-- <link rel="stylesheet" href="dropzone/dropzone.css"> -->
 
@@ -92,15 +95,15 @@
       <fieldset>
         <legend>加入待領養寵物</legend>
         <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-pet-name">名稱/標題 </label>
-          <div class="col-sm-9">
+          <label class="col-sm-2 control-label" for="input-adoption-pet-name">名稱/標題 </label>
+          <div class="col-sm-10">
             <input type="text" name="adoption_pet_name" id="input-adoption-pet-name" class="form-control"
               maxlength="70">
           </div>
         </div>
         <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-pet-type">品種</label>
-          <div class="col-sm-9">
+          <label class="col-sm-2 control-label" for="input-adoption-pet-type">品種</label>
+          <div class="col-sm-10">
             <select name="adoption_pet_type" id="input-adoption-pet-type" style="display:inline-block;width:100%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇類別 ---</option>
               <option value="cat">貓咪</option>
@@ -108,7 +111,7 @@
               <option value="rabbit">兔兔</option>
               <option value="others">其他</option>
             </select>
-            <select name="adoption_species_example" id="input-adoption-species-example"
+            <select name="adoption_species_auto" id="input-adoption-species-auto"
               style="display:inline-block;width:34%;">
               <option value="" disabled="" selected="" hidden="">--- 選擇自動填寫品種 ---</option>
               <option value="others">其他</option>
@@ -118,8 +121,8 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-pet-gender">性別</label>
-          <div class="col-sm-9">
+          <label class="col-sm-2 control-label" for="input-adoption-pet-gender">性別</label>
+          <div class="col-sm-10">
             <select name="adoption_pet_gender" id="input-adoption-pet-gender" style="width:100%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇性別 ---</option>
               <option value="m">仔</option>
@@ -128,8 +131,8 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-pet-age-type">年齡</label>
-          <div class="col-sm-9">
+          <label class="col-sm-2 control-label" for="input-adoption-pet-age-type">年齡</label>
+          <div class="col-sm-10">
             <select name="adoption_pet_age_type" id="input-adoption-pet-age-type"
               style="display:inline-block;width:34%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇年齡類別 ---</option>
@@ -141,8 +144,8 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 control-label">基本資料</label>
-          <div class="col-sm-9">
+          <label class="col-sm-2 control-label">基本資料</label>
+          <div class="col-sm-10">
             <input type="checkbox" id="info_adoption_pet_fine_with_children" name="adoption_pet_fine_with_children">
             <label for="info_adoption_pet_fine_with_children">可與小孩子相處</label><br>
             <input type="checkbox" id="info_adoption_pet_fine_with_cat" name="adoption_pet_fine_with_cat">
@@ -160,16 +163,16 @@
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 control-label" for="input-adoption-pet-other-info">其他資料</label>
-          <div class="col-sm-9">
+          <label class="col-sm-2 control-label" for="input-adoption-pet-other-info">其他資料</label>
+          <div class="col-sm-10">
             <textarea id="input-adoption-pet-other-info" name="adoption_pet_other_info" row="14"
               style="width:100%;border-color: rgb(217,217,217);" maxlength="1000"></textarea>
           </div>
         </div>
 
         <div class="form-group required row">
-          <label class="col-sm-3 control-label" for="input-adoption-pet-image">照片</label>
-          <div class="col-sm-9">
+          <label class="col-sm-2 control-label" for="input-adoption-pet-image">照片</label>
+          <div class="col-sm-10">
             <!-- <div class="dropzone dz-clickable" id="input-adoption-pet-image">
               <div class="dz-default dz-message">
                 <span>拖曳檔案到此 或 按此上傳檔案</span>

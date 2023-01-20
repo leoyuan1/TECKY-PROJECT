@@ -65,11 +65,13 @@ async function postPets(req: Request, res: Response) {
             adoption_pet_other_info
 
         } = fields;
-
         const { image } = files;
 
+        // check species id
+        const species_id = (await client.query("select id from species where name = $1", [adoption_species_name])).rows[0].id;
 
         // insert data to database
+        await client.query("");
 
         // msg to client
         res.json({
