@@ -1,4 +1,5 @@
 import express from "express";
+import { checkPassword, hashPassword } from "./util/bcrypt";
 import { formidablePromise } from "./util/formidable";
 import { client } from "./util/psql-config";
 import { User } from "./util/session";
@@ -38,9 +39,10 @@ async function signup(req: express.Request, res: express.Response) {
 
         let fileName = files.image ? files.image['newFilename'] : ''
 
+        let hashedPassword = await hashPassword(fields.password)
         const writeData = await client.query('INSERT INTO users (email,password,icon,username,created_at,updated_at) values ($1,$2,$3,$4,now(),now())',
             [fields.email,
-            fields.password,
+                hashedPassword,
                 fileName,
             fields.username,
             ]
@@ -57,11 +59,9 @@ async function signup(req: express.Request, res: express.Response) {
 async function login(req: express.Request, res: express.Response) {
     try {
         let { email, password } = await req.body
-        console.log(email);
-
         let selectUserResult = await client.query(`select * from users where email = $1`, [email])
         let foundUser: User = selectUserResult.rows[0]
-
+        let dataPassword = foundUser.password
         if (!foundUser) {
             res.json({
                 message: "email not register"
@@ -69,12 +69,14 @@ async function login(req: express.Request, res: express.Response) {
             return
         }
 
-        if (foundUser.email != email || foundUser.password != password) {
-            res.json({
-                message: "Invalid email or password"
+        let isPasswordValid = await checkPassword(password, dataPassword)
+        if (!isPasswordValid) {
+            res.status(402).json({
+                message: 'Invalid password'
             })
             return
         }
+
         req.session.user = foundUser
         res.json({
             message: "correct"

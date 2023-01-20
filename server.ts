@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
-import { userRoutes } from "./signup";
+import { userRoutes } from "./login";
 import { client } from './util/psql-config';
 import { logger } from './util/logger';
 import expressSession from "express-session";
@@ -25,8 +25,6 @@ logger.debug("database is connected.");
 
 // user can upload media
 
-app.use('/', userRoutes)
-app.use('/pets', petRoutes);
 app.use(
     expressSession({
         secret: "Tecky Academy teaches typescript",
@@ -35,6 +33,8 @@ app.use(
         cookie: { secure: false },
     })
 );
+app.use('/', userRoutes)
+app.use('/pets', petRoutes);
 // static files 
 // app.use(express.static("pet template"));
 app.use(express.static("public"));

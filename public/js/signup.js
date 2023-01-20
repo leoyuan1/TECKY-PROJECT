@@ -18,10 +18,10 @@ signupFormElm.addEventListener('click', async () => {
             const email = Swal.getPopup().querySelector('#email').value
             const password = Swal.getPopup().querySelector('#password').value
             const username = Swal.getPopup().querySelector('#username').value
-            const formData = Swal.getPopup().querySelector('#form')
             if (!email || !password || !username) {
                 Swal.showValidationMessage(`Please enter email, password and username`)
             }
+            const formData = Swal.getPopup().querySelector('#form')
             if (email && password && username) {
                 result = new FormData(formData)
                 let res = await fetch('/signup', {

@@ -10,6 +10,7 @@ logInFormElm.addEventListener('click', async () => {
         confirmButtonText: 'Sign in',
         focusConfirm: false,
         showCancelButton: true,
+        // footer: '<a href="">Why do I have this issue?</a>',
         preConfirm: async () => {
             const email = Swal.getPopup().querySelector('#email').value
             const password = Swal.getPopup().querySelector('#password').value
@@ -30,9 +31,9 @@ logInFormElm.addEventListener('click', async () => {
                 email: ${result.email}
                 未註冊
                 `.trim())
-            } else if (data.message === "Invalid email or password") {
+            } else if (data.message === "Invalid password") {
                 await Swal.fire(`
-                email or password 錯誤
+                password 錯誤
                 `.trim())
             } else if (data.message === "correct") {
                 await Swal.fire(`
