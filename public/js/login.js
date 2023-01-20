@@ -1,5 +1,4 @@
 const logInFormElm = document.querySelector('.login-btn')
-
 logInFormElm.addEventListener('click', async () => {
     let result;
     await Swal.fire({
@@ -7,16 +6,21 @@ logInFormElm.addEventListener('click', async () => {
         html: `<input type="text" id="email" class="swal2-input" placeholder="Email address">
         <input type="password" id="password" class="swal2-input" placeholder="Password">
         `,
+        footer: `<a href="/connect/google" class="btn btn-success">Sign in With Google</a>
+            <a type="button" class="signup-btn" onclick='signup()'>Sign Up Here</a>
+        `,
         confirmButtonText: 'Sign in',
         focusConfirm: false,
         showCancelButton: true,
-        // footer: '<a href="">Why do I have this issue?</a>',
         preConfirm: async () => {
             const email = Swal.getPopup().querySelector('#email').value
             const password = Swal.getPopup().querySelector('#password').value
             if (!email || !password) {
                 Swal.showValidationMessage(`Please enter email and password`)
+                return
             }
+            console.log(password);
+            console.log(email);
             result = { email: email, password: password }
             let res = await fetch('/login', {
                 method: 'post',
@@ -43,3 +47,4 @@ logInFormElm.addEventListener('click', async () => {
         }
     })
 })
+

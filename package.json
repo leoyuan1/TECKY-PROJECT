@@ -9,6 +9,7 @@
     "express-session": "^1.17.3",
     "formidable": "^2.1.1",
     "fs": "^0.0.1-security",
+    "grant": "^5.4.21",
     "node-fetch": "^3.3.0",
     "path": "^0.12.7",
     "pg": "^8.8.0",

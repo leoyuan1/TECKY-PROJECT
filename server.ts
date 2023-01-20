@@ -3,9 +3,9 @@ import path from "path";
 import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./login";
-import { client } from './util/psql-config';
 import { logger } from './util/logger';
 import expressSession from "express-session";
+import grant from "grant";
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -17,14 +17,25 @@ interface Application {
 }
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.json());
 
 // connect to database
 logger.debug("database is connected.");
 
 // user can upload media
-
+const grantExpress = grant.express({
+    defaults: {
+        origin: "http://localhost:8080",
+        transport: "session",
+        state: true,
+    },
+    google: {
+        key: process.env.GOOGLE_CLIENT_ID || "",
+        secret: process.env.GOOGLE_CLIENT_SECRET || "",
+        scope: ["profile", "email"],
+        callback: "/login/google",
+    },
+});
 app.use(
     expressSession({
         secret: "Tecky Academy teaches typescript",
@@ -37,8 +48,8 @@ app.use('/', userRoutes)
 app.use('/pets', petRoutes);
 // static files 
 // app.use(express.static("pet template"));
+app.use(grantExpress as express.RequestHandler);
 app.use(express.static("public"));
-
 
 // //  404
 // app.use((req, res) => {
