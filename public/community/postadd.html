@@ -13,19 +13,26 @@
     <h1>what are you Thinking?</h1>
     <main>
         <div class="new-post-container">
-            <textarea placeholder="Comment..."></textarea>
             <div>
-                <input type="file" name="image" />
+                <textarea placeholder="Comment here"></textarea>
+                <div class="postcontainer">
+                    <div class="previewimage">
+                        <input type="file" id="file-input" name="image" />
+                    </div>
+                    <div>
+                        <img src="" alt="preview" id="preview">
+                    </div>
+                    <div>
+                        <input type="submit" value="發佈" />
+                    </div>
+                    <div>
+                        <input type="reset" value="取消" />
+                    </div>
+                </div>
             </div>
-            <div>
-                <img src="" alt="preview" id="preview">
-            </div>
-            <div>
-                <input type="submit" value="提交" />
-            </div>
-            <div>
-                <input type="reset" value="取消" />
-            </div>
+
+
+
         </div>
     </main>
 </body>
