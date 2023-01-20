@@ -105,19 +105,14 @@
           <label class="col-sm-2 control-label" for="input-adoption-pet-type">品種</label>
           <div class="col-sm-10">
             <select name="adoption_pet_type" id="input-adoption-pet-type" style="display:inline-block;width:100%;">
-              <option value="" disabled="" selected="" hidden="">--- 請選擇類別 ---</option>
-              <option value="cat">貓咪</option>
-              <option value="dog">狗狗</option>
-              <option value="rabbit">兔兔</option>
-              <option value="others">其他</option>
+              <option value disabled selected hidden>--- 請選擇類別 ---</option>
             </select>
-            <select name="adoption_species_auto" id="input-adoption-species-auto"
-              style="display:inline-block;width:34%;">
-              <option value="" disabled="" selected="" hidden="">--- 選擇自動填寫品種 ---</option>
-              <option value="others">其他</option>
+            <select name="adoption_species_choice" id="input-adoption-species-choice"
+              style="display:inline-block;width:100%;">
+              <option value disabled selected hidden>--- 選擇品種 ---</option>
             </select>
-            <input type="text" name="adoption_species_name" placeholder="品種名稱" id="input-adoption-species-name"
-              class="form-control" style="display:inline-block;width:65%;" maxlength="250">
+            <input type="text" name="adoption_species_name" placeholder="自定義品種名稱" id="input-adoption-species-name"
+              class="form-control" style="display:none" maxlength="250">
           </div>
         </div>
         <div class="form-group row">
@@ -127,6 +122,7 @@
               <option value="" disabled="" selected="" hidden="">--- 請選擇性別 ---</option>
               <option value="m">仔</option>
               <option value="f">女</option>
+              <option value="">不知道</option>
             </select>
           </div>
         </div>
@@ -134,13 +130,14 @@
           <label class="col-sm-2 control-label" for="input-adoption-pet-age-type">年齡</label>
           <div class="col-sm-10">
             <select name="adoption_pet_age_type" id="input-adoption-pet-age-type"
-              style="display:inline-block;width:34%;">
+              style="display:inline-block;width:100%;">
               <option value="" disabled="" selected="" hidden="">--- 請選擇年齡類別 ---</option>
               <option value="year">歲</option>
               <option value="month">月</option>
+              <option value="">不知道</option>
             </select>
             <input type="text" name="adoption_pet_age" placeholder="年齡" id="input-adoption-pet-age" class="form-control"
-              style="display:inline-block;width:65%;" maxlength="4">
+              style="display:none" maxlength="4">
           </div>
         </div>
         <div class="form-group row">
@@ -185,7 +182,7 @@
       </fieldset>
 
       <div class="buttons clearfix" style="text-align: center;">
-        <a href="adopt-pets.html" class="adoption-pet-form-back-btn btn btn-info">返回</a>
+        <a href="post-pets.html" class="adoption-pet-form-back-btn btn btn-info">返回</a>
         <input type="submit" class="adoption-pet-form-submit-btn btn btn-info" value="提交">
       </div>
 

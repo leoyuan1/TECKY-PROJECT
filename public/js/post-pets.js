@@ -1,24 +1,4 @@
-// query selectors
 
-const postPetElem = document.querySelector('#add-adoption-item-form');
-
-// event listeners
-postPetElem.addEventListener('submit', postPets);
-
-async function postPets(event) {
-
-    event.preventDefault();
-
-    const form = event.target;
-    const formData = new FormData(form);
-
-    const res = await fetch('/pets', {
-        method: 'POST',
-        body: formData,
-    })
-
-    
-}
 
 
 // from others
