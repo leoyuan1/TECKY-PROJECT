@@ -9,20 +9,46 @@ import { client } from './util/psql-config';
 
 export const petRoutes = express.Router();
 
-petRoutes.get('/', getPets);
+petRoutes.get('/all-pets', getPets);
+petRoutes.get('/all-pets/by-animal/:id', getPets_by_animal);  // to do
 petRoutes.get('/types', getPetTypes);
-petRoutes.get('/:id/species', getSpecies);
+petRoutes.get('/type-id/:id/species', getSpecies);
 petRoutes.post('/', postPets);
 petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
 
 
-// API --- get Pets
+// API --- get Pets (all)
 async function getPets(req: Request, res: Response) {
     try {
 
         // find data from database
         const result = await client.query("select * from posts");
+        const pets = result.rows;
+
+        // send data to client
+        res.json({
+            data: pets,
+            message: "Get pets success",
+        });
+
+    } catch (error) {
+        logger.error("... [PET000] Server error ... " + error);
+        res.status(500).json({ message: "[PET000] Server error" });
+    }
+}
+
+// API --- get Pets (based on pet types) to do
+async function getPets_by_animal(req: Request, res: Response) {
+    try {
+
+        // receive data from client
+        const animalID = req.params.id;
+
+        // find data from database
+        const result = await client.query("select * from posts where pet_type_id = $1", [
+            animalID
+        ]);
         const pets = result.rows;
 
         // send data to client

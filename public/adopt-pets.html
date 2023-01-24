@@ -92,7 +92,9 @@
     <!-- list section -->
     <div class="animal_section">
 
-      <div class="top-container">
+      <div class="banner">待領養動物</div>
+
+      <!-- <div class="top-container">
 
         <div id="header-selector" class="selector">
           <div class="header-selector-row type">
@@ -180,27 +182,43 @@
           </li>
         </ul>
 
-      </div>
+      </div> -->
 
       <div class="main-container">
         <main class="cd-main-content">
           <div class="cd-tab-filter-wrapper">
             <div class="cd-tab-filter">
-              <ul class="cd-filters">
+              <ul class="cd-filters" id="animal-list">
                 <li class="placeholder">
                   <a data-type="all" href="#0">All</a> <!-- selected option on mobile -->
                 </li>
-                <li class="filter"><a class="selected" href="#0" data-type="all">All</a></li>
-                <li class="filter" data-filter=".color-1"><a href="#0" data-type="color-1">Color 1</a></li>
-                <li class="filter" data-filter=".color-2"><a href="#0" data-type="color-2">Color 2</a></li>
+                <!-- <li class="filter"><a class="selected" href="#0" data-type="all" id="animal-all">All</a></li>
+                <li class="filter" data-filter=".animal-13"><a href="#0" data-type="animal-13" id="animal-13">Cat</a></li>
+                <li class="filter" data-filter=".animal-14"><a href="#0" data-type="animal-14" id="animal-14">Dog</a></li>
+                <li class="filter" data-filter=".animal-15"><a href="#0" data-type="animal-15" id="animal-15">Rabbit</a></li>
+                <li class="filter" data-filter=".animal-17"><a href="#0" data-type="animal-17" id="animal-17">Others</a></li> -->
               </ul> <!-- cd-filters -->
             </div> <!-- cd-tab-filter -->
           </div> <!-- cd-tab-filter-wrapper -->
 
           <section class="cd-gallery filter-is-visible">
-            <ul>
-              <li class="mix color-1 check1 radio2 option3"><img src="/uploads/pet-img/cat.jpg" alt="Image 1"></li>
-              <li class="mix color-2 check2 radio2 option2"><img src="/uploads/pet-img/cat.jpg" alt="Image 2"></li>
+            <ul id="pet-list">
+              <!-- <li class="pet-preview mix color-1 check1 radio2 option3">
+                <img src="/uploads/pet-img/cat.jpg" alt="Image 1">
+                <div>編號: DF221203</div>
+                <div>品種: 拉布拉多犬</div>
+                <div>年齡: 1歲</div>
+                <div>性別: M</div>
+                <div>出生日期: 2021-12-01</div>
+              </li>
+              <li class="pet-preview mix color-2 check2 radio2 option2">
+                <img src="/uploads/pet-img/cat.jpg" alt="Image 2">
+                <div>編號: DF221203</div>
+                <div>品種: 拉布拉多犬</div>
+                <div>年齡: 1歲</div>
+                <div>性別: M</div>
+                <div>出生日期: 2021-12-01</div>
+              </li>
               <li class="mix color-1 check3 radio3 option1"><img src="/uploads/pet-img/cat.jpg" alt="Image 3"></li>
               <li class="mix color-1 check3 radio2 option4"><img src="/uploads/pet-img/cat.jpg" alt="Image 4"></li>
               <li class="mix color-1 check1 radio3 option2"><img src="/uploads/pet-img/cat.jpg" alt="Image 5"></li>
@@ -213,7 +231,7 @@
               <li class="mix color-2 check1 radio3 option1"><img src="/uploads/pet-img/cat.jpg" alt="Image 12"></li>
               <li class="gap"></li>
               <li class="gap"></li>
-              <li class="gap"></li>
+              <li class="gap"></li> -->
             </ul>
             <div class="cd-fail-message">No results found</div>
           </section> <!-- cd-gallery -->
@@ -299,15 +317,17 @@
 
   </div>
 
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+
+  <!-- js for content-filter-master --> <!-- Resource jQuery -->
+  <!-- <script src="content-filter-master/js/jquery-2.1.1.js"></script> -->
+  <script src="content-filter-master/js/jquery.mixitup.min.js"></script>
+  <script src="content-filter-master/js/main.js"></script>
+
+  <!-- my JS -->
   <script type="module" src="js/adopt-pets.js"></script>
 
-  <!-- js for content-filter-master -->
-  <script src="content-filter-master/js/jquery-2.1.1.js"></script>
-  <script src="content-filter-master/js/jquery.mixitup.min.js"></script>
-  <script src="content-filter-master/js/main.js"></script> <!-- Resource jQuery -->
-
-  <!-- <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script> -->
-  <script type="text/javascript" src="js/bootstrap.js"></script>
 
 </body>
 </body>
