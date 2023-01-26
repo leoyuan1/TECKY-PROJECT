@@ -1,5 +1,7 @@
 async function init() {
 
+    let selectedAnimal;
+
     // query selectors for loading page
     const pet_list = document.querySelector('#pet-list');
     const animal_list = document.querySelector('#animal-list');
@@ -52,7 +54,7 @@ async function init() {
             let months = 0;
             if (pet.birthday) {
                 const now = new Date();
-                const birthday = new Date(pet.birthday);
+                const birthday = new Date(pet.pet_birthday);
                 months = monthDiff(birthday, now);
                 if (months > 11) {
                     years = Maths.floor(months / 12);
@@ -65,14 +67,14 @@ async function init() {
                 <li class="pet-preview mix animal-${pet.pet_type_id} check1 radio2 option3"
                 style="display: inline-block;">
                     <img src="/uploads/pet-img/cat.jpg" alt="Image ${i}">
-                    <div>編號: ${pet.id}</div>
+                    <div>編號: ${pet.post_id}</div>
                     <div>名稱: ${pet.pet_name}</div>`
             if (pet.species_id) {
                 htmlString += `<div>品種: ${pet.species_id}</div>`;
             } else {
                 htmlString += '<div>品種: 不知道</div>';
             }
-            if (pet.birthday) {
+            if (pet.pet_birthday) {
                 if (years !== 0) {
                     htmlString += `<div>年齡: ${years}歲 ${months}月</div>`;
                 } else if (months !== 0) {
@@ -130,7 +132,7 @@ async function init() {
 
     async function adoptPets_loadAnimals() {
 
-        const res = await fetch('/pets/types');
+        const res = await fetch('/pets/pet-types');
         const result = await res.json();
         const animals = result.data;
 
@@ -145,8 +147,8 @@ async function init() {
             <li class="filter"><a class="selected" href="#0" data-type="all" id="animal-all">所有</a></li>`
 
         for (let animal of animals) {
-            const id = animal.id
-            const type = animal.type
+            const id = animal.pet_type_id
+            const type = animal.pet_type_name
             htmlString += `
             <li class="filter" data-filter=".animal-${id}">
             <a href="#0" data-type="animal-${id}" id="animal-${id}">${type}</a>

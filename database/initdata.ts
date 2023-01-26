@@ -32,17 +32,17 @@ async function main() {
         type4: "其他"
     };
     for (let pet_type in pet_types) {
-        await client.query("INSERT INTO pet_types (type, created_at, updated_at) values ($1,now(),now()) returning id", [
+        await client.query("INSERT INTO pet_types (pet_type_name, pet_type_created_at, pet_type_updated_at) values ($1,now(),now())", [
             pet_types[pet_type]
         ])
     }
 
     // find cat_id & dog_id
-    const cat_id = (await client.query("select id from pet_types where type = $1", [pet_types.type1])).rows[0].id;
+    const cat_id = (await client.query("select pet_type_id from pet_types where pet_type_name = $1", [pet_types.type1])).rows[0].pet_type_id;
     console.log("cat_id = ", cat_id);
 
-    const dog_id = (await client.query("select id from pet_types where type = $1", [pet_types.type2])).rows[0].id;
-    console.log("cat_id = ", cat_id);
+    const dog_id = (await client.query("select pet_type_id from pet_types where pet_type_name = $1", [pet_types.type2])).rows[0].pet_type_id;
+    console.log("dog_id = ", dog_id);
 
     // create cat species
     const cat_species = {
@@ -69,15 +69,15 @@ async function main() {
     }
 
     // find cat species ids
-    const cat_species1_id = (await client.query("select id from species where species_name = $1", [cat_species.name1])).rows[0].id;
+    const cat_species1_id = (await client.query("select species_id from species where species_name = $1", [cat_species.name1])).rows[0].species_id;
     console.log("波斯貓_id = ", cat_species1_id);
-    const cat_species2_id = (await client.query("select id from species where species_name = $1", [cat_species.name2])).rows[0].id;
+    const cat_species2_id = (await client.query("select species_id from species where species_name = $1", [cat_species.name2])).rows[0].species_id;
     console.log("短毛貓_id = ", cat_species2_id);
 
     // find dog species ids
-    const dog_species1_id = (await client.query("select id from species where species_name = $1", [dog_species.name1])).rows[0].id;
+    const dog_species1_id = (await client.query("select species_id from species where species_name = $1", [dog_species.name1])).rows[0].species_id;
     console.log("牧羊犬_id = ", dog_species1_id);
-    const dog_species2_id = (await client.query("select id from species where species_name = $1", [dog_species.name1])).rows[0].id;
+    const dog_species2_id = (await client.query("select species_id from species where species_name = $1", [dog_species.name1])).rows[0].species_id;
     console.log("金毛尋回犬_id = ", dog_species2_id);
 
     // post pets
@@ -91,7 +91,7 @@ async function main() {
         price: 0,
         species_id: cat_species1_id,
     };
-    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
+    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
         1,
         post1.pet_name,
         post1.type,
@@ -113,7 +113,7 @@ async function main() {
         price: 0,
         species_id: cat_species2_id,
     };
-    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
+    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
         1,
         post2.pet_name,
         post2.type,
@@ -135,7 +135,7 @@ async function main() {
         price: 0,
         species_id: dog_species1_id,
     };
-    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
+    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
         1,
         post3.pet_name,
         post3.type,

@@ -10,9 +10,9 @@ export const petRoutes = express.Router();
 
 petRoutes.get('/one-pet/:id', getPet);
 petRoutes.get('/all-pets', getPets);
-petRoutes.get('/all-pets/by-animal/:id', getPets_by_animal);  // to do
-petRoutes.get('/types', getPetTypes);
-petRoutes.get('/type-id/:id/species', getSpecies);
+petRoutes.get('/all-pets/by-pet-type/:id', getPets_by_petType);  // to do
+petRoutes.get('/pet-types', getPetTypes);
+petRoutes.get('/pet-type-id/:id/species', getSpecies);
 petRoutes.post('/', postPets);
 petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
@@ -28,15 +28,16 @@ async function getPet() {
 async function getPets(req: Request, res: Response) {
     try {
 
-        // get from query
-        const animal = req.query.animal;
-        logger.debug('animal = ', animal);
+        // get filtered info from query
+        // const petTypeID = req.query.pet_type_id;
+        // const speciesID = req.query.species_id;
+        // const gender = req.query.pet_gender;
 
         // find data from database
         const sqlString = `
             select * from posts 
-	        join pet_types on posts.pet_type_id = pet_types.id
-	        join species on posts.species_id = species.id;
+	        join pet_types on posts.pet_type_id = pet_types.pet_type_id
+	        join species on posts.species_id = species.species_id;
         `
         const result = await client.query(sqlString);
         const pets = result.rows;
@@ -54,15 +55,15 @@ async function getPets(req: Request, res: Response) {
 }
 
 // API --- get Pets (based on pet types)
-async function getPets_by_animal(req: Request, res: Response) {
+async function getPets_by_petType(req: Request, res: Response) {
     try {
 
         // receive data from client
-        const animalID = req.params.id;
+        const petTypeID = req.params.id;
 
         // find data from database
         const result = await client.query("select * from posts where pet_type_id = $1", [
-            animalID
+            petTypeID
         ]);
         const pets = result.rows;
 
@@ -83,7 +84,7 @@ async function getPetTypes(req: Request, res: Response) {
     try {
 
         // find data from database
-        const result = await client.query("select id, type from pet_types")
+        const result = await client.query("select pet_type_id, pet_type_name from pet_types")
         const petTypes = result.rows;
 
         // send data to client
@@ -107,7 +108,7 @@ async function getSpecies(req: Request, res: Response) {
         const petTypeID = req.params.id;
 
         // find data from database
-        const result = await client.query("select id, soecies_name from species where pet_type_id = $1", [petTypeID]);
+        const result = await client.query("select species_id, species_name from species where pet_type_id = $1", [petTypeID]);
         const species = result.rows;
 
         // send data to client
@@ -157,15 +158,15 @@ async function postPets(req: Request, res: Response) {
         // prepare species id
         let speciesID = adoption_species_choice;
         if (speciesID == 'define') {
-            const alreadyExistSpecies = (await client.query("select id from species where species_name = $1", [adoption_species_name])).rows[0];
+            const alreadyExistSpecies = (await client.query("select species_id from species where species_name = $1", [adoption_species_name])).rows[0];
             if (alreadyExistSpecies) {
-                speciesID = alreadyExistSpecies.id;
+                speciesID = alreadyExistSpecies.species_id;
             } else {
-                speciesID = await client.query("insert into species (pet_type_id, species_name) values ($1, $2) returning id", [
+                speciesID = await client.query("insert into species (pet_type_id, species_name) values ($1, $2) returning species_id", [
                     adoption_pet_type,
                     adoption_species_name
                 ])
-                speciesID = speciesID.rows[0].id;
+                speciesID = speciesID.rows[0].species_id;
             }
         }
 
@@ -192,8 +193,8 @@ async function postPets(req: Request, res: Response) {
             pet_name, 
             pet_type_id, 
             species_id, 
-            gender, 
-            birthday, 
+            pet_gender, 
+            pet_birthday, 
             pet_fine_with_children, 
             pet_fine_with_cat,
             pet_fine_with_dog,
@@ -201,11 +202,11 @@ async function postPets(req: Request, res: Response) {
             pet_know_hygiene,
             pet_know_instruc,
             pet_neutered,
-            description,
-            status,
-            price,
-            created_at,
-            updated_at
+            pet_description,
+            post_status,
+            pet_price,
+            post_created_at,
+            post_updated_at
             ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,now(),now()) returning id`, [
             userID,
             adoption_pet_name,
@@ -225,13 +226,13 @@ async function postPets(req: Request, res: Response) {
             defaultPrice,
         ]);
 
-        const postID = postedResult.rows[0].id;
+        const postID = postedResult.rows[0].post_id;
 
         // insert data to database (post_media)
         if (files) {
             for (let media in files) {
                 const fileName = files[media].newFilename;
-                await client.query(`insert into post_media (file_name, post_id) values ($1,$2)`, [
+                await client.query(`insert into post_media (post_media_file_name, post_id) values ($1,$2)`, [
                     fileName,
                     postID
                 ])
