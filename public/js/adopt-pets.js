@@ -1,13 +1,15 @@
 async function init() {
 
-    let selectedAnimal;
+    let selectedAnimalID = 0;
 
     // query selectors for loading page
     const pet_list = document.querySelector('#pet-list');
     const animal_list = document.querySelector('#animal-list');
+    const species_list = document.querySelector('#species-list');
 
     await adoptPets_loadPets();
     await adoptPets_loadAnimals();
+    await adoptPets_loadSpecies();
 
     // query selectors after loading page
     // const headerSelectorExpander = document.querySelector('#header-selector-expender');
@@ -64,13 +66,12 @@ async function init() {
 
             // prepare html
             let htmlString = `
-                <li class="pet-preview mix animal-${pet.pet_type_id} check1 radio2 option3"
-                style="display: inline-block;">
+                <li class="pet-preview mix" style="display: inline-block;">
                     <img src="/uploads/pet-img/cat.jpg" alt="Image ${i}">
                     <div>編號: ${pet.post_id}</div>
                     <div>名稱: ${pet.pet_name}</div>`
-            if (pet.species_id) {
-                htmlString += `<div>品種: ${pet.species_id}</div>`;
+            if (pet.post_species_id) {
+                htmlString += `<div>品種: ${pet.post_species_id}</div>`;
             } else {
                 htmlString += '<div>品種: 不知道</div>';
             }
@@ -83,8 +84,8 @@ async function init() {
             } else {
                 htmlString += '<div>年齡: 不知道</div>';
             }
-            if (pet.gender) {
-                htmlString += `<div>性別: ${pet.gender}</div>`;
+            if (pet.pet_gender) {
+                htmlString += `<div>性別: ${pet.pet_gender}</div>`;
             } else {
                 htmlString += '<div>性別: 不知道</div>';
             }
@@ -111,13 +112,27 @@ async function init() {
             return;
         }
         animalID = parseInt(animalID);
+        selectedAnimalID = animalID;
 
-        const res = await fetch(`/pets/all-pets/by-pet-type/${animalID}`);
+        const res = await fetch(`/pets/all-pets?pet_type_id=${animalID}`);
         const result = await res.json();
         const pets = result.data;
 
+        // refresh pet-list
         showPetList(pets);
 
+        // change species panel
+        await adoptPets_loadSpecies();
+
+        // set species query selector and event listener
+        const speciesElem = document.querySelector('#species-list > select');
+        speciesElem.addEventListener('change', filterPetsBySpecies);
+
+    }
+
+    function filterPetsBySpecies(event) {
+        // console.log(event.target);
+        console.log(event.target.value);
     }
 
     async function adoptPets_loadPets() {
@@ -126,6 +141,7 @@ async function init() {
         const result = await res.json();
         const pets = result.data;
 
+        // refresh pet-list
         showPetList(pets);
 
     }
@@ -147,15 +163,53 @@ async function init() {
             <li class="filter"><a class="selected" href="#0" data-type="all" id="animal-all">所有</a></li>`
 
         for (let animal of animals) {
-            const id = animal.pet_type_id
-            const type = animal.pet_type_name
+            const id = animal.pet_type_id;
+            const type_name = animal.pet_type_name;
             htmlString += `
             <li class="filter" data-filter=".animal-${id}">
-            <a href="#0" data-type="animal-${id}" id="animal-${id}">${type}</a>
+            <a href="#0" data-type="animal-${id}" id="animal-${id}">${type_name}</a>
             </li>`
         }
 
+        // insert html
         animal_list.innerHTML = htmlString;
+
+    }
+
+    async function adoptPets_loadSpecies() {
+
+        if (selectedAnimalID == 0) {
+            species_list.innerHTML = `
+                <select class="filter" name="selectThis" id="selectThis">
+                    <option value="">選擇品種</option>
+                </select>`
+            return;
+        }
+
+        const res = await fetch(`/pets/pet-type-id/${selectedAnimalID}/species`);
+        const result = await res.json();
+        const species = result.data;
+
+        // clear the list
+        species_list.innerHTML = ""
+
+        // prepare html
+        let htmlString = `
+            <select class="filter" name="selectThis" id="selectThis">
+                <option value="">選擇品種</option>
+                <option value=".species-all">所有品種</option>`;
+
+        for (let specie of species) {
+            const id = specie.species_id;
+            const species_name = specie.species_name;
+            htmlString += `
+                <option value=".species-${id}">${species_name}</option>`
+        }
+
+        htmlString += "</select>"
+
+        // insert html
+        species_list.innerHTML = htmlString;
 
     }
 
