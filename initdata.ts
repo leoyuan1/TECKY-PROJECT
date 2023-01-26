@@ -59,16 +59,18 @@ async function main() {
 
     const post1 = {
         pet_name: "cat1",
-        gender: "m",
+        type: cat_id,
+        gender: "M",
         birthday: "2022-10-22",
         description: "good cat",
         status: "waiting",
         price: 0,
         species_id: persian_cat_id,
     };
-    await client.query("INSERT INTO posts (user_id,pet_name, gender, birthday, description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,now(),now())", [
+    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
         1,
         post1.pet_name,
+        post1.type,
         post1.gender,
         post1.birthday,
         post1.description,
@@ -79,22 +81,24 @@ async function main() {
 
     const post2 = {
         pet_name: "cat2",
-        gender: "m",
+        type: cat_id,
+        gender: "M",
         birthday: "2022-10-22",
         description: "bad cat",
         status: "waiting",
         price: 0,
         species_id: short_tail_cat_id,
     };
-    await client.query("INSERT INTO posts (user_id,pet_name, gender, birthday, description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,now(),now())", [
+    await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
         1,
-        post1.pet_name,
-        post1.gender,
-        post1.birthday,
-        post1.description,
-        post1.status,
-        post1.price,
-        post1.species_id,
+        post2.pet_name,
+        post2.type,
+        post2.gender,
+        post2.birthday,
+        post2.description,
+        post2.status,
+        post2.price,
+        post2.species_id,
     ])
 
     await client.end();

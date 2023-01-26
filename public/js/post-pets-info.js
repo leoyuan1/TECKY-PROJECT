@@ -19,7 +19,7 @@ async function init() {
     postPetElem.addEventListener('submit', postPets);
 
     // functions
-    async function loadPetTypes() {
+    async function postPets_loadPetTypes() {
         const res = await fetch('/pets/types');
         const petTypes = (await res.json()).data;
 
@@ -38,7 +38,7 @@ async function init() {
             return;
         }
 
-        const res = await fetch(`/pets/${petTypeID}/species`);
+        const res = await fetch(`/pets/type-id/${petTypeID}/species`);
         const species = (await res.json()).data;
 
         speciesChoiceElem.innerHTML = "<option value disabled selected hidden>--- 選擇品種 ---</option>";
@@ -100,7 +100,7 @@ async function init() {
 
     }
 
-    await loadPetTypes();
+    await postPets_loadPetTypes();
 
 }
 

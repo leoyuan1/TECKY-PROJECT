@@ -1,9 +1,9 @@
 import express from "express";
 import path from "path";
+import { logger } from './util/logger';
 import { petRoutes } from "./petRoutes";
 import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./login";
-import { logger } from './util/logger';
 import expressSession from "express-session";
 import grant from "grant";
 import { isLoggedIn } from "./util/guard";
@@ -19,9 +19,6 @@ interface Application {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// connect to database
-logger.debug("database is connected.");
 
 // user can upload media
 const grantExpress = grant.express({

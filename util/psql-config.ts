@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 // library for postgreSQL
 import pg from "pg";
 import dotenv from "dotenv";
@@ -10,4 +12,6 @@ export const client = new pg.Client({
     password: process.env.DB_PASSWORD,
 });
 
-client.connect()
+// connect to database
+client.connect();
+logger.debug("Database is connected.");
