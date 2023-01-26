@@ -10,7 +10,7 @@ export const petRoutes = express.Router();
 
 petRoutes.get('/one-pet/:id', getPet);
 petRoutes.get('/all-pets', getPets);
-petRoutes.get('/all-pets/by-pet-type/:id', getPets_by_petType);  // to do
+// petRoutes.get('/all-pets/by-pet-type/:id', getPets_by_petType);
 petRoutes.get('/pet-types', getPetTypes);
 petRoutes.get('/pet-type-id/:id/species', getSpecies);
 petRoutes.post('/', postPets);
@@ -41,18 +41,9 @@ async function getPets(req: Request, res: Response) {
             pet_know_instruc: req.query.pet_know_instruc,
             pet_neutered: req.query.pet_neutered
         }
-        // const petTypeID = req.query.pet_type_id;
-        // const speciesID = req.query.species_id;
-        // const gender = req.query.pet_gender;
-        // const pet_fine_with_children = req.query.pet_fine_with_children;
-        // const pet_fine_with_cat = req.query.pet_fine_with_cat;
-        // const pet_fine_with_dog = req.query.pet_fine_with_dog;
-        // const pet_need_outing = req.query.pet_need_outing;
-        // const pet_know_hygiene = req.query.pet_know_hygiene;
-        // const pet_know_instruc = req.query.pet_know_instruc;
-        // const pet_neutered = req.query.pet_neutered;
 
         // prepare sql string & parameters
+        let sqlParameters = [];
         let sqlString = `
             select * from posts 
             join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
@@ -60,60 +51,19 @@ async function getPets(req: Request, res: Response) {
         if (Object.keys(req.query).length > 0) {
             logger.debug(req.query);
             sqlString += "where ";
-            let count = 0;
             for (let key in queries) {
                 if (queries[key]) {
-                    if (count > 0) { sqlString += "and " }
-                    count++;
-                    sqlString += `${key} = ${queries[key]} `;
+                    if (sqlParameters.length > 0) { sqlString += "and " }
+                    sqlParameters.push(queries[key]);
+                    sqlString += `${key} = $${sqlParameters.length} `;
                 }
             }
         }
-        logger.debug(sqlString);
-        // logger.debug(sqlParameters);
-
-        // if (petTypeID) {
-        //     sqlParameters.push(petTypeID);
-        //     sqlString += `pet_type_id = $${sqlParameters.length} `;
-        // }
-        // if (speciesID) {
-        //     if (sqlParameters.length > 0) { sqlString += "and " }
-        //     sqlParameters.push(speciesID);
-        //     sqlString += `species_id = $${sqlParameters.length} `;
-        // }
-        // if (gender) {
-        //     if (sqlParameters.length > 0) { sqlString += "and " }
-        //     sqlParameters.push(gender);
-        //     sqlString += `pet_gender = $${sqlParameters.length} `;
-        // }
-        // if (pet_fine_with_children) {
-        //     if (sqlParameters.length > 0) { sqlString += "and " }
-        //     sqlParameters.push(pet_fine_with_children);
-        //     sqlString += `pet_fine_with_children = $${sqlParameters.length} `;
-        // }
-        // if (pet_fine_with_cat) {
-        //     if (sqlParameters.length > 0) { sqlString += "and " }
-        //     sqlParameters.push(pet_fine_with_cat);
-        //     sqlString += `pet_fine_with_cat = $${sqlParameters.length} `;
-        // }
-        // if (pet_fine_with_dog) {
-        //     if (sqlParameters.length > 0) { sqlString += "and " }
-        //     sqlParameters.push(pet_fine_with_dog);
-        //     sqlString += `pet_fine_with_dog = $${sqlParameters.length} `;
-        // }
-        // if (pet_need_outing) {
-        //     if (sqlParameters.length > 0) { sqlString += "and " }
-        //     sqlParameters.push(pet_need_outing);
-        //     sqlString += `pet_need_outing = $${sqlParameters.length} `;
-        // }
-        // if (pet_need_outing) {
-        //     if (sqlParameters.length > 0) { sqlString += "and " }
-        //     sqlParameters.push(pet_need_outing);
-        //     sqlString += `pet_need_outing = $${sqlParameters.length} `;
-        // }
+        logger.debug(`sqlString = ${sqlString}`);
+        logger.debug(`sqlParameters = ${sqlParameters}`);
 
         // find data from database
-        const result = await client.query(sqlString);
+        const result = await client.query(sqlString, sqlParameters);
         const pets = result.rows;
 
         // send data to client
@@ -129,29 +79,29 @@ async function getPets(req: Request, res: Response) {
 }
 
 // API --- get Pets (based on pet types)
-async function getPets_by_petType(req: Request, res: Response) {
-    try {
+// async function getPets_by_petType(req: Request, res: Response) {
+//     try {
 
-        // receive data from client
-        const petTypeID = req.params.id;
+//         // receive data from client
+//         const petTypeID = req.params.id;
 
-        // find data from database
-        const result = await client.query("select * from posts where post_pet_type_id = $1", [
-            petTypeID
-        ]);
-        const pets = result.rows;
+//         // find data from database
+//         const result = await client.query("select * from posts where post_pet_type_id = $1", [
+//             petTypeID
+//         ]);
+//         const pets = result.rows;
 
-        // send data to client
-        res.json({
-            data: pets,
-            message: "Get pets success",
-        });
+//         // send data to client
+//         res.json({
+//             data: pets,
+//             message: "Get pets success",
+//         });
 
-    } catch (error) {
-        logger.error("... [PET000] Server error ... " + error);
-        res.status(500).json({ message: "[PET000] Server error" });
-    }
-}
+//     } catch (error) {
+//         logger.error("... [PET000] Server error ... " + error);
+//         res.status(500).json({ message: "[PET000] Server error" });
+//     }
+// }
 
 // API --- get Pet Types
 async function getPetTypes(req: Request, res: Response) {

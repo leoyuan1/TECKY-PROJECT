@@ -96,7 +96,7 @@ async function init() {
         })
 
         const data = await res.json();
-        console.log(data.message);
+        alert(data.message);
 
     }
 
