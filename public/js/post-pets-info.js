@@ -20,13 +20,13 @@ async function init() {
 
     // functions
     async function postPets_loadPetTypes() {
-        const res = await fetch('/pets/types');
+        const res = await fetch('/pets/pet-types');
         const petTypes = (await res.json()).data;
 
         petTypeElem.innerHTML = "<option value disabled selected hidden>--- 請選擇類別 ---</option>";
         petTypeElem.innerHTML += `<option value="">不知道類別</option>`;
         for (let petType of petTypes) {
-            petTypeElem.innerHTML += `<option value="${petType.id}">${petType.type}</option>`;
+            petTypeElem.innerHTML += `<option value="${petType.pet_type_id}">${petType.pet_type_name}</option>`;
         }
 
     }
@@ -38,13 +38,13 @@ async function init() {
             return;
         }
 
-        const res = await fetch(`/pets/type-id/${petTypeID}/species`);
+        const res = await fetch(`/pets/pet-type-id/${petTypeID}/species`);
         const species = (await res.json()).data;
 
         speciesChoiceElem.innerHTML = "<option value disabled selected hidden>--- 選擇品種 ---</option>";
         speciesChoiceElem.innerHTML += `<option value="">不知道品種</option>`;
         for (let each of species) {
-            speciesChoiceElem.innerHTML += `<option value="${each.id}">${each.name}</option>`;
+            speciesChoiceElem.innerHTML += `<option value="${each.species_id}">${each.species_name}</option>`;
         }
         speciesChoiceElem.innerHTML += `<option value="define">自定義品種名稱</option>`;
         showSpeciesNameInputBox();
