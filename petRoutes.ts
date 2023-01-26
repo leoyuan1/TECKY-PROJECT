@@ -32,6 +32,7 @@ async function getPets(req: Request, res: Response) {
         // const petTypeID = req.query.pet_type_id;
         // const speciesID = req.query.species_id;
         // const gender = req.query.pet_gender;
+        // const petFineWithChildren = req.query.pet_fine_with_children;
 
         // find data from database
         const sqlString = `
@@ -207,7 +208,7 @@ async function postPets(req: Request, res: Response) {
             pet_price,
             post_created_at,
             post_updated_at
-            ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,now(),now()) returning id`, [
+            ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,now(),now()) returning post_id`, [
             userID,
             adoption_pet_name,
             adoption_pet_type,

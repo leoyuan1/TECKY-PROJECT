@@ -52,7 +52,7 @@ async function init() {
             // add birthday
             let years = 0;
             let months = 0;
-            if (pet.birthday) {
+            if (pet.pet_birthday) {
                 const now = new Date();
                 const birthday = new Date(pet.pet_birthday);
                 months = monthDiff(birthday, now);
@@ -112,7 +112,7 @@ async function init() {
         }
         animalID = parseInt(animalID);
 
-        const res = await fetch(`/pets/all-pets/by-animal/${animalID}`);
+        const res = await fetch(`/pets/all-pets/by-pet-type/${animalID}`);
         const result = await res.json();
         const pets = result.data;
 
