@@ -45,10 +45,10 @@ app.use(
 app.use(express.static("public"));
 app.use('/', userRoutes)
 app.use('/pets', petRoutes);
-app.use(isLoggedIn, express.static('protect'))
 // static files 
 // app.use(express.static("pet template"));
 app.use(grantExpress as express.RequestHandler);
+app.use(isLoggedIn, express.static('protect'))
 
 // //  404
 // app.use((req, res) => {

@@ -10,6 +10,6 @@ export const isLoggedIn = (
         next()
     } else {
         // redirect to index page
-        res.redirect('/?error=no access right')
+        res.redirect('/')
     }
 }

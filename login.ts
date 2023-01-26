@@ -5,7 +5,7 @@ import { client } from "./util/psql-config";
 import { User } from "./util/session";
 import fetch from 'cross-fetch';
 import crypto from "crypto"
-import session from "express-session";
+// import session from "express-session";
 
 export const userRoutes = express.Router()
 // userRoutes.get('/admin', keepLogin)
@@ -13,7 +13,8 @@ userRoutes.post('/signup', signup)
 userRoutes.post('/login', login)
 userRoutes.get('/login/google', loginGoogle)
 userRoutes.get('/session', isUser)
-userRoutes.post('/setting', changePassword)
+userRoutes.post('/change', changePassword)
+userRoutes.get('/logout', logout)
 
 declare module "express-session" {
     interface SessionData {
@@ -91,7 +92,7 @@ async function signup(req: express.Request, res: express.Response) {
 
 async function login(req: express.Request, res: express.Response) {
     try {
-        let { email, password } = await req.body
+        let { email, password } = req.body
         let selectUserResult = await client.query(`select * from users where email = $1`, [email])
         let foundUser = selectUserResult.rows[0]
         if (!foundUser) {
@@ -149,7 +150,7 @@ async function loginGoogle(req: express.Request, res: express.Response) {
         ).rows[0]
     }
     delete user.password
-    req.session['user'] = user
+    req.session.user = user
     res.redirect('/')
 }
 
@@ -168,9 +169,8 @@ async function loginGoogle(req: express.Request, res: express.Response) {
 // app.use(isLoggedIn, express.static("protected"));
 
 async function changePassword(req: express.Request, res: express.Response) {
-    let { existPassword, NewPassword } = await req.body
-    let existChecking = await existPassword
-    let hashedPassword = await hashPassword(NewPassword)
+    let { existPassword, newPasswordValue } = req.body
+    let hashedPassword = await hashPassword(newPasswordValue)
     if (!req.session.user) {
         res.status(403).json({
             message: 'Not authorized'
@@ -179,18 +179,29 @@ async function changePassword(req: express.Request, res: express.Response) {
     }
     let session = req.session.user
     let existDataPassword = await (await client.query(`select * from users where email = $1`, [session.email])).rows[0]
-    let isPasswordValid = await checkPassword(existChecking, existDataPassword.password)
+    let isPasswordValid = await checkPassword(existPassword, existDataPassword.password)
     if (!isPasswordValid) {
         res.status(404).json({
             message: 'Invalid password'
         })
-
         return
     }
     await client.query(
-        `UPDATE users SET (password, updated_at) VALUES ($1,now()) WHERE email = $2`, [hashedPassword, session.email])
+        `UPDATE users SET password = $1, updated_at = now() WHERE email = $2`, [hashedPassword, existDataPassword.email])
     res.json({
         message: "Updated Password"
     })
 }
 
+function logout(req: express.Request, res: express.Response) {
+    if (!req.session.user) {
+        res.status(403).json({
+            message: 'Not authorized'
+        })
+        return
+    }
+    delete req.session.user
+    res.json({
+        message: 'logout'
+    })
+}

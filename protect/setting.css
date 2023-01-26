@@ -95,15 +95,3 @@ button[disabled] {
         transform: rotate(360deg);
     }
 }
-
-#welcome-btn {
-    display: block;
-}
-
-#setting-btn {
-    display: block
-}
-
-#logout-btn {
-    display: block;
-}

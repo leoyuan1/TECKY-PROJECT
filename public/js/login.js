@@ -1,4 +1,3 @@
-
 const logInFormElm = document.querySelector('.login-btn')
 const logOutElm = document.querySelector('#logout-btn')
 logInFormElm.addEventListener('click', async () => {
@@ -67,3 +66,11 @@ function init() {
     isUser()
 }
 init()
+
+document.querySelector('#logout-btn').addEventListener('click', async () => {
+    let res = await fetch('/logout')
+    let data = await res.json()
+    if (data.message == 'logout') {
+        location.reload('/')
+    }
+})
