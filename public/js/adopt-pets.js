@@ -70,8 +70,13 @@ async function init() {
                     <img src="/uploads/pet-img/cat.jpg" alt="Image ${i}">
                     <div>編號: ${pet.post_id}</div>
                     <div>名稱: ${pet.pet_name}</div>`
+            if (pet.post_pet_type_id) {
+                htmlString += `<div>物種: ${pet.pet_type_name}</div>`;
+            } else {
+                htmlString += '<div>物種: 不知道</div>';
+            }
             if (pet.post_species_id) {
-                htmlString += `<div>品種: ${pet.post_species_id}</div>`;
+                htmlString += `<div>品種: ${pet.species_name}</div>`;
             } else {
                 htmlString += '<div>品種: 不知道</div>';
             }
