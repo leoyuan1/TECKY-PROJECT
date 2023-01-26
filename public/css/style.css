@@ -594,10 +594,14 @@ a:focus {
   display: none;
 }
 
-#setting-btn {
+/* #setting-btn {
   display: none
 }
 
 #logout-btn {
   display: none;
 }
+
+.dropdown {
+  display: none;
+} */

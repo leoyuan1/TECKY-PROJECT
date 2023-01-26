@@ -54,9 +54,7 @@ async function isUser() {
     if (result.message === 'isUser') {
         document.getElementById("login-btn").style.display = "none";
         document.getElementById("welcome-btn").style.display = "block";
-        document.getElementById('welcome-btn').innerHTML = result.user.username;
-        document.getElementById("setting-btn").style.display = "block";
-        document.getElementById("logout-btn").style.display = "block";
+        document.getElementById('navbarDropdownMenuLink').innerHTML = `Welcome ${result.user.username}`;
     } else if (result.message === 'no session data') {
         return
     }
