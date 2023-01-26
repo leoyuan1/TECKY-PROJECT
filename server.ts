@@ -6,6 +6,7 @@ import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./login";
 import expressSession from "express-session";
 import grant from "grant";
+import { isLoggedIn } from "./util/guard";
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -41,12 +42,13 @@ app.use(
         cookie: { secure: false },
     })
 );
+app.use(express.static("public"));
 app.use('/', userRoutes)
 app.use('/pets', petRoutes);
+app.use(isLoggedIn, express.static('protect'))
 // static files 
 // app.use(express.static("pet template"));
 app.use(grantExpress as express.RequestHandler);
-app.use(express.static("public"));
 
 // //  404
 // app.use((req, res) => {

@@ -5,12 +5,15 @@ import { client } from "./util/psql-config";
 import { User } from "./util/session";
 import fetch from 'cross-fetch';
 import crypto from "crypto"
+import session from "express-session";
 
 export const userRoutes = express.Router()
+// userRoutes.get('/admin', keepLogin)
 userRoutes.post('/signup', signup)
 userRoutes.post('/login', login)
 userRoutes.get('/login/google', loginGoogle)
 userRoutes.get('/session', isUser)
+userRoutes.post('/setting', changePassword)
 
 declare module "express-session" {
     interface SessionData {
@@ -21,13 +24,28 @@ declare module "express-session" {
 export async function isUser(req: express.Request, res: express.Response) {
     if (!req.session.user) {
         res.json({
-            message: 'no session data'
+            message: 'no session data',
         })
+        return
     }
     res.json({
-        message: 'isUser'
+        message: 'isUser',
+        user: req.session.user
     })
 }
+
+// export async function keepLogin(req: express.Request, res: express.Response) {
+//     let result = req.session.user
+//     if (!result) {
+//         res.json({
+//             message: 'no session data',
+//         })
+//     }
+//     res.json({
+//         message: 'isUser',
+//         user: req.session.user
+//     })
+// }
 
 async function signup(req: express.Request, res: express.Response) {
     try {
@@ -132,6 +150,47 @@ async function loginGoogle(req: express.Request, res: express.Response) {
     }
     delete user.password
     req.session['user'] = user
-    res.redirect('/admin.html')
+    res.redirect('/')
+}
+
+// const isLoggedIn = (
+//     req: express.Request,
+//     res: express.Response,
+//     next: express.NextFunction
+// ) => {
+//     if (req.session?.user) {
+//         next()
+//     } else {
+//         res.redirect('/?error=no access right')
+//     }
+// };
+// // admin.html should be inside protected
+// app.use(isLoggedIn, express.static("protected"));
+
+async function changePassword(req: express.Request, res: express.Response) {
+    let { existPassword, NewPassword } = await req.body
+    let existChecking = await existPassword
+    let hashedPassword = await hashPassword(NewPassword)
+    if (!req.session.user) {
+        res.status(403).json({
+            message: 'Not authorized'
+        })
+        return
+    }
+    let session = req.session.user
+    let existDataPassword = await (await client.query(`select * from users where email = $1`, [session.email])).rows[0]
+    let isPasswordValid = await checkPassword(existChecking, existDataPassword.password)
+    if (!isPasswordValid) {
+        res.status(404).json({
+            message: 'Invalid password'
+        })
+
+        return
+    }
+    await client.query(
+        `UPDATE users SET (password, updated_at) VALUES ($1,now()) WHERE email = $2`, [hashedPassword, session.email])
+    res.json({
+        message: "Updated Password"
+    })
 }
 
