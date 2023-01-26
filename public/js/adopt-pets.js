@@ -1,5 +1,7 @@
 async function init() {
 
+    console.log('init');
+
     // query selectors for loading page
     const pet_list = document.querySelector('#pet-list');
     const animal_list = document.querySelector('#animal-list');
@@ -14,21 +16,21 @@ async function init() {
     // add event listeners
     // headerSelectorExpander.addEventListener('click', expandSelector);
     for (let animalElem of animalElems) {
-        animalElem.addEventListener('click', getPetsByAnimal);
+        animalElem.addEventListener('click', filterPetsByAnimal);
     }
 
     // for headerSelectorExpander
-    function expandSelector() {
-        if ($('#header-selector').hasClass('collapse')) {
-            $('#header-selector').removeClass('collapse');
-            $('#expender-arrow').removeClass('arrow-down');
-            $('#expender-arrow').addClass('arrow-up');
-        } else {
-            $('#header-selector').addClass('collapse');
-            $('#expender-arrow').removeClass('arrow-up');
-            $('#expender-arrow').addClass('arrow-down');
-        }
-    }
+    // function expandSelector() {
+    //     if ($('#header-selector').hasClass('collapse')) {
+    //         $('#header-selector').removeClass('collapse');
+    //         $('#expender-arrow').removeClass('arrow-down');
+    //         $('#expender-arrow').addClass('arrow-up');
+    //     } else {
+    //         $('#header-selector').addClass('collapse');
+    //         $('#expender-arrow').removeClass('arrow-up');
+    //         $('#expender-arrow').addClass('arrow-down');
+    //     }
+    // }
 
     function monthDiff(d1, d2) {
         let months;
@@ -99,7 +101,7 @@ async function init() {
 
     }
 
-    async function getPetsByAnimal(event) {
+    async function filterPetsByAnimal(event) {
 
         // get animal's ID
         let animalID = event.target.id;
@@ -129,6 +131,7 @@ async function init() {
     }
 
     async function adoptPets_loadAnimals() {
+
         const res = await fetch('/pets/types');
         const result = await res.json();
         const animals = result.data;

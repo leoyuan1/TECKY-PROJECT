@@ -1,7 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { formidablePromise } from './util/formidable';
-
 import { logger } from './util/logger';
 import { client } from './util/psql-config';
 // import { formidablePromise } from "./util/formidable"
@@ -9,6 +8,7 @@ import { client } from './util/psql-config';
 
 export const petRoutes = express.Router();
 
+petRoutes.get('/one-pet/:id', getPet);
 petRoutes.get('/all-pets', getPets);
 petRoutes.get('/all-pets/by-animal/:id', getPets_by_animal);  // to do
 petRoutes.get('/types', getPetTypes);
@@ -17,13 +17,24 @@ petRoutes.post('/', postPets);
 petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
 
+// API --- get Pet (single)
+async function getPet() {
+    // add codes here
+    console.log('getting 1 pet');
+    
+}
 
 // API --- get Pets (all)
 async function getPets(req: Request, res: Response) {
     try {
 
         // find data from database
-        const result = await client.query("select * from posts");
+        const sqlString = `
+            select * from posts 
+	        join pet_types on posts.pet_type_id = pet_types.id
+	        join species on posts.species_id = species.id;
+        `
+        const result = await client.query(sqlString);
         const pets = result.rows;
 
         // send data to client
@@ -38,7 +49,7 @@ async function getPets(req: Request, res: Response) {
     }
 }
 
-// API --- get Pets (based on pet types) to do
+// API --- get Pets (based on pet types)
 async function getPets_by_animal(req: Request, res: Response) {
     try {
 
@@ -276,3 +287,5 @@ async function deletePets(req: Request, res: Response) {
         res.status(500).json({ message: "[MEM020] Server error" });
     }
 }
+
+logger.debug("PetRoutes is connected.");
