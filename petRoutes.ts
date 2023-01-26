@@ -28,6 +28,10 @@ async function getPet() {
 async function getPets(req: Request, res: Response) {
     try {
 
+        // get from query
+        // const animal = req.query.animal;
+        // logger.debug('animal = ', animal)
+
         // find data from database
         const sqlString = `
             select * from posts 
