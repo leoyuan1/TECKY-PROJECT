@@ -41,11 +41,9 @@
     from {
         transform: scale(0)
     }
-
     80% {
         transform: scale(1.05)
     }
-
     to {
         transform: scale(1)
     }
@@ -56,8 +54,9 @@
 }
 
 .pet-preview:hover {
-    transform: scale(1.1);
+    transform: scale(1.06);
 }
+
 
 /* main container css ends */
 

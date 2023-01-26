@@ -1,38 +1,29 @@
 async function init() {
 
-    let selectedAnimalID = 0;
+    let selected = {
+        pet_type_id: null,
+        species_id: null,
+        pet_gender: null
+    }
 
-    // query selectors for loading page
+    // query selectors
     const pet_list = document.querySelector('#pet-list');
     const animal_list = document.querySelector('#animal-list');
     const species_list = document.querySelector('#species-list');
+    const gender_list = document.querySelector('#gender-list');
 
     await adoptPets_loadPets();
     await adoptPets_loadAnimals();
     await adoptPets_loadSpecies();
 
-    // query selectors after loading page
-    // const headerSelectorExpander = document.querySelector('#header-selector-expender');
+    // query selectors after loading animal-list
     const animalElems = document.querySelectorAll('#animal-list .filter > a');
 
     // add event listeners
-    // headerSelectorExpander.addEventListener('click', expandSelector);
     for (let animalElem of animalElems) {
         animalElem.addEventListener('click', filterPetsByAnimal);
     }
-
-    // for headerSelectorExpander
-    // function expandSelector() {
-    //     if ($('#header-selector').hasClass('collapse')) {
-    //         $('#header-selector').removeClass('collapse');
-    //         $('#expender-arrow').removeClass('arrow-down');
-    //         $('#expender-arrow').addClass('arrow-up');
-    //     } else {
-    //         $('#header-selector').addClass('collapse');
-    //         $('#expender-arrow').removeClass('arrow-up');
-    //         $('#expender-arrow').addClass('arrow-down');
-    //     }
-    // }
+    gender_list.addEventListener('change', filterPetsByGender);
 
     function monthDiff(d1, d2) {
         let months;
@@ -42,7 +33,12 @@ async function init() {
         return months <= 0 ? 0 : months;
     }
 
-    function showPetList(pets) {
+    function setSpeciesListener() {
+        const speciesElem = document.querySelector('#species-list > select');
+        speciesElem.addEventListener('change', filterPetsBySpecies);
+    }
+
+    function showPetPreview(pets) {
         // clear the list
         pet_list.innerHTML = ""
 
@@ -112,42 +108,80 @@ async function init() {
         // get animal's ID
         let animalID = event.target.id;
         animalID = animalID.replace('animal-', '');
-        if (animalID == 'all') {
-            await adoptPets_loadPets();
-            return;
+        if (animalID === 'all') {
+            selected.pet_type_id = null;
+        } else {
+            animalID = parseInt(animalID);
+            selected.pet_type_id = animalID;
         }
-        animalID = parseInt(animalID);
-        selectedAnimalID = animalID;
 
-        const res = await fetch(`/pets/all-pets?pet_type_id=${animalID}`);
-        const result = await res.json();
-        const pets = result.data;
-
-        // refresh pet-list
-        showPetList(pets);
+        await adoptPets_loadPets();
 
         // change species panel
         await adoptPets_loadSpecies();
-
-        // set species query selector and event listener
-        const speciesElem = document.querySelector('#species-list > select');
-        speciesElem.addEventListener('change', filterPetsBySpecies);
+        setSpeciesListener();
 
     }
 
-    function filterPetsBySpecies(event) {
-        // console.log(event.target);
-        console.log(event.target.value);
+    async function filterPetsBySpecies(event) {
+
+        // get species' id
+        let speciesID = event.target.value;
+        speciesID = speciesID.replace('species-', '');
+        if (speciesID === 'all') {
+            selected.species_id = null;
+        } else {
+            speciesID = parseInt(speciesID);
+            selected.species_id = speciesID;
+        }
+
+        await adoptPets_loadPets();
+
+    }
+
+    async function filterPetsByGender(event) {
+
+        // get gender
+        let gender = event.target.id;
+        gender = gender.replace('gender-', '');
+        if (gender === 'all') {
+            selected.pet_gender = null;
+        } else {
+            selected.pet_gender = gender;
+        }
+
+        await adoptPets_loadPets();
+
     }
 
     async function adoptPets_loadPets() {
 
-        const res = await fetch('/pets/all-pets');
+        let fetchString = "/pets/all-pets";
+        console.log("selected = ", selected);
+
+        // check if there are any filters selected
+        let queryAdded = 0;
+        for (let selectedKey in selected) {
+            if (selected[selectedKey]) {
+                if (queryAdded === 0) {
+                    fetchString += '?';
+                }
+                if (queryAdded > 0) {
+                    fetchString += '&';
+                }
+                fetchString += `${selectedKey}=${selected[selectedKey]}`;
+                queryAdded++;
+            }
+        }
+
+        console.log(fetchString);
+
+        const res = await fetch(fetchString);
         const result = await res.json();
         const pets = result.data;
 
         // refresh pet-list
-        showPetList(pets);
+        showPetPreview(pets);
 
     }
 
@@ -183,7 +217,7 @@ async function init() {
 
     async function adoptPets_loadSpecies() {
 
-        if (selectedAnimalID == 0) {
+        if (!selected.pet_type_id) {  // if animal has not been selected, then do the following
             species_list.innerHTML = `
                 <select class="filter" name="selectThis" id="selectThis">
                     <option value="">選擇品種</option>
@@ -191,7 +225,7 @@ async function init() {
             return;
         }
 
-        const res = await fetch(`/pets/pet-type-id/${selectedAnimalID}/species`);
+        const res = await fetch(`/pets/pet-type-id/${selected.pet_type_id}/species`);
         const result = await res.json();
         const species = result.data;
 
@@ -202,13 +236,13 @@ async function init() {
         let htmlString = `
             <select class="filter" name="selectThis" id="selectThis">
                 <option value="">選擇品種</option>
-                <option value=".species-all">所有品種</option>`;
+                <option value="species-all">所有品種</option>`;
 
         for (let specie of species) {
             const id = specie.species_id;
             const species_name = specie.species_name;
             htmlString += `
-                <option value=".species-${id}">${species_name}</option>`
+                <option value="species-${id}">${species_name}</option>`
         }
 
         htmlString += "</select>"
