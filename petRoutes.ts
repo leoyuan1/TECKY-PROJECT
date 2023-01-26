@@ -29,8 +29,8 @@ async function getPets(req: Request, res: Response) {
     try {
 
         // get from query
-        // const animal = req.query.animal;
-        // logger.debug('animal = ', animal)
+        const animal = req.query.animal;
+        logger.debug('animal = ', animal);
 
         // find data from database
         const sqlString = `
@@ -107,7 +107,7 @@ async function getSpecies(req: Request, res: Response) {
         const petTypeID = req.params.id;
 
         // find data from database
-        const result = await client.query("select id, name from species where pet_type_id = $1", [petTypeID]);
+        const result = await client.query("select id, soecies_name from species where pet_type_id = $1", [petTypeID]);
         const species = result.rows;
 
         // send data to client
@@ -157,11 +157,11 @@ async function postPets(req: Request, res: Response) {
         // prepare species id
         let speciesID = adoption_species_choice;
         if (speciesID == 'define') {
-            const alreadyExistSpecies = (await client.query("select id from species where name = $1", [adoption_species_name])).rows[0];
+            const alreadyExistSpecies = (await client.query("select id from species where species_name = $1", [adoption_species_name])).rows[0];
             if (alreadyExistSpecies) {
                 speciesID = alreadyExistSpecies.id;
             } else {
-                speciesID = await client.query("insert into species (pet_type_id, name) values ($1, $2) returning id", [
+                speciesID = await client.query("insert into species (pet_type_id, species_name) values ($1, $2) returning id", [
                     adoption_pet_type,
                     adoption_species_name
                 ])

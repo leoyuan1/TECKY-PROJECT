@@ -1,7 +1,5 @@
 async function init() {
 
-    console.log('init');
-
     // query selectors for loading page
     const pet_list = document.querySelector('#pet-list');
     const animal_list = document.querySelector('#animal-list');
