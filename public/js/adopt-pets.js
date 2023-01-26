@@ -64,13 +64,12 @@ async function init() {
 
             // prepare html
             let htmlString = `
-                <li class="pet-preview mix animal-${pet.pet_type_id} check1 radio2 option3"
-                style="display: inline-block;">
+                <li class="pet-preview mix" style="display: inline-block;">
                     <img src="/uploads/pet-img/cat.jpg" alt="Image ${i}">
                     <div>編號: ${pet.post_id}</div>
                     <div>名稱: ${pet.pet_name}</div>`
-            if (pet.species_id) {
-                htmlString += `<div>品種: ${pet.species_id}</div>`;
+            if (pet.post_species_id) {
+                htmlString += `<div>品種: ${pet.post_species_id}</div>`;
             } else {
                 htmlString += '<div>品種: 不知道</div>';
             }
@@ -83,8 +82,8 @@ async function init() {
             } else {
                 htmlString += '<div>年齡: 不知道</div>';
             }
-            if (pet.gender) {
-                htmlString += `<div>性別: ${pet.gender}</div>`;
+            if (pet.pet_gender) {
+                htmlString += `<div>性別: ${pet.pet_gender}</div>`;
             } else {
                 htmlString += '<div>性別: 不知道</div>';
             }

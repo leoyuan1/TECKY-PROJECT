@@ -605,7 +605,7 @@ xcustom form elements
   /* check mark - hidden */
   display: none;
 }
-.cd-filter-block .checkbox-label::after {
+.cd-filter-block .checkbox-label::before {
   /* check mark style for check boxes */
   width: 16px;
   height: 16px;

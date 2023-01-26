@@ -21,7 +21,7 @@ petRoutes.delete('/:id', deletePets);
 async function getPet() {
     // add codes here
     console.log('getting 1 pet');
-    
+
 }
 
 // API --- get Pets (all)
@@ -29,17 +29,90 @@ async function getPets(req: Request, res: Response) {
     try {
 
         // get filtered info from query
+        const queries = {
+            post_pet_type_id: req.query.pet_type_id,
+            post_species_id: req.query.species_id,
+            pet_gender: req.query.pet_gender,
+            pet_fine_with_children: req.query.pet_fine_with_children,
+            pet_fine_with_cat: req.query.pet_fine_with_cat,
+            pet_fine_with_dog: req.query.pet_fine_with_dog,
+            pet_need_outing: req.query.pet_need_outing,
+            pet_know_hygiene: req.query.pet_know_hygiene,
+            pet_know_instruc: req.query.pet_know_instruc,
+            pet_neutered: req.query.pet_neutered
+        }
         // const petTypeID = req.query.pet_type_id;
         // const speciesID = req.query.species_id;
         // const gender = req.query.pet_gender;
-        // const petFineWithChildren = req.query.pet_fine_with_children;
+        // const pet_fine_with_children = req.query.pet_fine_with_children;
+        // const pet_fine_with_cat = req.query.pet_fine_with_cat;
+        // const pet_fine_with_dog = req.query.pet_fine_with_dog;
+        // const pet_need_outing = req.query.pet_need_outing;
+        // const pet_know_hygiene = req.query.pet_know_hygiene;
+        // const pet_know_instruc = req.query.pet_know_instruc;
+        // const pet_neutered = req.query.pet_neutered;
+
+        // prepare sql string & parameters
+        let sqlString = `
+            select * from posts 
+            join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
+            join species on posts.post_species_id = species.species_id `
+        if (Object.keys(req.query).length > 0) {
+            logger.debug(req.query);
+            sqlString += "where ";
+            let count = 0;
+            for (let key in queries) {
+                if (queries[key]) {
+                    if (count > 0) { sqlString += "and " }
+                    count++;
+                    sqlString += `${key} = ${queries[key]} `;
+                }
+            }
+        }
+        logger.debug(sqlString);
+        // logger.debug(sqlParameters);
+
+        // if (petTypeID) {
+        //     sqlParameters.push(petTypeID);
+        //     sqlString += `pet_type_id = $${sqlParameters.length} `;
+        // }
+        // if (speciesID) {
+        //     if (sqlParameters.length > 0) { sqlString += "and " }
+        //     sqlParameters.push(speciesID);
+        //     sqlString += `species_id = $${sqlParameters.length} `;
+        // }
+        // if (gender) {
+        //     if (sqlParameters.length > 0) { sqlString += "and " }
+        //     sqlParameters.push(gender);
+        //     sqlString += `pet_gender = $${sqlParameters.length} `;
+        // }
+        // if (pet_fine_with_children) {
+        //     if (sqlParameters.length > 0) { sqlString += "and " }
+        //     sqlParameters.push(pet_fine_with_children);
+        //     sqlString += `pet_fine_with_children = $${sqlParameters.length} `;
+        // }
+        // if (pet_fine_with_cat) {
+        //     if (sqlParameters.length > 0) { sqlString += "and " }
+        //     sqlParameters.push(pet_fine_with_cat);
+        //     sqlString += `pet_fine_with_cat = $${sqlParameters.length} `;
+        // }
+        // if (pet_fine_with_dog) {
+        //     if (sqlParameters.length > 0) { sqlString += "and " }
+        //     sqlParameters.push(pet_fine_with_dog);
+        //     sqlString += `pet_fine_with_dog = $${sqlParameters.length} `;
+        // }
+        // if (pet_need_outing) {
+        //     if (sqlParameters.length > 0) { sqlString += "and " }
+        //     sqlParameters.push(pet_need_outing);
+        //     sqlString += `pet_need_outing = $${sqlParameters.length} `;
+        // }
+        // if (pet_need_outing) {
+        //     if (sqlParameters.length > 0) { sqlString += "and " }
+        //     sqlParameters.push(pet_need_outing);
+        //     sqlString += `pet_need_outing = $${sqlParameters.length} `;
+        // }
 
         // find data from database
-        const sqlString = `
-            select * from posts 
-	        join pet_types on posts.pet_type_id = pet_types.pet_type_id
-	        join species on posts.species_id = species.species_id;
-        `
         const result = await client.query(sqlString);
         const pets = result.rows;
 
@@ -63,7 +136,7 @@ async function getPets_by_petType(req: Request, res: Response) {
         const petTypeID = req.params.id;
 
         // find data from database
-        const result = await client.query("select * from posts where pet_type_id = $1", [
+        const result = await client.query("select * from posts where post_pet_type_id = $1", [
             petTypeID
         ]);
         const pets = result.rows;
@@ -109,7 +182,7 @@ async function getSpecies(req: Request, res: Response) {
         const petTypeID = req.params.id;
 
         // find data from database
-        const result = await client.query("select species_id, species_name from species where pet_type_id = $1", [petTypeID]);
+        const result = await client.query("select species_id, species_name from species where species_pet_type_id = $1", [petTypeID]);
         const species = result.rows;
 
         // send data to client
@@ -190,10 +263,10 @@ async function postPets(req: Request, res: Response) {
 
         // insert data to database (posts)
         const postedResult = await client.query(`insert into posts (
-            user_id, 
+            post_user_id, 
             pet_name, 
-            pet_type_id, 
-            species_id, 
+            post_pet_type_id, 
+            post_species_id, 
             pet_gender, 
             pet_birthday, 
             pet_fine_with_children, 
