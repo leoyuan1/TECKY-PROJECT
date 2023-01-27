@@ -130,7 +130,7 @@ const newPostformElm = document.querySelector('#postaddbtn')
 //         Swal.fire(text)
 //     }
 newPostformElm.addEventListener('click', async () => {
-    const { value: text } = await Swal.fire({
+    const { value: text, } = await Swal.fire({
         input: 'textarea',
         inputLabel: 'Message',
         inputPlaceholder: 'Type your message here...',
@@ -151,17 +151,16 @@ newPostformElm.addEventListener('click', async () => {
             'aria-label': 'Upload your profile picture'
         }
     })
-
-    if (file) {
-        const reader = new FileReader()
-        reader.onload = (e) => {
-            Swal.fire({
-                title: 'Your uploaded picture',
-                imageUrl: e.target.result,
-                imageAlt: 'The uploaded picture'
-            })
-        }
-        reader.readAsDataURL(file)
-    }
-
 })
+
+if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+        Swal.fire({
+            title: 'Your uploaded picture',
+            imageUrl: e.target.result,
+            imageAlt: 'The uploaded picture'
+        })
+    }
+    reader.readAsDataURL(file)
+}
