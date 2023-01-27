@@ -96,3 +96,11 @@ CREATE table community_messages (
     created_at date DEFAULT now(),
     updated_at date DEFAULT now()
 );
+CREATE table post_request(
+    id SERIAL primary key,
+    post_id INTEGER not null,
+    FOREIGN key (post_id) REFERENCES post_id,
+    from_id INTEGER not null,
+    to_id INTEGER not null,
+    created_at date DEFAULT now()
+)

@@ -336,7 +336,6 @@ declare module "express-session" {
 async function postedPets(req: Request, res: Response) {
     try {
         let session = req.session.user
-        console.log(session);
 
         if (!session) {
             res.json({
@@ -344,11 +343,8 @@ async function postedPets(req: Request, res: Response) {
             })
             return
         }
-        let existingUser = (await client.query('select * from users where username = $1', [session.email])).rows[0]
-        console.log(existingUser);
-
-        let getPostData = (await client.query('select * from posts where post_user_id = $1', [existingUser.user_id])).rows
-
+        let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
+        let getPostData = (await client.query('select * from posts where post_user_id = $1', [existingUser.post_user_id])).rows
         if (!getPostData) {
             res.json({
                 message: "no post"
@@ -356,8 +352,8 @@ async function postedPets(req: Request, res: Response) {
             return
         }
         res.json({
-            Message: 'Post Data',
-            PostData: getPostData
+            message: 'Post Data',
+            postData: getPostData
         })
     } catch (error) {
         console.log(error)
