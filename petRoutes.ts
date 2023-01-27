@@ -183,9 +183,18 @@ async function postPets(req: Request, res: Response) {
         // receive data from client
         const { fields, files } = await formidablePromise(req);
 
+        // process fields, make empty field null
+        let fields_processed = fields;
+        for (let key in fields_processed) {
+            if (!fields_processed[key]) {
+                fields_processed[key] = null;
+            }
+        }
+
         // prepare data
         const userID = 1;
-        const {
+
+        let {
 
             adoption_pet_name,
             adoption_pet_type,
@@ -205,7 +214,17 @@ async function postPets(req: Request, res: Response) {
 
             adoption_pet_other_info
 
-        } = fields;
+        } = fields_processed;
+
+        console.log('fields_processed = ', fields_processed);
+
+        if (adoption_pet_name == null) {
+            console.log('null pet name');
+            res.json({
+                message: "pet name shall be provided",
+            });
+            return;
+        }
 
         // prepare species id
         let speciesID = adoption_species_choice;
@@ -221,8 +240,17 @@ async function postPets(req: Request, res: Response) {
                 speciesID = speciesID.rows[0].id;
             }
         }
+        // if (!speciesID) {
+        //     speciesID = null;
+        // }
         console.log('species id = ', speciesID);
-        
+
+        // prepare type id
+        // let typeID = adoption_pet_type;
+        // if (!typeID) {
+        //     typeID = null;
+        // }
+        // console.log('type id = ', typeID);
 
         // prepare birthday
         let now = new Date();
