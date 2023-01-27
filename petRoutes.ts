@@ -360,7 +360,6 @@ declare module "express-session" {
 async function postedPets(req: Request, res: Response) {
     try {
         let session = req.session.user
-        console.log(session);
 
         if (!session) {
             res.json({
@@ -380,8 +379,8 @@ async function postedPets(req: Request, res: Response) {
             return
         }
         res.json({
-            Message: 'Post Data',
-            PostData: getPostData
+            message: 'Post Data',
+            postData: getPostData
         })
     } catch (error) {
         console.log(error)

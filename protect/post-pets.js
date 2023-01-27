@@ -26,21 +26,35 @@
 
 async function postData() {
     let res = await fetch('/pets/posted-pets')
-    let data = res.json()
+    let data = await res.json()
     if (data.message == 'no post') {
         return
     }
     let dataResults = data.postData
     for (let dataResult of dataResults) {
-        document.querySelector('#post-table > table').innerHTML += `
+        if (dataResult.post_status == 'hidden') {
+            document.querySelector('#post-table').innerHTML += `
+                <tr>
+                    <td class="name-col">${dataResult.pet_name}</td>
+                    <td class="add-date-col">${dataResult.post_created_at}</td>
+                    <td class="status-col">${dataResult.post_status}</td>
+                    <td class="buttons-col"><i class="fa-sharp fa-solid fa-circle-check"></i></td>
+                </tr>
+                `
+        } else {
+            document.querySelector('#post-table').innerHTML += `
             <tr>
                 <td class="name-col">${dataResult.pet_name}</td>
                 <td class="add-date-col">${dataResult.post_created_at}</td>
                 <td class="status-col">${dataResult.post_status}</td>
-                <td class="buttons-col"><i class="fa-sharp fa-solid fa-circle-check"></i><i class="fa-solid fa-circle-xmark"></i></td>
+                <td class="buttons-col"><i class="fa-solid fa-circle-xmark"></i></td>
             </tr>
             `
+        }
     }
 }
 
-postData()
+function init() {
+    postData()
+}
+init()
