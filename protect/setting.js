@@ -1,38 +1,48 @@
-let existPassword = document.getElementById("existPassword")
-let newPassword = document.getElementById("password")
+let existPassword = document.getElementById("existPassword");
+let newPassword = document.getElementById("password");
 let confirmPassword = document.getElementById("confirmPassword");
 let changePasswordFunction = document.querySelector('#submitButton')
-newPassword.onchange = validatePassword;
-confirmPassword.onkeyup = validatePassword;
 
 
 function validatePassword() {
     if (newPassword.value != confirmPassword.value) {
+        // console.log('testing1');
         confirmPassword.setCustomValidity("Passwords Don't Match");
         return false;
     } else if (existPassword == newPassword) {
-        confirmPassword.setCustomValidity("Exist Password and New Password Should not be a same");
+        // console.log('testing2');
+        newPassword.setCustomValidity("Exist Password and New Password Should not be a same");
         return false;
     } else {
-        confirmPassword.setCustomValidity('');
+        // console.log('testing3');
+        existPassword.setCustomValidity('');
         return true;
     }
 }
 
-newPassword.onchange = validatePassword;
-confirmPassword.onkeyup = validatePassword;
-
+// function validatePassword() {
+//     if (password.value != confirm_password.value) {
+//         console.log('testing');
+//         confirm_password.setCustomValidity("Passwords Don't Match");
+//         return false;
+//     } else {
+//         console.log('testing');
+//         confirm_password.setCustomValidity('');
+//         return true;
+//     }
+// }
 
 changePasswordFunction.addEventListener("click", async (e) => {
     e.preventDefault()
-    if (!newPassword.value || !confirmPassword.value || !existPassword.value) {
+    if (!document.querySelector('form').reportValidity()) return;
+    if (!validatePassword()) {
+        document.querySelector('form').reportValidity()
         return
     }
-    let newPasswordValue = newPassword.value
-    let existPasswordValue = existPassword.value
+
     let result = {
-        existPassword: `${existPasswordValue}`,
-        newPasswordValue: `${newPasswordValue}`
+        existPassword: `${newPassword.value}`,
+        newPasswordValue: `${existPassword.value}`
     }
     let res = await fetch("/change", {
         method: 'post',
@@ -50,7 +60,6 @@ changePasswordFunction.addEventListener("click", async (e) => {
         location.reload('/setting')
     }
 })
-
 
 // async function isUser() {
 //     let res = await fetch('/session')

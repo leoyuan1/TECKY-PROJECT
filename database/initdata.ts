@@ -22,7 +22,7 @@ async function main() {
     await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,now(),now())", [
         user1.email,
         user1.username,
-        user1.password,
+        user1.password
     ]);
 
     const pet_types = {
