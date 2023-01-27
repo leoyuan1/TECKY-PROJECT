@@ -2,7 +2,7 @@ import formidable from "formidable";
 import express from "express";
 import fs from "fs";
 
-const uploadDir = "uploads";
+const uploadDir = "uploads/pet-img";
 fs.mkdirSync(uploadDir, { recursive: true });
 
 export const form = formidable({

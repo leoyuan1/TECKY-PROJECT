@@ -1,8 +1,8 @@
 import pg from "pg";
 import dotenv from "dotenv";
+import { cli } from "winston/lib/winston/config";
 
 dotenv.config();
-
 
 const client = new pg.Client({
     database: process.env.DB_NAME,
@@ -14,6 +14,7 @@ async function main() {
     await client.connect();
     console.log('database is connected')
 
+    // add user
     const user1 = {
         email: "testing@gmail.com",
         username: "testname",
@@ -25,6 +26,7 @@ async function main() {
         user1.password,
     ]);
 
+    // add pet types
     const pet_types = {
         type1: "貓",
         type2: "狗",
@@ -91,7 +93,7 @@ async function main() {
         price: 0,
         species_id: cat_species1_id,
     };
-    await client.query("INSERT INTO posts (post_user_id, pet_name, post_pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, post_species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
+    const post1_id = (await client.query("INSERT INTO posts (post_user_id, pet_name, post_pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, post_species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now()) returning post_id", [
         1,
         post1.pet_name,
         post1.type,
@@ -101,7 +103,7 @@ async function main() {
         post1.status,
         post1.price,
         post1.species_id,
-    ])
+    ])).rows[0].post_id;
 
     const post2 = {
         pet_name: "cat2",
@@ -113,7 +115,7 @@ async function main() {
         price: 0,
         species_id: cat_species2_id,
     };
-    await client.query("INSERT INTO posts (post_user_id, pet_name, post_pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, post_species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
+    const post2_id = (await client.query("INSERT INTO posts (post_user_id, pet_name, post_pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, post_species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now()) returning post_id", [
         1,
         post2.pet_name,
         post2.type,
@@ -123,7 +125,7 @@ async function main() {
         post2.status,
         post2.price,
         post2.species_id,
-    ])
+    ])).rows[0].post_id;
 
     const post3 = {
         pet_name: "dog1",
@@ -135,7 +137,7 @@ async function main() {
         price: 0,
         species_id: dog_species1_id,
     };
-    await client.query("INSERT INTO posts (post_user_id, pet_name, post_pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, post_species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now())", [
+    const post3_id = (await client.query("INSERT INTO posts (post_user_id, pet_name, post_pet_type_id, pet_gender, pet_birthday, pet_description, post_status, pet_price, post_species_id, post_created_at, post_updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now()) returning post_id", [
         1,
         post3.pet_name,
         post3.type,
@@ -145,7 +147,52 @@ async function main() {
         post3.status,
         post3.price,
         post3.species_id,
-    ])
+    ])).rows[0].post_id;
+
+    // add post media
+    const post_media1 = {
+        post_media_file_name: "cat1a.jpg",
+        post_media_post_id: post1_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (post_media_file_name, post_media_post_id, post_media_type) values ($1,$2,$3)", [
+        post_media1.post_media_file_name,
+        post_media1.post_media_post_id,
+        post_media1.post_media_type
+    ]);
+
+    const post_media2 = {
+        post_media_file_name: "cat1b.jpg",
+        post_media_post_id: post1_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (post_media_file_name, post_media_post_id, post_media_type) values ($1,$2,$3)", [
+        post_media2.post_media_file_name,
+        post_media2.post_media_post_id,
+        post_media2.post_media_type
+    ]);
+
+    const post_media3 = {
+        post_media_file_name: "cat2.jpg",
+        post_media_post_id: post2_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (post_media_file_name, post_media_post_id, post_media_type) values ($1,$2,$3)", [
+        post_media3.post_media_file_name,
+        post_media3.post_media_post_id,
+        post_media3.post_media_type
+    ]);
+
+    const post_media4 = {
+        post_media_file_name: "dog1.jpg",
+        post_media_post_id: post3_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (post_media_file_name, post_media_post_id, post_media_type) values ($1,$2,$3)", [
+        post_media4.post_media_file_name,
+        post_media4.post_media_post_id,
+        post_media4.post_media_type
+    ]);
 
     await client.end();
 

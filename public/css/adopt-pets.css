@@ -53,6 +53,9 @@
 
 .pet-preview img {
     margin-bottom: 5px;
+    height: 15rem;
+    width: 15rem;
+    object-fit: cover;
 }
 
 .pet-preview:hover {
@@ -435,7 +438,8 @@ Main Components
 
     .cd-gallery li {
         width: 48%;
-        margin-bottom: 1em;
+        /* margin-bottom: 1em; */
+        margin: 0 5px 5px 5px;
     }
 }
 

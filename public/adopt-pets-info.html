@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Pet Adopt</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.css"
+    integrity="sha512-JzSVRb7c802/njMbV97pjo1wuJAE/6v9CvthGTDxiaZij/TFpPQmQPTcdXyUVucsvLtJBT6YwRb5LhVxX3pQHQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+
+  <!-- content-filter-master's style -->
+  <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'> -->
+  <!-- <link rel="stylesheet" href="content-filter-master/css/reset.css"> -->
+  <!-- <link rel="stylesheet" href="content-filter-master/css/style.css"> -->
+
+  <!-- unique style for adopt-pets section -->
+  <link href="css/adopt-pets.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <div class="hero_area">
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <img src="images/logo.png" alt="">
+            <span>
+              Pet Adopt
+            </span>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="post-pets.html">Post Pets</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="./community/index.html">Community</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="donate.html">Donate</a>
+                </li>
+                <li class="nav-item dropdown" id="welcome-btn">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    UserName
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+                    <a class="dropdown-item" href="setting.html" id="setting-btn">Setting</a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a type="button" class="login-btn nav-link" id="login-btn">LogIn/SignUp</a>
+                </li>
+              </ul>
+            </div>
+            <div class="quote_btn-container  d-flex justify-content-center">
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+
+    <!-- list section -->
+    <div class="animal_section">
+
+      <div class="banner">待領養動物</div>
+
+      <div class="page-background" id="adoption-details-page-background">
+        <div id="left-col">
+          <div class="owl-carousel owl-loaded owl-drag" id="adoption_item_image_slider" style="height: 383.547px;">
+
+
+
+
+            <div class="owl-stage-outer">
+              <div class="owl-stage"
+                style="transform: translate3d(0px, 0px, 0px); transition: all 0.25s ease 0s; width: 768px;">
+                <div class="owl-item active" style="width: 383.547px;">
+                  <div class="adoption-details-img-box"
+                    style="background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(&quot;../../image/adoption/20221109/6126_1_1668003297_3b79e65a349db1d219ae49262657006d.jpg&quot;); height: 383.547px;">
+                  </div>
+                </div>
+                <div class="owl-item" style="width: 383.547px;">
+                  <div class="adoption-details-img-box"
+                    style="background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(&quot;../../image/adoption/20221109/6126_2_1668003297_41d08dae7d9acdcd0f2646b5923924af.jpg&quot;); height: 383.547px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="owl-nav">
+              <div class="owl-prev disabled"></div>
+              <div class="owl-next"></div>
+            </div>
+            <div class="owl-dots disabled"></div>
+          </div>
+          <br>
+        </div>
+        <div id="right-col">
+          <div class="adoption_item_info_box">
+            <label class="adoption-details-label"> 刊登日期 </label><br>
+            <span class="adoption-details-info"> 2022-11-09 </span><br><br>
+            <label class="adoption-details-label"> 名稱/標題 </label><br>
+            <span class="adoption-details-info"> 琪琪待領養 </span><br><br>
+            <label class="adoption-details-label"> 品種 </label><br>
+            <span class="adoption-details-info">
+              <img class="type-img-small" src="icons/adoption-icons/cat-icon.svg">
+              唐貓
+            </span><br><br>
+            <label class="adoption-details-label"> 性別 </label><br>
+            <span class="adoption-details-info"><img class="gender-img" src="icons/adoption-icons/girl.svg">
+              女</span><br><br>
+            <label class="adoption-details-label"> 年齡 </label><br>
+            <span class="adoption-details-info">
+              3歲
+            </span><br><br>
+            <label class="adoption-details-label"> 基本資料 </label><br>
+            <span class="adoption-details-info">可與小孩子相處</span><br>
+            <span class="adoption-details-info">可與貓咪相處</span><br>
+            <span class="adoption-details-info">已絕育</span><br> <br>
+            <label class="adoption-details-label"> 其他資料 </label><br>
+            <span class="adoption-details-info"> 琪琪
+              大約3歲，女
+              齊針，已絕育
+              乖，可以摸
+              可以夾貓
+              領養需要家訪，裝穩固窗網 </span><br><br>
+          </div>
+          <form class="button-center" action="adoption_form.php?adoption_item_id=841" method="post">
+            <br>
+            <input type="hidden" name="adoption_item_id" value="841">
+            <a href="adoption_home.php?adoption_item_id=841" class="form-back-button btn"
+              role="button"><strong>返回</strong></a>
+            <button class="form-submit-button "><strong>領養我</strong></button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <!-- end list section -->
+
+  </div>
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+
+  <!-- my JS -->
+  <script type="module" src="js/adopt-pets-info.js"></script>
+
+  <!-- Login alart -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.js"
+    integrity="sha512-IYzd4A07K9kxY3b8YIXi8L0BmUPVvPlI+YpLOzKrIKA3sQ4gt43dYp+y6ip7C7LRLXYfMHikpxeprZh7dYQn+g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/js/login.js"></script>
+  <script src="/js/signup.js"></script>
+  <!-- Login alart -->
+
+
+</body>
+</body>
+
+</html>
