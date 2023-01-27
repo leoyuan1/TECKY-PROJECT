@@ -1,5 +1,7 @@
 async function init() {
 
+    const defaultImage = 'unknown_animal.jpg';
+
     let selected = {
         pet_type_id: null,
         species_id: null,
@@ -87,8 +89,9 @@ async function init() {
             let htmlString = `<li class="pet-preview mix" style="display: inline-block;">`
 
             if (images.length > 0) {
-                console.log(images[0]);
                 htmlString += `<img src="/pet-img/${images[0]}" alt="Image ${i}" class="center">`;
+            } else {
+                htmlString += `<img src="/pet-img/${defaultImage}" alt="Image ${i}" class="center">`;
             }
 
             htmlString += `

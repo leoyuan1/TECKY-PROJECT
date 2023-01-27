@@ -256,9 +256,7 @@ async function postPets(req: Request, res: Response) {
         // insert data to database (post_media)
         if (files) {
             for (let key in files) {
-                // console.log(files[key]);
                 const media_type = files[key].mimetype.split('/')[0];
-
                 const fileName = files[key].newFilename;
                 await client.query(`insert into post_media (post_media_file_name, post_media_post_id, post_media_type) values ($1,$2,$3)`, [
                     fileName,
