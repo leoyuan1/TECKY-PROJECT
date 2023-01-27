@@ -41,9 +41,11 @@
     from {
         transform: scale(0)
     }
+
     80% {
         transform: scale(1.05)
     }
+
     to {
         transform: scale(1)
     }
@@ -742,11 +744,13 @@ Main Components
     /* hide original check and radio buttons */
     position: absolute;
     left: 0;
-    top: 0;
+    top: 5px;
     margin: 0;
     padding: 0;
     opacity: 0;
     z-index: 2;
+    width: 15px;
+    height: 15px;
 }
 
 .cd-filter-block .checkbox-label,

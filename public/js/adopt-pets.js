@@ -4,13 +4,13 @@ async function init() {
         pet_type_id: null,
         species_id: null,
         pet_gender: null,
-        pet_fine_with_children: null,
-        pet_fine_with_cat: null,
-        pet_fine_with_dog: null,
-        pet_need_outing: null,
-        pet_know_hygiene: null,
-        pet_know_instruc: null,
-        pet_neutered: null
+        pet_fine_with_children: false,
+        pet_fine_with_cat: false,
+        pet_fine_with_dog: false,
+        pet_need_outing: false,
+        pet_know_hygiene: false,
+        pet_know_instruc: false,
+        pet_neutered: false
     }
 
     // query selectors
@@ -169,10 +169,14 @@ async function init() {
     async function filterPetsByFeatures(event) {
 
         // get features
-        const feature = event.target;
-        console.log(feature);
+        // const feature = event.target;
+        // console.log(feature);
+        // feature.classList.toggle('checked');
 
-        feature.classList.toggle('checked');
+        const feature = event.target.id;
+        selected[feature] = !selected[feature];
+
+        await adoptPets_loadPets();
         
     }
 
