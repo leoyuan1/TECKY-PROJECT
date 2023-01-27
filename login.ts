@@ -74,7 +74,7 @@ async function signup(req: express.Request, res: express.Response) {
         let fileName = files.image ? files.image['newFilename'] : ''
 
         let hashedPassword = await hashPassword(fields.password)
-        const writeData = await client.query('INSERT INTO users (email,password,icon,username,created_at,updated_at) values ($1,$2,$3,$4,now(),now())',
+        await client.query('INSERT INTO users (email,password,icon,username,created_at,updated_at) values ($1,$2,$3,$4,now(),now())',
             [fields.email,
                 hashedPassword,
                 fileName,
@@ -178,7 +178,7 @@ async function changePassword(req: express.Request, res: express.Response) {
         return
     }
     let session = req.session.user
-    let existDataPassword = await (await client.query(`select * from users where email = $1`, [session.email])).rows[0]
+    let existDataPassword = (await client.query(`select * from users where email = $1`, [session.email])).rows[0]
     let isPasswordValid = await checkPassword(existPassword, existDataPassword.password)
     if (!isPasswordValid) {
         res.status(404).json({

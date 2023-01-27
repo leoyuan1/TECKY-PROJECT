@@ -19,22 +19,22 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
 
   <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
 
   <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
+  <link href="/css/responsive.css" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.css"
     integrity="sha512-JzSVRb7c802/njMbV97pjo1wuJAE/6v9CvthGTDxiaZij/TFpPQmQPTcdXyUVucsvLtJBT6YwRb5LhVxX3pQHQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <link href="css/style.css" rel="stylesheet" />
+  <link href="/css/style.css" rel="stylesheet" />
 
   <!-- unique style for post-pets section -->
-  <link href="css/post-pets.css" rel="stylesheet" />
+  <link href="/post-pets.css" rel="stylesheet" />
 
 </head>
 
@@ -106,17 +106,17 @@
             <a href="post-pets-info.html" class="btn btn-info legend-btn" style="background:#e52226">+ 新增待領寵物</a>
             <a href="adopt-pets.html" class="btn btn-info legend-btn" style="background:black">領養動物主頁</a>
           </legend>
-          <table class="adoption-list-table table table-bordered">
+          <table class="adoption-list-table table table-bordered" id="post-table">
             <thead>
               <tr>
                 <td class="name-col">名稱/標題</td>
                 <td class="add-date-col">加入日期</td>
                 <td class="status-col">狀態</td>
-                <td class="adopted-col" style="width:93px">已被領養? </td>
-                <td class="buttons-col"></td>
+                <td class="buttons-col">接受/拒絕</td>
               </tr>
             </thead>
             <tbody>
+
             </tbody>
           </table>
         </div>
@@ -126,7 +126,6 @@
 
   </div>
 
-  <script type="module" src="js/post-pets.js"></script>
 
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
@@ -138,6 +137,8 @@
   <script src="/js/login.js"></script>
   <script src="/js/signup.js"></script>
   <!-- Login alart -->
+  <script type="module" src="/post-pets.js"></script>
+  <script src="https://kit.fontawesome.com/5d672d0386.js" crossorigin="anonymous"></script>
 </body>
 </body>
 
