@@ -3,7 +3,14 @@ async function init() {
     let selected = {
         pet_type_id: null,
         species_id: null,
-        pet_gender: null
+        pet_gender: null,
+        pet_fine_with_children: false,
+        pet_fine_with_cat: false,
+        pet_fine_with_dog: false,
+        pet_need_outing: false,
+        pet_know_hygiene: false,
+        pet_know_instruc: false,
+        pet_neutered: false
     }
 
     // query selectors
@@ -11,6 +18,7 @@ async function init() {
     const animal_list = document.querySelector('#animal-list');
     const species_list = document.querySelector('#species-list');
     const gender_list = document.querySelector('#gender-list');
+    const featureElems = document.querySelectorAll('#feature-list > li > input');
 
     await adoptPets_loadPets();
     await adoptPets_loadAnimals();
@@ -24,6 +32,10 @@ async function init() {
         animalElem.addEventListener('click', filterPetsByAnimal);
     }
     gender_list.addEventListener('change', filterPetsByGender);
+    for (let featureElem of featureElems) {
+        featureElem.addEventListener('click', filterPetsByFeatures)
+    }
+
 
     function monthDiff(d1, d2) {
         let months;
@@ -152,6 +164,20 @@ async function init() {
 
         await adoptPets_loadPets();
 
+    }
+
+    async function filterPetsByFeatures(event) {
+
+        // get features
+        // const feature = event.target;
+        // console.log(feature);
+        // feature.classList.toggle('checked');
+
+        const feature = event.target.id;
+        selected[feature] = !selected[feature];
+
+        await adoptPets_loadPets();
+        
     }
 
     async function adoptPets_loadPets() {
