@@ -1,8 +1,12 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import { json } from 'stream/consumers';
+// import session from 'express-session';
 import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
 import { client } from './util/psql-config';
+import { User } from './util/session';
+// import { User } from './util/session';
 // import { formidablePromise } from "./util/formidable"
 // import { io } from './util/connection-config';
 
@@ -16,7 +20,7 @@ petRoutes.get('/pet-type-id/:id/species', getSpecies);
 petRoutes.post('/', postPets);
 petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
-
+petRoutes.get('/posted-pets', postedPets)
 // API --- get Pet (single)
 async function getPet() {
     // add codes here
@@ -71,8 +75,9 @@ async function getPets(req: Request, res: Response) {
         let sqlParameters = [];
         let sqlString = `
             select * from posts 
-            join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
-            join species on posts.post_species_id = species.species_id `
+            left join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
+            left join species on posts.post_species_id = species.species_id `
+
         if (Object.keys(req.query).length > 0) {
             logger.debug(req.query);
             sqlString += "where ";
@@ -322,3 +327,39 @@ async function deletePets(req: Request, res: Response) {
 }
 
 logger.debug("PetRoutes is connected.");
+
+declare module "express-session" {
+    interface SessionData {
+        user?: User;
+    }
+}
+async function postedPets(req: Request, res: Response) {
+    try {
+        let session = req.session.user
+        console.log(session);
+
+        if (!session) {
+            res.json({
+                message: "no session data"
+            })
+            return
+        }
+        let existingUser = (await client.query('select * from users where username = $1', [session.email])).rows[0]
+        console.log(existingUser);
+
+        let getPostData = (await client.query('select * from posts where post_user_id = $1', [existingUser.user_id])).rows
+
+        if (!getPostData) {
+            res.json({
+                message: "no post"
+            })
+            return
+        }
+        res.json({
+            Message: 'Post Data',
+            PostData: getPostData
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}

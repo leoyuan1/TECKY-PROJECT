@@ -36,7 +36,7 @@ CREATE TABLE posts (
     post_user_id INTEGER,
     FOREIGN KEY(post_user_id) REFERENCES users(user_id),
     pet_name TEXT not null,
-    post_pet_type_id INTEGER not null,
+    post_pet_type_id INTEGER,
     FOREIGN KEY(post_pet_type_id) REFERENCES pet_types(pet_type_id),
     post_species_id INTEGER,
     FOREIGN KEY(post_species_id) REFERENCES species(species_id),
