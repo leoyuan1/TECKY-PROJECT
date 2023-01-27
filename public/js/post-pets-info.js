@@ -24,7 +24,7 @@ async function init() {
         const petTypes = (await res.json()).data;
 
         petTypeElem.innerHTML = "<option value disabled selected hidden>--- 請選擇類別 ---</option>";
-        petTypeElem.innerHTML += `<option value="">不知道類別</option>`;
+        // petTypeElem.innerHTML += `<option value="">不知道類別</option>`;
         for (let petType of petTypes) {
             petTypeElem.innerHTML += `<option value="${petType.id}">${petType.type_name}</option>`;
         }

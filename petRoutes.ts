@@ -218,10 +218,20 @@ async function postPets(req: Request, res: Response) {
 
         console.log('fields_processed = ', fields_processed);
 
+        // return if no pet name
         if (adoption_pet_name == null) {
-            console.log('null pet name');
+            logger.debug('no pet name');
             res.json({
                 message: "pet name shall be provided",
+            });
+            return;
+        }
+
+        // return if no pet type
+        if (adoption_pet_type == null) {
+            logger.debug('no pet type');
+            res.json({
+                message: "pet type shall be selected",
             });
             return;
         }
@@ -240,17 +250,6 @@ async function postPets(req: Request, res: Response) {
                 speciesID = speciesID.rows[0].id;
             }
         }
-        // if (!speciesID) {
-        //     speciesID = null;
-        // }
-        console.log('species id = ', speciesID);
-
-        // prepare type id
-        // let typeID = adoption_pet_type;
-        // if (!typeID) {
-        //     typeID = null;
-        // }
-        // console.log('type id = ', typeID);
 
         // prepare birthday
         let now = new Date();
@@ -265,7 +264,7 @@ async function postPets(req: Request, res: Response) {
         console.log('birthday = ', birthday);
 
         // set default status
-        const defaultStatus = 'waiting';
+        const defaultStatus = 'active';
 
         // set default price
         const defaultPrice = 0;

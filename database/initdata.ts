@@ -1,6 +1,6 @@
 import pg from "pg";
 import dotenv from "dotenv";
-// import { hashPassword } from "../util/Bcrypt";
+import { hashPassword } from "../util/Bcrypt";
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ async function main() {
     const user1 = {
         email: "123@gmail.com",
         username: "123",
-        password: "123",
+        password: await hashPassword("123"),
     };
     const user1_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,now(),now()) returning id", [
         user1.email,
