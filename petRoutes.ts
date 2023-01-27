@@ -20,7 +20,8 @@ petRoutes.get('/pet-type-id/:id/species', getSpecies);
 petRoutes.post('/', postPets);
 petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
-petRoutes.get('/posted-pets', postedPets)
+petRoutes.get('/posted-pets', postedPets);
+
 // API --- get Pet (single)
 async function getPet() {
     // add codes here
