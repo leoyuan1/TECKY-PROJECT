@@ -80,9 +80,9 @@ async function getPets(req: Request, res: Response) {
             user_id,
             pet_name,
             posts.pet_type_id,
-            type_name,
+            pet_types.type_name,
             posts.species_id,
-            species_name,
+            species.species_name,
             gender,
             birthday,
             pet_fine_with_children,
@@ -221,6 +221,8 @@ async function postPets(req: Request, res: Response) {
                 speciesID = speciesID.rows[0].id;
             }
         }
+        console.log('species id = ', speciesID);
+        
 
         // prepare birthday
         let now = new Date();
@@ -232,6 +234,7 @@ async function postPets(req: Request, res: Response) {
             birthday = now;
             birthday.setMonth(now.getMonth() - adoption_pet_age);
         }
+        console.log('birthday = ', birthday);
 
         // set default status
         const defaultStatus = 'waiting';
