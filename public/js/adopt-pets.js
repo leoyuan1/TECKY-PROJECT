@@ -50,16 +50,27 @@ async function init() {
         speciesElem.addEventListener('change', filterPetsBySpecies);
     }
 
-    function showPetPreview(pets) {
+    async function showPetPreview(pets) {
         // clear the list
         pet_list.innerHTML = ""
 
-        // add pets
+        // loop pets
         for (let i = 1; i <= pets.length; i++) {
 
+            // load pet from array
             const pet = pets[i - 1];
 
-            // add birthday
+            // prepare media
+            const post_id = pet.post_id;
+            const media = await getMedia(post_id);
+            let images = [];
+            for (let eachMedia of media) {
+                if (eachMedia.post_media_type === "image") {
+                    images.push(eachMedia.post_media_file_name);
+                }
+            }
+
+            // prepare birthday
             let years = 0;
             let months = 0;
             if (pet.pet_birthday) {
@@ -67,17 +78,23 @@ async function init() {
                 const birthday = new Date(pet.pet_birthday);
                 months = monthDiff(birthday, now);
                 if (months > 11) {
-                    years = Maths.floor(months / 12);
+                    years = Math.floor(months / 12);
                     months %= 12;
                 }
             }
 
             // prepare html
-            let htmlString = `
-                <li class="pet-preview mix" style="display: inline-block;">
-                    <img src="/uploads/pet-img/cat.jpg" alt="Image ${i}">
-                    <div>編號: ${pet.post_id}</div>
-                    <div>名稱: ${pet.pet_name}</div>`
+            let htmlString = `<li class="pet-preview mix" style="display: inline-block;">`
+
+            if (images.length > 0) {
+                console.log(images[0]);
+                htmlString += `<img src="/pet-img/${images[0]}" alt="Image ${i}" class="center">`;
+            }
+
+            htmlString += `
+                <div>編號: ${pet.post_id}</div>
+                <div>名稱: ${pet.pet_name}</div>`;
+
             if (pet.post_pet_type_id) {
                 htmlString += `<div>物種: ${pet.pet_type_name}</div>`;
             } else {
@@ -112,6 +129,16 @@ async function init() {
             <li class="gap"></li>
             <li class="gap"></li>
             <li class="gap"></li>`
+
+    }
+
+    async function getMedia(post_id) {
+
+        const res = await fetch(`/pets/one-pet/${post_id}/media`);
+        const result = await res.json();
+        const media = result.data;
+
+        return media;
 
     }
 
@@ -177,7 +204,7 @@ async function init() {
         selected[feature] = !selected[feature];
 
         await adoptPets_loadPets();
-        
+
     }
 
     async function adoptPets_loadPets() {

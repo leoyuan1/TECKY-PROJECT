@@ -36,7 +36,7 @@ CREATE TABLE posts (
     post_user_id INTEGER,
     FOREIGN KEY(post_user_id) REFERENCES users(user_id),
     pet_name TEXT not null,
-    post_pet_type_id INTEGER not null,
+    post_pet_type_id INTEGER,
     FOREIGN KEY(post_pet_type_id) REFERENCES pet_types(pet_type_id),
     post_species_id INTEGER,
     FOREIGN KEY(post_species_id) REFERENCES species(species_id),
@@ -58,14 +58,14 @@ CREATE TABLE posts (
 CREATE TABLE post_media (
     post_media_id SERIAL primary key,
     post_media_file_name TEXT,
-    post_id INTEGER,
-    FOREIGN KEY(post_id) REFERENCES posts(post_id),
+    post_media_post_id INTEGER,
+    FOREIGN KEY(post_media_post_id) REFERENCES posts(post_id),
     post_media_type TEXT
 );
 CREATE TABLE post_comments (
     post_comment_id SERIAL primary key,
-    post_id INTEGER not null,
-    FOREIGN KEY(post_id) REFERENCES posts(post_id),
+    post_comment_post_id INTEGER not null,
+    FOREIGN KEY(post_comment_post_id) REFERENCES posts(post_id),
     post_comment_created_at date DEFAULT now(),
     post_comment_updated_at date DEFAULT now(),
     post_comment_created_by text not null,

@@ -43,6 +43,7 @@ app.use(
     })
 );
 app.use(express.static("public"));
+app.use(express.static("uploads"));
 app.use('/', userRoutes)
 app.use('/pets', petRoutes);
 // static files 

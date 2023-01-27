@@ -13,8 +13,8 @@ import { User } from './util/session';
 export const petRoutes = express.Router();
 
 petRoutes.get('/one-pet/:id', getPet);
+petRoutes.get('/one-pet/:id/media', getMedia);
 petRoutes.get('/all-pets', getPets);
-// petRoutes.get('/all-pets/by-pet-type/:id', getPets_by_petType);
 petRoutes.get('/pet-types', getPetTypes);
 petRoutes.get('/pet-type-id/:id/species', getSpecies);
 petRoutes.post('/', postPets);
@@ -26,6 +26,31 @@ async function getPet() {
     // add codes here
     console.log('getting 1 pet');
 
+}
+
+// API -- get Media
+async function getMedia(req: Request, res: Response) {
+    try {
+
+        // receive data from client
+        const petID = req.params.id;
+
+        // find data from database
+        const result = await client.query(`
+            select * from post_media
+            where post_media_post_id = $1`, [petID]);
+        const media = result.rows;
+
+        // send data to client
+        res.json({
+            data: media,
+            message: "Get pets success",
+        });
+
+    } catch (error) {
+        logger.error("... [PET000] Server error ... " + error);
+        res.status(500).json({ message: "[PET000] Server error" });
+    }
 }
 
 // API --- get Pets (all)
@@ -50,8 +75,9 @@ async function getPets(req: Request, res: Response) {
         let sqlParameters = [];
         let sqlString = `
             select * from posts 
-            join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
-            join species on posts.post_species_id = species.species_id `
+            left join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
+            left join species on posts.post_species_id = species.species_id `
+
         if (Object.keys(req.query).length > 0) {
             logger.debug(req.query);
             sqlString += "where ";
@@ -81,31 +107,6 @@ async function getPets(req: Request, res: Response) {
         res.status(500).json({ message: "[PET000] Server error" });
     }
 }
-
-// API --- get Pets (based on pet types)
-// async function getPets_by_petType(req: Request, res: Response) {
-//     try {
-
-//         // receive data from client
-//         const petTypeID = req.params.id;
-
-//         // find data from database
-//         const result = await client.query("select * from posts where post_pet_type_id = $1", [
-//             petTypeID
-//         ]);
-//         const pets = result.rows;
-
-//         // send data to client
-//         res.json({
-//             data: pets,
-//             message: "Get pets success",
-//         });
-
-//     } catch (error) {
-//         logger.error("... [PET000] Server error ... " + error);
-//         res.status(500).json({ message: "[PET000] Server error" });
-//     }
-// }
 
 // API --- get Pet Types
 async function getPetTypes(req: Request, res: Response) {
@@ -258,11 +259,15 @@ async function postPets(req: Request, res: Response) {
 
         // insert data to database (post_media)
         if (files) {
-            for (let media in files) {
-                const fileName = files[media].newFilename;
-                await client.query(`insert into post_media (post_media_file_name, post_id) values ($1,$2)`, [
+            for (let key in files) {
+                // console.log(files[key]);
+                const media_type = files[key].mimetype.split('/')[0];
+
+                const fileName = files[key].newFilename;
+                await client.query(`insert into post_media (post_media_file_name, post_media_post_id, post_media_type) values ($1,$2,$3)`, [
                     fileName,
-                    postID
+                    postID,
+                    media_type
                 ])
             }
         }
