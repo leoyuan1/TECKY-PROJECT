@@ -71,8 +71,9 @@ async function getPets(req: Request, res: Response) {
         let sqlParameters = [];
         let sqlString = `
             select * from posts 
-            join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
-            join species on posts.post_species_id = species.species_id `
+            left join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
+            left join species on posts.post_species_id = species.species_id `
+
         if (Object.keys(req.query).length > 0) {
             logger.debug(req.query);
             sqlString += "where ";

@@ -78,7 +78,7 @@ async function init() {
                 const birthday = new Date(pet.pet_birthday);
                 months = monthDiff(birthday, now);
                 if (months > 11) {
-                    years = Maths.floor(months / 12);
+                    years = Math.floor(months / 12);
                     months %= 12;
                 }
             }
