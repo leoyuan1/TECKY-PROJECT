@@ -1,3 +1,5 @@
+import { birthdayToYearAndMonthOld } from "./adopt-pets-util.js";
+
 async function init() {
 
     const defaultImage = 'unknown_animal.jpg';
@@ -38,15 +40,6 @@ async function init() {
         featureElem.addEventListener('click', filterPetsByFeatures)
     }
 
-
-    function monthDiff(d1, d2) {
-        let months;
-        months = (d2.getFullYear() - d1.getFullYear()) * 12;
-        months -= d1.getMonth();
-        months += d2.getMonth();
-        return months <= 0 ? 0 : months;
-    }
-
     function setSpeciesListener() {
         const speciesElem = document.querySelector('#species-list > select');
         speciesElem.addEventListener('change', filterPetsBySpecies);
@@ -73,21 +66,18 @@ async function init() {
             }
 
             // prepare birthday
-            let years = 0;
-            let months = 0;
+            let years;
+            let months;
             if (pet.birthday) {
-                const now = new Date();
-                const birthday = new Date(pet.birthday);
-                months = monthDiff(birthday, now);
-                if (months > 11) {
-                    years = Math.floor(months / 12);
-                    months %= 12;
-                }
+                const old = birthdayToYearAndMonthOld(pet.birthday);
+                years = old.years;
+                months = old.months;
             }
 
             // prepare html
-            let htmlString = `<li class="pet-preview mix" style="display: inline-block;">`
-
+            let htmlString = `
+                <a href="/adopt-pets-info.html?id=${post_id}">
+                <li class="pet-preview mix" style="display: inline-block;" id="pet-${post_id}">`;
             if (images.length > 0) {
                 htmlString += `<img src="/pet-img/${images[0]}" alt="Image ${i}" class="center">`;
             } else {
@@ -98,11 +88,6 @@ async function init() {
                 <div>編號: ${pet.id}</div>
                 <div>名稱: ${pet.pet_name}</div>`;
 
-            if (pet.pet_type_id) {
-                htmlString += `<div>物種: ${pet.type_name}</div>`;
-            } else {
-                htmlString += '<div>物種: 不知道</div>';
-            }
             if (pet.species_id) {
                 htmlString += `<div>品種: ${pet.species_name}</div>`;
             } else {
@@ -131,7 +116,8 @@ async function init() {
         pet_list.innerHTML += `
             <li class="gap"></li>
             <li class="gap"></li>
-            <li class="gap"></li>`
+            <li class="gap"></li>
+            </a>`
 
     }
 
@@ -198,11 +184,6 @@ async function init() {
 
     async function filterPetsByFeatures(event) {
 
-        // get features
-        // const feature = event.target;
-        // console.log(feature);
-        // feature.classList.toggle('checked');
-
         const feature = event.target.id;
         selected[feature] = !selected[feature];
 
@@ -237,7 +218,10 @@ async function init() {
         const pets = result.data;
 
         // refresh pet-list
-        showPetPreview(pets);
+        await showPetPreview(pets);
+
+        // set pet-preview listeners
+        // setPetPreviewListener();
 
     }
 

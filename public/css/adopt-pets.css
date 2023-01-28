@@ -426,9 +426,9 @@ Main Components
         padding: 40px 3%;
     }
 
-    .cd-gallery ul {
+    /* .cd-gallery ul {
         text-align: justify;
-    }
+    } */
 
     .cd-gallery ul:after {
         content: "";
@@ -439,7 +439,7 @@ Main Components
     .cd-gallery li {
         width: 46%;
         /* margin-bottom: 1em; */
-        margin: 0 10px 10px 10px;
+        margin: 0 10px 20px 10px;
     }
 }
 

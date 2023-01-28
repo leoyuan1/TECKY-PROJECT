@@ -1,7 +1,8 @@
 #adoption-details-page-background {
-    max-width: 1024px;
+    /* max-width: 1024px; */
     margin: auto;
 }
+
 .page-background {
     background: #f0f0f0;
     width: 100%;
@@ -15,5 +16,17 @@
     margin-bottom: 20px;
     width: 49%;
     padding: 0 15px;
+    vertical-align: top;
+}
+
+#left-col img {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+#right-col {
+    width: 49%;
+    padding: 0 15px;
+    display: inline-block!important;
     vertical-align: top;
 }

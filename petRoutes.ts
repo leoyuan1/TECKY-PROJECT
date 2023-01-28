@@ -1,6 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { json } from 'stream/consumers';
+import path from 'path';
 // import session from 'express-session';
 import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
@@ -23,10 +23,32 @@ petRoutes.delete('/:id', deletePets);
 petRoutes.get('/posted-pets', postedPets);
 
 // API --- get Pet (single)
-async function getPet() {
-    // add codes here
-    console.log('getting 1 pet');
+async function getPet(req: Request, res: Response) {
+    try {
 
+        const id = req.params.id;
+
+        // find data from database
+        const result = await client.query(`
+            select * from posts 
+            left join pet_types on posts.pet_type_id = pet_types.id
+            left join species on posts.species_id = species.id
+            where id = ${id}
+        `);
+        const pet = result.rows[0];
+        console.log(pet);
+
+
+        // send data to client
+        res.json({
+            data: pet,
+            message: "Get pet success",
+        });
+
+    } catch (error) {
+        logger.error("... [PET001] Server error ... " + error);
+        res.status(500).json({ message: "[PET001] Server error" });
+    }
 }
 
 // API -- get Media
@@ -60,6 +82,7 @@ async function getPets(req: Request, res: Response) {
 
         // get filtered info from query
         const queries = {
+            id: req.query.id,
             pet_type_id: req.query.pet_type_id,
             species_id: req.query.species_id,
             gender: req.query.gender,
@@ -136,7 +159,7 @@ async function getPetTypes(req: Request, res: Response) {
     try {
 
         // find data from database
-        const result = await client.query("select id, type_name from pet_types")
+        const result = await client.query("select id, type_name from pet_types");
         const petTypes = result.rows;
 
         // send data to client
