@@ -93,7 +93,7 @@ async function deletePost(postId) {
     await fetch(`/posts/${postId}`, {
         method: 'delete'
     })
-    loadPosts()
+    loadPost()
 }
 
 async function toggleLikePosts(postId) {
@@ -133,7 +133,7 @@ async function getMe() {
     await loadPost()
     const socket = io.connect();
     socket.on('load-post', () => {
-        loadMPost()
+        loadPost()
     })
     getMe()
 })()
