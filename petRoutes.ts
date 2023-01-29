@@ -11,7 +11,7 @@ import { User } from './util/session';
 
 export const petRoutes = express.Router();
 
-petRoutes.get('/one-pet/:id', getPet);
+// petRoutes.get('/one-pet/:id', getPet);
 petRoutes.get('/one-pet/:id/media', getMedia);
 petRoutes.get('/all-pets', getPets);
 petRoutes.get('/pet-types', getPetTypes);
@@ -24,33 +24,32 @@ petRoutes.put('/post-status/:id', status)
 petRoutes.post('/request', request)
 
 // API --- get Pet (single)
-async function getPet(req: Request, res: Response) {
-    try {
+// async function getPet(req: Request, res: Response) {
+//     try {
 
-        const id = req.params.id;
+//         const id = req.params.id;
 
-        // find data from database
-        const result = await client.query(`
-            select * from posts 
-            left join pet_types on posts.pet_type_id = pet_types.id
-            left join species on posts.species_id = species.id
-            where id = ${id}
-        `);
-        const pet = result.rows[0];
-        console.log(pet);
+//         // find data from database
+//         const result = await client.query(`
+//             select * from posts 
+//             left join pet_types on posts.pet_type_id = pet_types.id
+//             left join species on posts.species_id = species.id
+//             where id = ${id}
+//         `);
+//         const pet = result.rows[0];
+//         console.log(pet);
 
+//         // send data to client
+//         res.json({
+//             data: pet,
+//             message: "Get pet success",
+//         });
 
-        // send data to client
-        res.json({
-            data: pet,
-            message: "Get pet success",
-        });
-
-    } catch (error) {
-        logger.error("... [PET001] Server error ... " + error);
-        res.status(500).json({ message: "[PET001] Server error" });
-    }
-}
+//     } catch (error) {
+//         logger.error("... [PET001] Server error ... " + error);
+//         res.status(500).json({ message: "[PET001] Server error" });
+//     }
+// }
 
 // API -- get Media
 async function getMedia(req: Request, res: Response) {
@@ -136,6 +135,9 @@ async function getPets(req: Request, res: Response) {
                 }
             }
         }
+
+        sqlString += `order by posts.created_at`;
+
         logger.debug(`sqlString = ${sqlString}`);
         logger.debug(`sqlParameters = ${sqlParameters}`);
 

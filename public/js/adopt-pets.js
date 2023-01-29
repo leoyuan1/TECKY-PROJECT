@@ -49,6 +49,10 @@ async function init() {
         // clear the list
         pet_list.innerHTML = ""
 
+        if (pets.length === 0) {
+            pet_list.innerHTML = `<div class="not-found">沒有找到結果~TAT</div>`;
+        }
+
         // loop pets
         for (let i = 1; i <= pets.length; i++) {
 
@@ -260,7 +264,7 @@ async function init() {
         if (!selected.pet_type_id) {  // if animal has not been selected, then do the following
             species_list.innerHTML = `
                 <select class="filter" name="selectThis" id="selectThis">
-                    <option value="">選擇品種</option>
+                    <option value="species-all">所有品種</option>
                 </select>`
             return;
         }
@@ -275,7 +279,6 @@ async function init() {
         // prepare html
         let htmlString = `
             <select class="filter" name="selectThis" id="selectThis">
-                <option value="">選擇品種</option>
                 <option value="species-all">所有品種</option>`;
 
         for (let specie of species) {

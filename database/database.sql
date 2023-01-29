@@ -100,6 +100,7 @@ CREATE table post_request(
     id SERIAL primary key,
     post_id INTEGER not null,
     FOREIGN key (post_id) REFERENCES posts(id),
+    status text,
     from_id INTEGER not null,
     to_id INTEGER not null,
     created_at date DEFAULT now()
