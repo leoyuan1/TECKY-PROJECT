@@ -45,6 +45,7 @@ async function postData() {
                 <span class="slider round" id="status-${dataResult.id}"></span>
                 </label>
                 </td>
+            <td class="detail-status-col"><i type='button' class="fa-solid fa-book" id="detail-${dataResult.id}"></i></td>
             </tr>
                 `
         } else {
@@ -53,13 +54,13 @@ async function postData() {
             <td class="name-col">${dataResult.pet_name}</td>
             <td class="add-date-col">${dataResult.created_at}</td>
             <td class="status-col">${dataResult.status}</td>
-
             <td class="change-status-col">            
             <label class="switch">
             <input type="checkbox" checked>
             <span class="slider round" id="status-${dataResult.id}"></span>
             </label>
             </td>
+            <td class="detail-status-col"><i type='button' class="fa-solid fa-book" id='detail-${dataResult.id}'></i></td>
         </tr>
             `
         }
@@ -69,9 +70,12 @@ async function postData() {
 async function init() {
     await postData()
     const elems = document.querySelectorAll('.slider.round');
+    const requestDetails = document.querySelectorAll('.fa-solid.fa-book')
     for (let elem of elems) {
-        console.log(elem);
         elem.addEventListener('click', getElm)
+    }
+    for (let requestDetail of requestDetails) {
+        requestDetail.addEventListener('click', detail)
     }
 }
 init()
@@ -91,10 +95,43 @@ async function getElm(event) {
     }
 }
 
-// document.querySelector('#circle-check').addEventListener('click', async () => {
-//     let res = await fetch('/o-logo')
-//     let result = await res.json()
-//     if (result.message == 'updated') {
-//         postData()
-//     }
-// })
+async function detail(event) {
+    let id = event.target.id.replace('detail-', '')
+    let res = await fetch(`/pets/request-detail`, {
+        method: 'post',
+        body: JSON.stringify({ id }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    let result = await res.json()
+    if (result.message == 'no request') {
+        alert('沒有申請')
+        return
+    }
+    let resultDatas = result.data
+    let postsDetail = result.post
+
+    document.querySelector('#request-usertable').innerHTML = `           
+    <thead>
+    <tr>
+    <td class="name-col">名稱/標題</td>
+    <td class="add-date-col">請求日期</td>
+    <td class="request-name-col">請求用戶</td>
+    <td class="status-col">狀態</td>
+    <td class="buttons-col">接受/拒絕</td>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>`
+    for (let resultData of resultDatas) {
+        document.querySelector('#request-usertable').innerHTML +=
+            `<tr>
+                <td class="name-col">${postsDetail.pet_name}</td>
+                <td class="add-date-col">${resultData.created_at}</td>
+                <td class="request-name-col">請求用戶</td>
+                <td class="status-col">${resultData.status}</td>
+                <td class="buttons-col"><i class="fa-solid fa-circle-check"></i><i class="fa-solid fa-circle-xmark"></i></td>
+            </tr>`
+    }
+}   

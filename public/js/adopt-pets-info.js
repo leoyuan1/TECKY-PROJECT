@@ -123,12 +123,10 @@ document.querySelector('.form-submit-button').addEventListener('click', async ()
         }
     })
     let result = await res.json()
-    console.log(result);
-    if (result.message == 'not user') {
-        alert('請先登入')
-    }
     if (result.message == 'request info') {
         alert('申請成功')
+    } else {
+        alert('請先登入')
     }
 })
 

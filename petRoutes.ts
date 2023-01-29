@@ -21,7 +21,7 @@ petRoutes.delete('/:id', deletePets);
 petRoutes.get('/posted-pets', postedPets);
 petRoutes.put('/post-status/:id', status)
 petRoutes.post('/request', request)
-
+petRoutes.post('/request-detail', detail)
 // API -- get Media
 async function getMedia(req: Request, res: Response) {
     try {
@@ -437,9 +437,29 @@ async function request(req: Request, res: Response) {
     let postUser = (await client.query(`select * from posts where id = $1`, [result.postIDResult])).rows[0]
     console.log(postUser);
 
-    await client.query(`insert into post_request (post_id, from_id, to_id, created_at) values ($1,$2,$3,now()) Returning *`,
-        [result.postIDResult, existingUser.id, postUser.id])
+    await client.query(`insert into post_request (post_id, from_id, to_id,status, created_at) values ($1,$2,$3,$4, now())`,
+        [result.postIDResult, existingUser.id, postUser.id, 'waiting for approval'])
     res.json({
         message: "request info",
+    })
+}
+
+async function detail(req: Request, res: Response) {
+    let id = req.body
+    let postID = id.id
+
+    let postIDresults = (await client.query(`select * from post_request where post_id = $1`, [postID])).rows
+
+    if (!postIDresults[0]) {
+        res.json({
+            message: 'no request'
+        })
+        return
+    }
+    let postsDetail = await (await client.query('select * from posts where id = $1', [postID])).rows[0]
+    res.json({
+        message: 'have request',
+        data: postIDresults,
+        post: postsDetail
     })
 }
