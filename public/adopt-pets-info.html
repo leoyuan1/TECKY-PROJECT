@@ -109,66 +109,66 @@
 
       <div class="banner">待領養動物</div>
 
-      <div class="page-background" id="adoption-details-page-background">
+      <div class="page-background container-fluid" id="adoption-details-page-background">
+        <div class="row">
+          <div id="left-col" class="col-md-7 col-12">
+            <label class="adoption-details-label"> 相片 </label>
+            <div class="image-container">
+              <img src="/pet-img/unknown_animal.jpg" alt="" id="image_0">
+              <img src="/pet-img/unknown_animal.jpg" alt="" id="image_1">
+            </div>
+            <br>
+            <label class="adoption-details-label"> 影片 </label>
+            <div class="video-container">
+              <video src="" controls="controls" id="pet_video"></video>
+            </div>
+          </div>
 
-        <div id="left-col">
-          <label class="adoption-details-label"> 相片 </label>
-          <div class="image-container">
-            <img src="/pet-img/unknown_animal.jpg" alt="" id="image_0">
-            <img src="/pet-img/unknown_animal.jpg" alt="" id="image_1">
+          <div id="right-col" class="col-md-5 col-12">
+            <div class="adoption_item_info_box">
+              <label class="adoption-details-label"> 刊登日期 </label><br>
+              <span class="adoption-details-info" id="updated_at"> 2022-11-09 </span>
+              <br><br>
+              <label class="adoption-details-label"> 名稱/標題 </label><br>
+              <span class="adoption-details-info" id="pet_name"> 琪琪待領養 </span>
+              <br><br>
+              <label class="adoption-details-label"> 物種 </label><br>
+              <span class="adoption-details-info" id="type_name">唐貓</span>
+              <br><br>
+              <label class="adoption-details-label"> 品種 </label><br>
+              <span class="adoption-details-info" id="species_name">唐貓</span>
+              <br><br>
+              <label class="adoption-details-label"> 性別 </label><br>
+              <span class="adoption-details-info" id="gender">女</span>
+              <br><br>
+              <label class="adoption-details-label"> 年齡 </label><br>
+              <span class="adoption-details-info" id="year">3</span>
+              <span class="adoption-details-label" id="year_name">歲</span>
+              <span class="adoption-details-info" id="month">3</span>
+              <span class="adoption-details-label" id="month_name">月</span>
+              <br><br>
+              <label class="adoption-details-label"> 特點 </label><br>
+              <div id="features">
+                <span class="adoption-details-info">可與小孩子相處</span><br>
+                <span class="adoption-details-info">可與貓咪相處</span><br>
+                <span class="adoption-details-info">已絕育</span>
+              </div>
+              <br> <br>
+              <label class="adoption-details-label"> 其他資料 </label><br>
+              <span class="adoption-details-info" id="pet_description"> 琪琪
+                大約3歲，女
+                齊針，已絕育
+                乖，可以摸
+                可以夾貓
+                領養需要家訪，裝穩固窗網 </span><br><br>
+            </div>
           </div>
           <br>
-          <label class="adoption-details-label"> 影片 </label>
-          <div class="video-container">
-            <video src="" controls="controls" id="pet_video"></video>
-          </div>
+          <input type="hidden" name="adoption_item_id" value="841">
+          <a href="adoption_home.php?adoption_item_id=841" class="form-back-button btn"
+            role="button"><strong>返回</strong></a>
+          <button class="form-submit-button"><strong>領養我</strong></button>
         </div>
-
-        <div id="right-col">
-          <div class="adoption_item_info_box">
-            <label class="adoption-details-label"> 刊登日期 </label><br>
-            <span class="adoption-details-info" id="updated_at"> 2022-11-09 </span>
-            <br><br>
-            <label class="adoption-details-label"> 名稱/標題 </label><br>
-            <span class="adoption-details-info" id="pet_name"> 琪琪待領養 </span>
-            <br><br>
-            <label class="adoption-details-label"> 物種 </label><br>
-            <span class="adoption-details-info" id="type_name">唐貓</span>
-            <br><br>
-            <label class="adoption-details-label"> 品種 </label><br>
-            <span class="adoption-details-info" id="species_name">唐貓</span>
-            <br><br>
-            <label class="adoption-details-label"> 性別 </label><br>
-            <span class="adoption-details-info" id="gender">女</span>
-            <br><br>
-            <label class="adoption-details-label"> 年齡 </label><br>
-            <span class="adoption-details-info" id="year">3</span>
-            <span class="adoption-details-label" id="year_name">歲</span>
-            <span class="adoption-details-info" id="month">3</span>
-            <span class="adoption-details-label" id="month_name">月</span>
-            <br><br>
-            <label class="adoption-details-label"> 特點 </label><br>
-            <div id="features">
-              <span class="adoption-details-info">可與小孩子相處</span><br>
-              <span class="adoption-details-info">可與貓咪相處</span><br>
-              <span class="adoption-details-info">已絕育</span>
-            </div>
-            <br> <br>
-            <label class="adoption-details-label"> 其他資料 </label><br>
-            <span class="adoption-details-info" id="pet_description"> 琪琪
-              大約3歲，女
-              齊針，已絕育
-              乖，可以摸
-              可以夾貓
-              領養需要家訪，裝穩固窗網 </span><br><br>
-          </div>
-        </div>
-        <br>
-        <input type="hidden" name="adoption_item_id" value="841">
-        <a href="adoption_home.php?adoption_item_id=841" class="form-back-button btn"
-          role="button"><strong>返回</strong></a>
-        <button class="form-submit-button"><strong>領養我</strong></button>
-        </form>
       </div>
     </div>
 
