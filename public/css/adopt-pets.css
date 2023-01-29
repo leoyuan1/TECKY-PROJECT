@@ -5,7 +5,7 @@
     padding: 0;
     background: #e6e6e6;
     color: #434242;
-    cursor: pointer;
+    /* cursor: pointer; */
     vertical-align: middle;
     font-size: 20px;
     font-weight: bold;
@@ -24,7 +24,7 @@
 }
 
 .pet-preview {
-    background-color: #999;
+    background-color: rgb(124, 124, 124);
     color: white;
     border: 0px solid #DBDEE1;
     border-radius: 5px;
@@ -32,9 +32,15 @@
     margin-bottom: 10px;
     position: relative;
     transition: all .2s ease-in-out;
-    animation: popout .2s;
+    animation: popout .3s;
     line-height: 1.3;
     font-size: 1.0rem;
+    width: 100%;
+}
+
+.not-found {
+    text-align: center;
+    animation: popout .4s;
 }
 
 @keyframes popout {
@@ -53,8 +59,6 @@
 
 .pet-preview img {
     margin-bottom: 5px;
-    height: 15rem;
-    width: 15rem;
     object-fit: cover;
 }
 
@@ -414,6 +418,7 @@ Main Components
 .cd-gallery img {
     display: block;
     width: 100%;
+    height: 27rem;
 }
 
 .cd-gallery .cd-fail-message {
@@ -426,9 +431,9 @@ Main Components
         padding: 40px 3%;
     }
 
-    .cd-gallery ul {
+    /* .cd-gallery ul {
         text-align: justify;
-    }
+    } */
 
     .cd-gallery ul:after {
         content: "";
@@ -437,9 +442,9 @@ Main Components
     }
 
     .cd-gallery li {
-        width: 48%;
+        width: 46%;
         /* margin-bottom: 1em; */
-        margin: 0 5px 5px 5px;
+        margin: 0 10px 20px 10px;
     }
 }
 
@@ -453,12 +458,17 @@ Main Components
     }
 
     .cd-gallery li {
-        width: 23%;
+        width: 16rem;
     }
 
     .cd-gallery.filter-is-visible {
         /* reduce width when filter is visible */
         width: 80%;
+    }
+
+    .pet-preview img {
+        height: 15rem;
+        /* width: 15rem; */
     }
 }
 

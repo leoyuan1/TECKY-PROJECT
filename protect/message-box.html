@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Pet Adopt</title>
+
+    <!-- slider stylesheet -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500|Poppins:400,700&display=swap" rel="stylesheet">
+
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
+
+    <!-- sweetalert2 style -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.css"
+        integrity="sha512-JzSVRb7c802/njMbV97pjo1wuJAE/6v9CvthGTDxiaZij/TFpPQmQPTcdXyUVucsvLtJBT6YwRb5LhVxX3pQHQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/message-box.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <div class="hero_area">
+
+        <!-- header section strats -->
+        <header class="header_section">
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="images/logo.png" alt="">
+                        <span>
+                            Pet Adopt
+                        </span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="index.html">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="post-pets-info.html" id="post_pets">Post Pets</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./community/index.html">Community</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="message-box.html" id="message_box">Message Box</a>
+                                </li>
+                                <li class="nav-item dropdown" id="welcome-btn">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        UserName
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item" href="post-pets.html" id="postPets">Pets List</a>
+                                        <a class="dropdown-item" href="setting.html" id="setting-btn">Setting</a>
+                                        <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a type="button" class="login-btn nav-link" id="login-btn">LogIn/SignUp</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="quote_btn-container  d-flex justify-content-center">
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!-- end header section -->
+
+        <!-- main section -->
+
+        <!-- <div class="message-box-container container-fluid">
+            <div class="row">
+                <div class="left-panel col-4" id="user_list">
+                </div>
+                <div class="right panel col-8" id="message-box">
+                </div>
+            </div>
+        </div> -->
+
+        <div class="message-box-container">
+
+            <div class="wrapper">
+                <div class="container">
+                    <div class="left">
+                        <div class="top">
+                            <input type="text" placeholder="Search" />
+                            <a href="javascript:;" class="search"></a>
+                        </div>
+                        <ul class="people">
+                            <li class="person" data-chat="person1">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/thomas.jpg" alt="" />
+                                <span class="name">Thomas Bangalter</span>
+                                <span class="time">2:09 PM</span>
+                                <span class="preview">I was wondering...</span>
+                            </li>
+                            <li class="person" data-chat="person2">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/dog.png" alt="" />
+                                <span class="name">Dog Woofson</span>
+                                <span class="time">1:44 PM</span>
+                                <span class="preview">I've forgotten how it felt before</span>
+                            </li>
+                            <li class="person" data-chat="person3">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/louis-ck.jpeg" alt="" />
+                                <span class="name">Louis CK</span>
+                                <span class="time">2:09 PM</span>
+                                <span class="preview">But we’re probably gonna need a new carpet.</span>
+                            </li>
+                            <li class="person" data-chat="person4">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/bo-jackson.jpg" alt="" />
+                                <span class="name">Bo Jackson</span>
+                                <span class="time">2:09 PM</span>
+                                <span class="preview">It’s not that bad...</span>
+                            </li>
+                            <li class="person" data-chat="person5">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/michael-jordan.jpg"
+                                    alt="" />
+                                <span class="name">Michael Jordan</span>
+                                <span class="time">2:09 PM</span>
+                                <span class="preview">Wasup for the third time like is you blind bitch</span>
+                            </li>
+                            <li class="person" data-chat="person6">
+                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/drake.jpg" alt="" />
+                                <span class="name">Drake</span>
+                                <span class="time">2:09 PM</span>
+                                <span class="preview">howdoyoudoaspace</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="right">
+                        <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
+                        <div class="chat" data-chat="person1">
+                            <div class="conversation-start">
+                                <span>Today, 6:48 AM</span>
+                            </div>
+                            <div class="bubble you">
+                                Hello,
+                            </div>
+                            <div class="bubble you">
+                                it's me.
+                            </div>
+                            <div class="bubble you">
+                                I was wondering...
+                            </div>
+                        </div>
+                        <div class="chat" data-chat="person2">
+                            <div class="conversation-start">
+                                <span>Today, 5:38 PM</span>
+                            </div>
+                            <div class="bubble you">
+                                Hello, can you hear me?
+                            </div>
+                            <div class="bubble you">
+                                I'm in California dreaming
+                            </div>
+                            <div class="bubble me">
+                                ... about who we used to be.
+                            </div>
+                            <div class="bubble me">
+                                Are you serious?
+                            </div>
+                            <div class="bubble you">
+                                When we were younger and free...
+                            </div>
+                            <div class="bubble you">
+                                I've forgotten how it felt before
+                            </div>
+                        </div>
+                        <div class="chat" data-chat="person3">
+                            <div class="conversation-start">
+                                <span>Today, 3:38 AM</span>
+                            </div>
+                            <div class="bubble you">
+                                Hey human!
+                            </div>
+                            <div class="bubble you">
+                                Umm... Someone took a shit in the hallway.
+                            </div>
+                            <div class="bubble me">
+                                ... what.
+                            </div>
+                            <div class="bubble me">
+                                Are you serious?
+                            </div>
+                            <div class="bubble you">
+                                I mean...
+                            </div>
+                            <div class="bubble you">
+                                It’s not that bad...
+                            </div>
+                            <div class="bubble you">
+                                But we’re probably gonna need a new carpet.
+                            </div>
+                        </div>
+                        <div class="chat" data-chat="person4">
+                            <div class="conversation-start">
+                                <span>Yesterday, 4:20 PM</span>
+                            </div>
+                            <div class="bubble me">
+                                Hey human!
+                            </div>
+                            <div class="bubble me">
+                                Umm... Someone took a shit in the hallway.
+                            </div>
+                            <div class="bubble you">
+                                ... what.
+                            </div>
+                            <div class="bubble you">
+                                Are you serious?
+                            </div>
+                            <div class="bubble me">
+                                I mean...
+                            </div>
+                            <div class="bubble me">
+                                It’s not that bad...
+                            </div>
+                        </div>
+                        <div class="chat" data-chat="person5">
+                            <div class="conversation-start">
+                                <span>Today, 6:28 AM</span>
+                            </div>
+                            <div class="bubble you">
+                                Wasup
+                            </div>
+                            <div class="bubble you">
+                                Wasup
+                            </div>
+                            <div class="bubble you">
+                                Wasup for the third time like is <br />you blind bitch
+                            </div>
+
+                        </div>
+                        <div class="chat" data-chat="person6">
+                            <div class="conversation-start">
+                                <span>Monday, 1:27 PM</span>
+                            </div>
+                            <div class="bubble you">
+                                So, how's your new phone?
+                            </div>
+                            <div class="bubble you">
+                                You finally have a smartphone :D
+                            </div>
+                            <div class="bubble me">
+                                Drake?
+                            </div>
+                            <div class="bubble me">
+                                Why aren't you answering?
+                            </div>
+                            <div class="bubble you">
+                                howdoyoudoaspace
+                            </div>
+                        </div>
+                        <div class="write">
+                            <a href="javascript:;" class="write-link attach"></a>
+                            <input type="text" />
+                            <a href="javascript:;" class="write-link smiley"></a>
+                            <a href="javascript:;" class="write-link send"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- main section -->
+
+        <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+
+        <!-- Login alart -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.js"
+            integrity="sha512-IYzd4A07K9kxY3b8YIXi8L0BmUPVvPlI+YpLOzKrIKA3sQ4gt43dYp+y6ip7C7LRLXYfMHikpxeprZh7dYQn+g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="/js/login.js"></script>
+        <script src="/js/signup.js"></script>
+        <!-- Login alart -->
+
+        <!-- Navbar's Script -->
+        <script src="/js/navbar.js"></script>
+
+        <!-- Message Box's Script -->
+        <script src="/js/message-box.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+import { birthdayToYearAndMonthOld } from './adopt-pets-util.js';
+
+const postID = document.URL.split('?')[1].replace('id=', "");
+
+async function getPet() {
+
+    const res = await fetch(`/pets/all-pets?id=${postID}`);
+    const result = await res.json();
+    return result.data[0];
+
+}
+
+async function init() {
+
+    async function getMedia() {
+
+
+        const res = await fetch(`/pets/one-pet/${postID}/media`);
+        const result = await res.json();
+        return result.data;
+
+    }
+
+    let pet = await getPet();
+    const media = await getMedia();
+    console.log('media = ', media);
+
+    console.log(pet);
+
+    // prepare updated date format
+    const createdAt = pet.created_at.split('T')[0];
+    document.querySelector('#updated_at').textContent = createdAt;
+
+    document.querySelector('#pet_name').textContent = pet.pet_name;
+    document.querySelector('#type_name').textContent = pet.type_name;
+
+    if (pet.species_id) {
+        document.querySelector('#species_name').textContent = pet.species_name;
+    } else {
+        document.querySelector('#species_name').textContent = '不知道';
+    }
+
+    if (pet.gender) {
+        document.querySelector('#gender').textContent = pet.gender;
+    } else {
+        document.querySelector('#gender').textContent = '不知道';
+    }
+
+    if (pet.birthday) {
+        const old = birthdayToYearAndMonthOld(pet.birthday);
+        document.querySelector('#year').textContent = old.years;
+        document.querySelector('#month').textContent = old.months;
+    } else {
+        document.querySelector('#year').textContent = '?';
+        document.querySelector('#month').textContent = '?';
+    }
+
+    const featureElem = document.querySelector('#features');
+    featureElem.innerHTML = "";
+
+    let hasFeature = false;
+    if (pet.pet_fine_with_children) {
+        featureElem.innerHTML += `<span class="adoption-details-info">可與小孩子相處</span><br>`;
+        hasFeature = true;
+    }
+    if (pet.pet_fine_with_cat) {
+        featureElem.innerHTML += `<span class="adoption-details-info">可與貓咪相處</span><br>`;
+        hasFeature = true;
+    }
+    if (pet.pet_fine_with_dog) {
+        featureElem.innerHTML += `<span class="adoption-details-info">可與狗狗相處</span><br>`;
+        hasFeature = true;
+    }
+    if (pet.pet_need_outing) {
+        featureElem.innerHTML += `<span class="adoption-details-info">每天要出外散步</span><br>`;
+        hasFeature = true;
+    }
+    if (pet.pet_know_hygiene) {
+        featureElem.innerHTML += `<span class="adoption-details-info">懂得指定地方大小便</span><br>`;
+        hasFeature = true;
+    }
+    if (pet.pet_know_instruc) {
+        featureElem.innerHTML += `<span class="adoption-details-info">懂得聽簡單指令</span><br>`;
+        hasFeature = true;
+    }
+    if (pet.pet_neutered) {
+        featureElem.innerHTML += `<span class="adoption-details-info">已絕育</span><br>`;
+        hasFeature = true;
+    }
+    if (!hasFeature) {
+        featureElem.innerHTML = `<span class="adoption-details-info">無</span><br>`;
+    }
+
+    if (pet.pet_description) {
+        document.querySelector('#pet_description').textContent = pet.pet_description;
+    } else {
+        document.querySelector('#pet_description').textContent = '沒有';
+    }
+
+    if (media.length > 0) {
+        for (let i = 0; i < media.length; i++) {
+            if (media[i].media_type === "image") {
+                document.querySelector(`#image_${i}`).src = `/pet-img/${media[i].file_name}`;
+            }
+            if (media[i].media_type === "video") {
+                document.querySelector('#pet_video').src = `/pet-img/${media[i].file_name}`;
+            }
+        }
+    }
+
+}
+
+init();
+
+document.querySelector('.form-submit-button').addEventListener('click', async () => {
+    let postID = await getPet()
+    let postIDResult = postID.id
+    let res = await fetch(`/pets/request`, {
+        method: 'post',
+        body: JSON.stringify({ postIDResult }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    let result = await res.json()
+    if (result.message == 'request info') {
+        alert('申請成功')
+    } else {
+        alert('請先登入')
+    }
+})
+
+// document.querySelector('#request-usertable').innerHTML +=
+//     `<tr>
+//     <td class="name-col">${postData.pet_name}</td>
+//     <td class="add-date-col">${requestResult.updated_at}</td>
+//     <td class="status-col"></td>
+//     <td class="buttons-col">接受/拒絕</td>
+// </tr>`

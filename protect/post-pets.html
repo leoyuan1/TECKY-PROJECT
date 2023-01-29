@@ -66,13 +66,13 @@
                   <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="post-pets.html" id="postPets">Post Pets</a>
+                  <a class="nav-link" href="post-pets-info.html" id="post_pets">Post Pets</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="./community/index.html">Community</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="donate.html">Donate</a>
+                  <a class="nav-link" href="message-box.html" id="message_box">Message Box</a>
                 </li>
                 <li class="nav-item dropdown" id="welcome-btn">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -80,8 +80,9 @@
                     UserName
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+                    <a class="dropdown-item" href="post-pets.html" id="postPets">Pets List</a>
                     <a class="dropdown-item" href="setting.html" id="setting-btn">Setting</a>
+                    <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
                   </div>
                 </li>
                 <li class="nav-item">
@@ -102,7 +103,7 @@
       <div class="row">
         <div id="adoption_animal_list" class="col-sm-12 center-column">
           <legend>
-            登記待領養寵物
+            已登記待領養寵物
             <a href="post-pets-info.html" class="btn btn-info legend-btn" style="background:#e52226">+ 新增待領寵物</a>
             <a href="adopt-pets.html" class="btn btn-info legend-btn" style="background:black">領養動物主頁</a>
           </legend>
@@ -112,33 +113,71 @@
                 <td class="name-col">名稱/標題</td>
                 <td class="add-date-col">加入日期</td>
                 <td class="status-col">狀態</td>
+                <td class="change-status-col">更改狀態</td>
+                <td class="detail-status-col">請求詳情</td>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div id="adoption_animal_list" class="col-sm-12 center-column">
+          <legend>
+            請求領養寵物
+          </legend>
+          <table class="adoption-list-table table table-bordered" id="request-usertable">
+            <thead>
+              <tr>
+                <td class="name-col">名稱/標題</td>
+                <td class="add-date-col">請求日期</td>
+                <td class="request-name-col">請求用戶</td>
+                <td class="status-col">狀態</td>
                 <td class="buttons-col">接受/拒絕</td>
               </tr>
             </thead>
             <tbody>
-
+            </tbody>
+          </table>
+        </div>
+        <div id="adoption_animal_list" class="col-sm-12 center-column">
+          <legend>
+            申請領養寵物
+          </legend>
+          <table class="adoption-list-table table table-bordered" id="request-table">
+            <thead>
+              <tr>
+                <td class="name-col">名稱/標題</td>
+                <td class="add-date-col">請求日期</td>
+                <td class="status-col">狀態</td>
+              </tr>
+            </thead>
+            <tbody>
             </tbody>
           </table>
         </div>
       </div>
+      <!-- end list section -->
+
     </div>
-    <!-- end list section -->
-
-  </div>
 
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
 
-  <!-- Login alart -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.js"
-    integrity="sha512-IYzd4A07K9kxY3b8YIXi8L0BmUPVvPlI+YpLOzKrIKA3sQ4gt43dYp+y6ip7C7LRLXYfMHikpxeprZh7dYQn+g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="/js/login.js"></script>
-  <script src="/js/signup.js"></script>
-  <!-- Login alart -->
-  <script type="module" src="/post-pets.js"></script>
-  <script src="https://kit.fontawesome.com/5d672d0386.js" crossorigin="anonymous"></script>
+    <!-- Login alart -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.js"
+      integrity="sha512-IYzd4A07K9kxY3b8YIXi8L0BmUPVvPlI+YpLOzKrIKA3sQ4gt43dYp+y6ip7C7LRLXYfMHikpxeprZh7dYQn+g=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/login.js"></script>
+    <script src="/js/signup.js"></script>
+    <!-- Login alart -->
+    <script type="module" src="/post-pets.js"></script>
+    <script type="module" src="/adopt-pets-info.js"></script>
+    <script src="https://kit.fontawesome.com/5d672d0386.js" crossorigin="anonymous"></script>
+
+    <!-- Navbar's Script -->
+    <script src="/js/navbar.js"></script>
+
 </body>
 </body>
 

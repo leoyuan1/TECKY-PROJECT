@@ -40,7 +40,7 @@
   <!-- <link rel="stylesheet" href="content-filter-master/css/style.css"> -->
 
   <!-- unique style for adopt-pets section -->
-  <link href="css/adopt-pets.css" rel="stylesheet" />
+  <link href="css/adopt-pets-info.css" rel="stylesheet" />
 
 </head>
 
@@ -66,19 +66,19 @@
             <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="index.html">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="post-pets.html">Post Pets</a>
+                  <a class="nav-link" href="post-pets-info.html" id="post_pets">Post Pets</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="./community/index.html">Community</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="donate.html">Donate</a>
+                  <a class="nav-link" href="message-box.html" id="message_box">Message Box</a>
                 </li>
                 <li class="nav-item dropdown" id="welcome-btn">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -86,8 +86,9 @@
                     UserName
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+                    <a class="dropdown-item" href="post-pets.html" id="postPets">Pets List</a>
                     <a class="dropdown-item" href="setting.html" id="setting-btn">Setting</a>
+                    <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
                   </div>
                 </li>
                 <li class="nav-item">
@@ -108,86 +109,78 @@
 
       <div class="banner">待領養動物</div>
 
-      <div class="page-background" id="adoption-details-page-background">
-        <div id="left-col">
-          <div class="owl-carousel owl-loaded owl-drag" id="adoption_item_image_slider" style="height: 383.547px;">
-
-
-
-
-            <div class="owl-stage-outer">
-              <div class="owl-stage"
-                style="transform: translate3d(0px, 0px, 0px); transition: all 0.25s ease 0s; width: 768px;">
-                <div class="owl-item active" style="width: 383.547px;">
-                  <div class="adoption-details-img-box"
-                    style="background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(&quot;../../image/adoption/20221109/6126_1_1668003297_3b79e65a349db1d219ae49262657006d.jpg&quot;); height: 383.547px;">
-                  </div>
-                </div>
-                <div class="owl-item" style="width: 383.547px;">
-                  <div class="adoption-details-img-box"
-                    style="background-position: center center; background-repeat: no-repeat; background-size: cover; background-image: url(&quot;../../image/adoption/20221109/6126_2_1668003297_41d08dae7d9acdcd0f2646b5923924af.jpg&quot;); height: 383.547px;">
-                  </div>
-                </div>
-              </div>
+      <div class="page-background container-fluid" id="adoption-details-page-background">
+        <div class="row">
+          <div id="left-col" class="col-md-7 col-12">
+            <label class="adoption-details-label"> 相片 </label>
+            <div class="image-container">
+              <img src="/pet-img/unknown_animal.jpg" alt="" id="image_0">
+              <img src="/pet-img/unknown_animal.jpg" alt="" id="image_1">
             </div>
-            <div class="owl-nav">
-              <div class="owl-prev disabled"></div>
-              <div class="owl-next"></div>
-            </div>
-            <div class="owl-dots disabled"></div>
-          </div>
-          <br>
-        </div>
-        <div id="right-col">
-          <div class="adoption_item_info_box">
-            <label class="adoption-details-label"> 刊登日期 </label><br>
-            <span class="adoption-details-info"> 2022-11-09 </span><br><br>
-            <label class="adoption-details-label"> 名稱/標題 </label><br>
-            <span class="adoption-details-info"> 琪琪待領養 </span><br><br>
-            <label class="adoption-details-label"> 品種 </label><br>
-            <span class="adoption-details-info">
-              <img class="type-img-small" src="icons/adoption-icons/cat-icon.svg">
-              唐貓
-            </span><br><br>
-            <label class="adoption-details-label"> 性別 </label><br>
-            <span class="adoption-details-info"><img class="gender-img" src="icons/adoption-icons/girl.svg">
-              女</span><br><br>
-            <label class="adoption-details-label"> 年齡 </label><br>
-            <span class="adoption-details-info">
-              3歲
-            </span><br><br>
-            <label class="adoption-details-label"> 基本資料 </label><br>
-            <span class="adoption-details-info">可與小孩子相處</span><br>
-            <span class="adoption-details-info">可與貓咪相處</span><br>
-            <span class="adoption-details-info">已絕育</span><br> <br>
-            <label class="adoption-details-label"> 其他資料 </label><br>
-            <span class="adoption-details-info"> 琪琪
-              大約3歲，女
-              齊針，已絕育
-              乖，可以摸
-              可以夾貓
-              領養需要家訪，裝穩固窗網 </span><br><br>
-          </div>
-          <form class="button-center" action="adoption_form.php?adoption_item_id=841" method="post">
             <br>
-            <input type="hidden" name="adoption_item_id" value="841">
-            <a href="adoption_home.php?adoption_item_id=841" class="form-back-button btn"
-              role="button"><strong>返回</strong></a>
-            <button class="form-submit-button "><strong>領養我</strong></button>
-          </form>
+            <label class="adoption-details-label"> 影片 </label>
+            <div class="video-container">
+              <video src="" controls="controls" id="pet_video"></video>
+            </div>
+          </div>
+
+          <div id="right-col" class="col-md-5 col-12">
+            <div class="adoption_item_info_box">
+              <label class="adoption-details-label"> 刊登日期 </label><br>
+              <span class="adoption-details-info" id="updated_at"> 2022-11-09 </span>
+              <br><br>
+              <label class="adoption-details-label"> 名稱/標題 </label><br>
+              <span class="adoption-details-info" id="pet_name"> 琪琪待領養 </span>
+              <br><br>
+              <label class="adoption-details-label"> 物種 </label><br>
+              <span class="adoption-details-info" id="type_name">唐貓</span>
+              <br><br>
+              <label class="adoption-details-label"> 品種 </label><br>
+              <span class="adoption-details-info" id="species_name">唐貓</span>
+              <br><br>
+              <label class="adoption-details-label"> 性別 </label><br>
+              <span class="adoption-details-info" id="gender">女</span>
+              <br><br>
+              <label class="adoption-details-label"> 年齡 </label><br>
+              <span class="adoption-details-info" id="year">3</span>
+              <span class="adoption-details-label" id="year_name">歲</span>
+              <span class="adoption-details-info" id="month">3</span>
+              <span class="adoption-details-label" id="month_name">月</span>
+              <br><br>
+              <label class="adoption-details-label"> 特點 </label><br>
+              <div id="features">
+                <span class="adoption-details-info">可與小孩子相處</span><br>
+                <span class="adoption-details-info">可與貓咪相處</span><br>
+                <span class="adoption-details-info">已絕育</span>
+              </div>
+              <br> <br>
+              <label class="adoption-details-label"> 其他資料 </label><br>
+              <span class="adoption-details-info" id="pet_description">乖，可以摸</span><br><br>
+            </div>
+            <div class="buttons">
+              <input type="hidden" name="adoption_item_id" value="841">
+              <a href="adopt-pets.html" class="form-back-button btn" role="button"><strong>返回</strong></a>
+              <button class="form-submit-button"><strong>領養我</strong></button>
+            </div>
+          </div>
         </div>
       </div>
-
     </div>
-    <!-- end list section -->
+
+
+  </div>
+  <!-- end list section -->
 
   </div>
 
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
 
-  <!-- my JS -->
-  <script type="module" src="js/adopt-pets-info.js"></script>
+  <!-- js for content-filter-master --> <!-- Resource jQuery -->
+  <!-- <script src="content-filter-master/js/jquery-2.1.1.js"></script> -->
+  <!-- <script src="content-filter-master/js/jquery.mixitup.min.js"></script> -->
+  <script src="js/adopt-pets-modernizr.js"></script>
+  <script src="js/adopt-pets-content-filter.js"></script>
 
   <!-- Login alart -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.0/sweetalert2.min.js"
@@ -197,6 +190,11 @@
   <script src="/js/signup.js"></script>
   <!-- Login alart -->
 
+  <!-- Navbar's Script -->
+  <script src="/js/navbar.js"></script>
+
+  <!-- Adopt-Pets-Info's Script -->
+  <script type="module" src="js/adopt-pets-info.js"></script>
 
 </body>
 </body>

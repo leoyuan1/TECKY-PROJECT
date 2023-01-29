@@ -1,6 +1,5 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { json } from 'stream/consumers';
 // import session from 'express-session';
 import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
@@ -12,7 +11,6 @@ import { User } from './util/session';
 
 export const petRoutes = express.Router();
 
-petRoutes.get('/one-pet/:id', getPet);
 petRoutes.get('/one-pet/:id/media', getMedia);
 petRoutes.get('/all-pets', getPets);
 petRoutes.get('/pet-types', getPetTypes);
@@ -20,14 +18,10 @@ petRoutes.get('/pet-type-id/:id/species', getSpecies);
 petRoutes.post('/', postPets);
 petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
-petRoutes.get('/posted-pets', postedPets)
-// API --- get Pet (single)
-async function getPet() {
-    // add codes here
-    console.log('getting 1 pet');
-
-}
-
+petRoutes.get('/posted-pets', postedPets);
+petRoutes.put('/post-status/:id', status)
+petRoutes.post('/request', request)
+petRoutes.post('/request-detail', detail)
 // API -- get Media
 async function getMedia(req: Request, res: Response) {
     try {
@@ -38,7 +32,7 @@ async function getMedia(req: Request, res: Response) {
         // find data from database
         const result = await client.query(`
             select * from post_media
-            where post_media_post_id = $1`, [petID]);
+            where post_id = $1`, [petID]);
         const media = result.rows;
 
         // send data to client
@@ -59,9 +53,10 @@ async function getPets(req: Request, res: Response) {
 
         // get filtered info from query
         const queries = {
-            post_pet_type_id: req.query.pet_type_id,
-            post_species_id: req.query.species_id,
-            pet_gender: req.query.pet_gender,
+            id: req.query.id,
+            pet_type_id: req.query.pet_type_id,
+            species_id: req.query.species_id,
+            gender: req.query.gender,
             pet_fine_with_children: req.query.pet_fine_with_children,
             pet_fine_with_cat: req.query.pet_fine_with_cat,
             pet_fine_with_dog: req.query.pet_fine_with_dog,
@@ -74,9 +69,31 @@ async function getPets(req: Request, res: Response) {
         // prepare sql string & parameters
         let sqlParameters = [];
         let sqlString = `
-            select * from posts 
-            left join pet_types on posts.post_pet_type_id = pet_types.pet_type_id
-            left join species on posts.post_species_id = species.species_id `
+            select
+            posts.id,
+            user_id,
+            pet_name,
+            posts.pet_type_id,
+            pet_types.type_name,
+            posts.species_id,
+            species.species_name,
+            gender,
+            birthday,
+            pet_fine_with_children,
+            pet_fine_with_cat,
+            pet_fine_with_dog,
+            pet_need_outing,
+            pet_know_hygiene,
+            pet_know_instruc,
+            pet_neutered,
+            pet_description,
+            status,
+            price,
+            posts.created_at,
+            posts.updated_at
+            from posts 
+            left join pet_types on posts.pet_type_id = pet_types.id
+            left join species on posts.species_id = species.id `
 
         if (Object.keys(req.query).length > 0) {
             logger.debug(req.query);
@@ -85,10 +102,13 @@ async function getPets(req: Request, res: Response) {
                 if (queries[key]) {
                     if (sqlParameters.length > 0) { sqlString += "and " }
                     sqlParameters.push(queries[key]);
-                    sqlString += `${key} = $${sqlParameters.length} `;
+                    sqlString += `posts.${key} = $${sqlParameters.length} `;
                 }
             }
         }
+
+        sqlString += `order by posts.created_at`;
+
         logger.debug(`sqlString = ${sqlString}`);
         logger.debug(`sqlParameters = ${sqlParameters}`);
 
@@ -113,7 +133,7 @@ async function getPetTypes(req: Request, res: Response) {
     try {
 
         // find data from database
-        const result = await client.query("select pet_type_id, pet_type_name from pet_types")
+        const result = await client.query("select id, type_name from pet_types");
         const petTypes = result.rows;
 
         // send data to client
@@ -137,7 +157,7 @@ async function getSpecies(req: Request, res: Response) {
         const petTypeID = req.params.id;
 
         // find data from database
-        const result = await client.query("select species_id, species_name from species where species_pet_type_id = $1", [petTypeID]);
+        const result = await client.query("select id, species_name from species where pet_type_id = $1", [petTypeID]);
         const species = result.rows;
 
         // send data to client
@@ -160,9 +180,18 @@ async function postPets(req: Request, res: Response) {
         // receive data from client
         const { fields, files } = await formidablePromise(req);
 
+        // process fields, make empty field null
+        let fields_processed = fields;
+        for (let key in fields_processed) {
+            if (!fields_processed[key]) {
+                fields_processed[key] = null;
+            }
+        }
+
         // prepare data
         const userID = 1;
-        const {
+
+        let {
 
             adoption_pet_name,
             adoption_pet_type,
@@ -182,20 +211,40 @@ async function postPets(req: Request, res: Response) {
 
             adoption_pet_other_info
 
-        } = fields;
+        } = fields_processed;
+
+        console.log('fields_processed = ', fields_processed);
+
+        // return if no pet name
+        if (adoption_pet_name == null) {
+            logger.debug('no pet name');
+            res.json({
+                message: "pet name shall be provided",
+            });
+            return;
+        }
+
+        // return if no pet type
+        if (adoption_pet_type == null) {
+            logger.debug('no pet type');
+            res.json({
+                message: "pet type shall be selected",
+            });
+            return;
+        }
 
         // prepare species id
         let speciesID = adoption_species_choice;
         if (speciesID == 'define') {
-            const alreadyExistSpecies = (await client.query("select species_id from species where species_name = $1", [adoption_species_name])).rows[0];
+            const alreadyExistSpecies = (await client.query("select id from species where species_name = $1", [adoption_species_name])).rows[0];
             if (alreadyExistSpecies) {
-                speciesID = alreadyExistSpecies.species_id;
+                speciesID = alreadyExistSpecies.id;
             } else {
-                speciesID = await client.query("insert into species (pet_type_id, species_name) values ($1, $2) returning species_id", [
+                speciesID = await client.query("insert into species (pet_type_id, species_name) values ($1, $2) returning id", [
                     adoption_pet_type,
                     adoption_species_name
                 ])
-                speciesID = speciesID.rows[0].species_id;
+                speciesID = speciesID.rows[0].id;
             }
         }
 
@@ -209,21 +258,22 @@ async function postPets(req: Request, res: Response) {
             birthday = now;
             birthday.setMonth(now.getMonth() - adoption_pet_age);
         }
+        console.log('birthday = ', birthday);
 
         // set default status
-        const defaultStatus = 'waiting';
+        const defaultStatus = 'active';
 
         // set default price
         const defaultPrice = 0;
 
         // insert data to database (posts)
         const postedResult = await client.query(`insert into posts (
-            post_user_id, 
+            user_id, 
             pet_name, 
-            post_pet_type_id, 
-            post_species_id, 
-            pet_gender, 
-            pet_birthday, 
+            pet_type_id, 
+            species_id, 
+            gender, 
+            birthday, 
             pet_fine_with_children, 
             pet_fine_with_cat,
             pet_fine_with_dog,
@@ -232,11 +282,11 @@ async function postPets(req: Request, res: Response) {
             pet_know_instruc,
             pet_neutered,
             pet_description,
-            post_status,
-            pet_price,
-            post_created_at,
-            post_updated_at
-            ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,now(),now()) returning post_id`, [
+            status,
+            price,
+            created_at,
+            updated_at
+            ) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,now(),now()) returning id`, [
             userID,
             adoption_pet_name,
             adoption_pet_type,
@@ -255,16 +305,14 @@ async function postPets(req: Request, res: Response) {
             defaultPrice,
         ]);
 
-        const postID = postedResult.rows[0].post_id;
+        const postID = postedResult.rows[0].id;
 
         // insert data to database (post_media)
         if (files) {
             for (let key in files) {
-                // console.log(files[key]);
                 const media_type = files[key].mimetype.split('/')[0];
-
                 const fileName = files[key].newFilename;
-                await client.query(`insert into post_media (post_media_file_name, post_media_post_id, post_media_type) values ($1,$2,$3)`, [
+                await client.query(`insert into post_media (file_name, post_id, media_type) values ($1,$2,$3)`, [
                     fileName,
                     postID,
                     media_type
@@ -336,18 +384,17 @@ declare module "express-session" {
 async function postedPets(req: Request, res: Response) {
     try {
         let session = req.session.user
-        console.log(session);
-
         if (!session) {
             res.json({
                 message: "no session data"
             })
             return
         }
-        let existingUser = (await client.query('select * from users where username = $1', [session.email])).rows[0]
+        let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
         console.log(existingUser);
 
-        let getPostData = (await client.query('select * from posts where post_user_id = $1', [existingUser.user_id])).rows
+        let getPostData = (await client.query('select * from posts where user_id = $1', [existingUser.id])).rows
+        console.log(getPostData);
 
         if (!getPostData) {
             res.json({
@@ -356,10 +403,63 @@ async function postedPets(req: Request, res: Response) {
             return
         }
         res.json({
-            Message: 'Post Data',
-            PostData: getPostData
+            message: 'Post Data',
+            postData: getPostData
         })
     } catch (error) {
         console.log(error)
     }
+}
+
+async function status(req: Request, res: Response) {
+    let result = req.params.id
+    let existData = (await client.query(`select * from posts where id = $1`, [result])).rows[0]
+    if (existData.status == 'active') {
+        await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2`, ['hidden', result])
+    } else {
+        await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2`, ['active', result])
+    }
+    res.json({
+        message: 'update succeed'
+    })
+}
+
+async function request(req: Request, res: Response) {
+    let result = req.body
+    let session = req.session.user
+    if (!session) {
+        res.json('not user')
+        return
+    }
+    let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
+    console.log(existingUser);
+
+    let postUser = (await client.query(`select * from posts where id = $1`, [result.postIDResult])).rows[0]
+    console.log(postUser);
+
+    await client.query(`insert into post_request (post_id, from_id, to_id,status, created_at) values ($1,$2,$3,$4, now())`,
+        [result.postIDResult, existingUser.id, postUser.id, 'waiting for approval'])
+    res.json({
+        message: "request info",
+    })
+}
+
+async function detail(req: Request, res: Response) {
+    let id = req.body
+    let postID = id.id
+
+    let postIDresults = (await client.query(`select * from post_request where post_id = $1`, [postID])).rows
+
+    if (!postIDresults[0]) {
+        res.json({
+            message: 'no request'
+        })
+        return
+    }
+    let postsDetail = await (await client.query('select * from posts where id = $1', [postID])).rows[0]
+    res.json({
+        message: 'have request',
+        data: postIDresults,
+        post: postsDetail
+    })
 }

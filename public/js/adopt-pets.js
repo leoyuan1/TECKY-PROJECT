@@ -1,9 +1,13 @@
+import { birthdayToYearAndMonthOld } from "./adopt-pets-util.js";
+
 async function init() {
+
+    const defaultImage = 'unknown_animal.jpg';
 
     let selected = {
         pet_type_id: null,
         species_id: null,
-        pet_gender: null,
+        gender: null,
         pet_fine_with_children: false,
         pet_fine_with_cat: false,
         pet_fine_with_dog: false,
@@ -36,15 +40,6 @@ async function init() {
         featureElem.addEventListener('click', filterPetsByFeatures)
     }
 
-
-    function monthDiff(d1, d2) {
-        let months;
-        months = (d2.getFullYear() - d1.getFullYear()) * 12;
-        months -= d1.getMonth();
-        months += d2.getMonth();
-        return months <= 0 ? 0 : months;
-    }
-
     function setSpeciesListener() {
         const speciesElem = document.querySelector('#species-list > select');
         speciesElem.addEventListener('change', filterPetsBySpecies);
@@ -54,6 +49,10 @@ async function init() {
         // clear the list
         pet_list.innerHTML = ""
 
+        if (pets.length === 0) {
+            pet_list.innerHTML = `<div class="not-found">沒有找到結果~TAT</div>`;
+        }
+
         // loop pets
         for (let i = 1; i <= pets.length; i++) {
 
@@ -61,51 +60,44 @@ async function init() {
             const pet = pets[i - 1];
 
             // prepare media
-            const post_id = pet.post_id;
+            const post_id = pet.id;
             const media = await getMedia(post_id);
             let images = [];
             for (let eachMedia of media) {
-                if (eachMedia.post_media_type === "image") {
-                    images.push(eachMedia.post_media_file_name);
+                if (eachMedia.media_type === "image") {
+                    images.push(eachMedia.file_name);
                 }
             }
 
             // prepare birthday
-            let years = 0;
-            let months = 0;
-            if (pet.pet_birthday) {
-                const now = new Date();
-                const birthday = new Date(pet.pet_birthday);
-                months = monthDiff(birthday, now);
-                if (months > 11) {
-                    years = Math.floor(months / 12);
-                    months %= 12;
-                }
+            let years;
+            let months;
+            if (pet.birthday) {
+                const old = birthdayToYearAndMonthOld(pet.birthday);
+                years = old.years;
+                months = old.months;
             }
 
             // prepare html
-            let htmlString = `<li class="pet-preview mix" style="display: inline-block;">`
-
+            let htmlString = `
+                <a href="/adopt-pets-info.html?id=${post_id}">
+                <li class="pet-preview mix" style="display: inline-block;" id="pet-${post_id}">`;
             if (images.length > 0) {
-                console.log(images[0]);
                 htmlString += `<img src="/pet-img/${images[0]}" alt="Image ${i}" class="center">`;
+            } else {
+                htmlString += `<img src="/pet-img/${defaultImage}" alt="Image ${i}" class="center">`;
             }
 
             htmlString += `
-                <div>編號: ${pet.post_id}</div>
+                <div>編號: ${pet.id}</div>
                 <div>名稱: ${pet.pet_name}</div>`;
 
-            if (pet.post_pet_type_id) {
-                htmlString += `<div>物種: ${pet.pet_type_name}</div>`;
-            } else {
-                htmlString += '<div>物種: 不知道</div>';
-            }
-            if (pet.post_species_id) {
+            if (pet.species_id) {
                 htmlString += `<div>品種: ${pet.species_name}</div>`;
             } else {
                 htmlString += '<div>品種: 不知道</div>';
             }
-            if (pet.pet_birthday) {
+            if (pet.birthday) {
                 if (years !== 0) {
                     htmlString += `<div>年齡: ${years}歲 ${months}月</div>`;
                 } else if (months !== 0) {
@@ -114,8 +106,8 @@ async function init() {
             } else {
                 htmlString += '<div>年齡: 不知道</div>';
             }
-            if (pet.pet_gender) {
-                htmlString += `<div>性別: ${pet.pet_gender}</div>`;
+            if (pet.gender) {
+                htmlString += `<div>性別: ${pet.gender}</div>`;
             } else {
                 htmlString += '<div>性別: 不知道</div>';
             }
@@ -128,7 +120,8 @@ async function init() {
         pet_list.innerHTML += `
             <li class="gap"></li>
             <li class="gap"></li>
-            <li class="gap"></li>`
+            <li class="gap"></li>
+            </a>`
 
     }
 
@@ -184,9 +177,9 @@ async function init() {
         let gender = event.target.id;
         gender = gender.replace('gender-', '');
         if (gender === 'all') {
-            selected.pet_gender = null;
+            selected.gender = null;
         } else {
-            selected.pet_gender = gender;
+            selected.gender = gender;
         }
 
         await adoptPets_loadPets();
@@ -194,11 +187,6 @@ async function init() {
     }
 
     async function filterPetsByFeatures(event) {
-
-        // get features
-        // const feature = event.target;
-        // console.log(feature);
-        // feature.classList.toggle('checked');
 
         const feature = event.target.id;
         selected[feature] = !selected[feature];
@@ -234,7 +222,10 @@ async function init() {
         const pets = result.data;
 
         // refresh pet-list
-        showPetPreview(pets);
+        await showPetPreview(pets);
+
+        // set pet-preview listeners
+        // setPetPreviewListener();
 
     }
 
@@ -255,8 +246,8 @@ async function init() {
             <li class="filter"><a class="selected" href="#0" data-type="all" id="animal-all">所有</a></li>`
 
         for (let animal of animals) {
-            const id = animal.pet_type_id;
-            const type_name = animal.pet_type_name;
+            const id = animal.id;
+            const type_name = animal.type_name;
             htmlString += `
             <li class="filter" data-filter=".animal-${id}">
             <a href="#0" data-type="animal-${id}" id="animal-${id}">${type_name}</a>
@@ -273,7 +264,7 @@ async function init() {
         if (!selected.pet_type_id) {  // if animal has not been selected, then do the following
             species_list.innerHTML = `
                 <select class="filter" name="selectThis" id="selectThis">
-                    <option value="">選擇品種</option>
+                    <option value="species-all">所有品種</option>
                 </select>`
             return;
         }
@@ -288,11 +279,10 @@ async function init() {
         // prepare html
         let htmlString = `
             <select class="filter" name="selectThis" id="selectThis">
-                <option value="">選擇品種</option>
                 <option value="species-all">所有品種</option>`;
 
         for (let specie of species) {
-            const id = specie.species_id;
+            const id = specie.id;
             const species_name = specie.species_name;
             htmlString += `
                 <option value="species-${id}">${species_name}</option>`
