@@ -28,6 +28,19 @@ async function main() {
         "2020-01-01"
     ])).rows[0].id;
 
+    const user2 = {
+        email: "asd@gmail.com",
+        username: "asd",
+        password: await hashPassword("asd"),
+    };
+    const user2_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
+        user2.email,
+        user2.username,
+        user2.password,
+        "2019-02-06",
+        "2020-03-07"
+    ])).rows[0].id;
+
     // add pet types
     const pet_types = {
         type1: "貓",
@@ -111,7 +124,7 @@ async function main() {
         updated_at: "2021-08-31"
     };
     const post_cat_1_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning id", [
-        user1_id,
+        user2_id,
         post_cat_1.pet_name,
         post_cat_1.type,
         post_cat_1.gender,
@@ -193,7 +206,7 @@ async function main() {
         updated_at: "2022-03-21"
     };
     const post_dog_1_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning id", [
-        user1_id,
+        user2_id,
         post_dog_1.pet_name,
         post_dog_1.type,
         post_dog_1.gender,
