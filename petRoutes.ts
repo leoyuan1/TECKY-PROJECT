@@ -1,9 +1,5 @@
 import express from 'express';
 import { Request, Response } from 'express';
-<<<<<<< HEAD
-=======
-import path from 'path';
->>>>>>> fa0accff80ae0b30bbc94a8e9276ba9800cd6e83
 // import session from 'express-session';
 import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
@@ -25,7 +21,7 @@ petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
 petRoutes.get('/posted-pets', postedPets);
 petRoutes.put('/post-status/:id', status)
-// petRoutes.get('/o-logo', oLogo)
+petRoutes.post('/request', request)
 
 // API --- get Pet (single)
 async function getPet(req: Request, res: Response) {
@@ -415,7 +411,6 @@ declare module "express-session" {
 async function postedPets(req: Request, res: Response) {
     try {
         let session = req.session.user
-
         if (!session) {
             res.json({
                 message: "no session data"
@@ -423,10 +418,10 @@ async function postedPets(req: Request, res: Response) {
             return
         }
         let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
-        // console.log(existingUser);
+        console.log(existingUser);
 
         let getPostData = (await client.query('select * from posts where user_id = $1', [existingUser.id])).rows
-        // console.log(getPostData);
+        console.log(getPostData);
 
         if (!getPostData) {
             res.json({
@@ -453,5 +448,25 @@ async function status(req: Request, res: Response) {
     }
     res.json({
         message: 'update succeed'
+    })
+}
+
+async function request(req: Request, res: Response) {
+    let result = req.body
+    let session = req.session.user
+    if (!session) {
+        res.json('not user')
+        return
+    }
+    let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
+    console.log(existingUser);
+
+    let postUser = (await client.query(`select * from posts where id = $1`, [result.postIDResult])).rows[0]
+    console.log(postUser);
+
+    await client.query(`insert into post_request (post_id, from_id, to_id, created_at) values ($1,$2,$3,now()) Returning *`,
+        [result.postIDResult, existingUser.id, postUser.id])
+    res.json({
+        message: "request info",
     })
 }

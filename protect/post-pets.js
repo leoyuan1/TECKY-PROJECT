@@ -69,8 +69,6 @@ async function postData() {
 async function init() {
     await postData()
     const elems = document.querySelectorAll('.slider.round');
-    console.log('elems =', elems);
-
     for (let elem of elems) {
         console.log(elem);
         elem.addEventListener('click', getElm)

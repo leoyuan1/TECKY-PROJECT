@@ -1,16 +1,16 @@
 import { birthdayToYearAndMonthOld } from './adopt-pets-util.js';
 
+const postID = document.URL.split('?')[1].replace('id=', "");
+
+async function getPet() {
+
+    const res = await fetch(`/pets/all-pets?id=${postID}`);
+    const result = await res.json();
+    return result.data[0];
+
+}
 async function init() {
 
-    const postID = document.URL.split('?')[1].replace('id=', "");
-
-    async function getPet() {
-
-        const res = await fetch(`/pets/all-pets?id=${postID}`);
-        const result = await res.json();
-        return result.data[0];
-
-    }
 
     async function getMedia() {
 
@@ -21,7 +21,7 @@ async function init() {
 
     }
 
-    const pet = await getPet();
+    let pet = await getPet();
     const media = await getMedia();
     console.log('media = ', media);
 
@@ -92,3 +92,31 @@ async function init() {
 }
 
 init();
+
+document.querySelector('.form-submit-button').addEventListener('click', async () => {
+    let postID = await getPet()
+    let postIDResult = postID.id
+    let res = await fetch(`/pets/request`, {
+        method: 'post',
+        body: JSON.stringify({ postIDResult }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    let result = await res.json()
+    console.log(result);
+    if (result.message == 'not user') {
+        alert('請先登入')
+    }
+    if (result.message == 'request info') {
+        alert('申請成功')
+    }
+})
+
+// document.querySelector('#request-usertable').innerHTML +=
+//     `<tr>
+//     <td class="name-col">${postData.pet_name}</td>
+//     <td class="add-date-col">${requestResult.updated_at}</td>
+//     <td class="status-col"></td>
+//     <td class="buttons-col">接受/拒絕</td>
+// </tr>`
