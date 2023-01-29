@@ -1,6 +1,5 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import { json } from 'stream/consumers';
 // import session from 'express-session';
 import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
@@ -21,6 +20,8 @@ petRoutes.post('/', postPets);
 petRoutes.put('/:id', updatePets);
 petRoutes.delete('/:id', deletePets);
 petRoutes.get('/posted-pets', postedPets);
+petRoutes.put('/post-status/:id', status)
+// petRoutes.get('/o-logo', oLogo)
 
 // API --- get Pet (single)
 async function getPet() {
@@ -364,10 +365,11 @@ async function postedPets(req: Request, res: Response) {
             })
             return
         }
-        let existingUser = (await client.query('select * from users where username = $1', [session.email])).rows[0]
-        console.log(existingUser);
+        let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
+        // console.log(existingUser);
 
         let getPostData = (await client.query('select * from posts where user_id = $1', [existingUser.id])).rows
+        // console.log(getPostData);
 
         if (!getPostData) {
             res.json({
@@ -382,4 +384,17 @@ async function postedPets(req: Request, res: Response) {
     } catch (error) {
         console.log(error)
     }
+}
+
+async function status(req: Request, res: Response) {
+    let result = req.params.id
+    let existData = (await client.query(`select * from posts where id = $1`, [result])).rows[0]
+    if (existData.status == 'active') {
+        await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2`, ['hidden', result])
+    } else {
+        await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2`, ['active', result])
+    }
+    res.json({
+        message: 'update succeed'
+    })
 }

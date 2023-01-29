@@ -65,9 +65,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="adopt-pets.html">Adopt Pets</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a class="nav-link" href="post-pets.html" id="postPets">Post Pets</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a class="nav-link" href="./community/index.html">Community</a>
                 </li>
@@ -80,8 +80,9 @@
                     UserName
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
+                    <a class="dropdown-item" href="post-pets.html" id="postPets">Pets List</a>
                     <a class="dropdown-item" href="setting.html" id="setting-btn">Setting</a>
+                    <a class="dropdown-item" href="#" id="logout-btn">Logout</a>
                   </div>
                 </li>
                 <li class="nav-item">
@@ -112,7 +113,7 @@
                 <td class="name-col">名稱/標題</td>
                 <td class="add-date-col">加入日期</td>
                 <td class="status-col">狀態</td>
-                <td class="buttons-col">隱藏</td>
+                <td class="change-status-col">更改狀態</td>
               </tr>
             </thead>
             <tbody>
@@ -123,7 +124,7 @@
           <legend>
             請求領養寵物
           </legend>
-          <table class="adoption-list-table table table-bordered" id="request-table">
+          <table class="adoption-list-table table table-bordered" id="request-usertable">
             <thead>
               <tr>
                 <td class="name-col">名稱/標題</td>
@@ -146,7 +147,6 @@
                 <td class="name-col">名稱/標題</td>
                 <td class="add-date-col">請求日期</td>
                 <td class="status-col">狀態</td>
-                <td class="buttons-col">接受/拒絕</td>
               </tr>
             </thead>
             <tbody>

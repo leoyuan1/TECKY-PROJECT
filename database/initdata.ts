@@ -89,7 +89,7 @@ async function main() {
         gender: "M",
         birthday: "2022-10-22",
         description: "good cat",
-        status: "waiting",
+        status: "active",
         price: 0,
         species_id: cat_species1_id,
     };
@@ -111,7 +111,7 @@ async function main() {
         gender: "M",
         birthday: "2022-10-22",
         description: "bad cat",
-        status: "waiting",
+        status: "active",
         price: 0,
         species_id: cat_species2_id,
     };
@@ -133,7 +133,7 @@ async function main() {
         gender: "F",
         birthday: "2022-12-22",
         description: "crazy dog",
-        status: "waiting",
+        status: "active",
         price: 0,
         species_id: dog_species1_id,
     };

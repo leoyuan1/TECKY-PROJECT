@@ -32,29 +32,71 @@ async function postData() {
     }
     let dataResults = data.postData
     for (let dataResult of dataResults) {
-        if (dataResult.post_status == 'hidden') {
-            document.querySelector('#post-table').innerHTML += `
-                <tr>
-                    <td class="name-col">${dataResult.pet_name}</td>
-                    <td class="add-date-col">${dataResult.post_created_at}</td>
-                    <td class="status-col">${dataResult.post_status}</td>
-                    <td class="buttons-col"><i class="fa-sharp fa-solid fa-circle-check"></i></td>
-                </tr>
-                `
-        } else {
+        if (dataResult.status == 'hidden') {
             document.querySelector('#post-table').innerHTML += `
             <tr>
                 <td class="name-col">${dataResult.pet_name}</td>
-                <td class="add-date-col">${dataResult.post_created_at}</td>
-                <td class="status-col">${dataResult.post_status}</td>
-                <td class="buttons-col"><i class="fa-solid fa-circle-xmark"></i></td>
+                <td class="add-date-col">${dataResult.created_at}</td>
+                <td class="status-col">${dataResult.status}</td>
+
+                <td class="change-status-col"> 
+                <label class="switch">
+                <input type="checkbox">
+                <span class="slider round" id="status-${dataResult.id}"></span>
+                </label>
+                </td>
             </tr>
+                `
+        } else {
+            document.querySelector('#post-table').innerHTML += `
+        <tr>
+            <td class="name-col">${dataResult.pet_name}</td>
+            <td class="add-date-col">${dataResult.created_at}</td>
+            <td class="status-col">${dataResult.status}</td>
+
+            <td class="change-status-col">            
+            <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider round" id="status-${dataResult.id}"></span>
+            </label>
+            </td>
+        </tr>
             `
         }
     }
 }
 
-function init() {
-    postData()
+async function init() {
+    await postData()
+    const elems = document.querySelectorAll('.slider.round');
+    console.log('elems =', elems);
+
+    for (let elem of elems) {
+        console.log(elem);
+        elem.addEventListener('click', getElm)
+    }
 }
 init()
+
+
+
+async function getElm(event) {
+    let id = event.target.id.replace('status-', '');
+    console.log(id);
+    let res = await fetch(`/pets/post-status/${id}`, {
+        method: 'put'
+    })
+    let result = await res.json()
+    console.log(result);
+    if (result.message == 'update succeed') {
+        location.reload('/post-pets.html')
+    }
+}
+
+// document.querySelector('#circle-check').addEventListener('click', async () => {
+//     let res = await fetch('/o-logo')
+//     let result = await res.json()
+//     if (result.message == 'updated') {
+//         postData()
+//     }
+// })
