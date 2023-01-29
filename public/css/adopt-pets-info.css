@@ -80,10 +80,36 @@
     #left-col img {
         width: 100%;
         height: auto;
+        max-height: 460px;
     }
 
     #left-col video {
         width: 100%;
         height: auto;
     }
+}
+
+.buttons {
+    margin: 10px;
+    text-align: center;
+}
+
+.form-submit-button {
+    width: 40%;
+    height: 40px;
+    color: #fff;
+    background: #ff9505;
+    border-style: none;
+    border-radius: 6px;
+    vertical-align: middle;
+}
+
+.form-back-button {
+    width: 40%;
+    height: 40px;
+    color: #fff;
+    background: #a2a2a3;
+    border-style: none;
+    border-radius: 6px;
+    padding-top: 10px;
 }
