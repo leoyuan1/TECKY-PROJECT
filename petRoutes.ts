@@ -1,5 +1,9 @@
 import express from 'express';
 import { Request, Response } from 'express';
+<<<<<<< HEAD
+=======
+import path from 'path';
+>>>>>>> fa0accff80ae0b30bbc94a8e9276ba9800cd6e83
 // import session from 'express-session';
 import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
@@ -24,10 +28,32 @@ petRoutes.put('/post-status/:id', status)
 // petRoutes.get('/o-logo', oLogo)
 
 // API --- get Pet (single)
-async function getPet() {
-    // add codes here
-    console.log('getting 1 pet');
+async function getPet(req: Request, res: Response) {
+    try {
 
+        const id = req.params.id;
+
+        // find data from database
+        const result = await client.query(`
+            select * from posts 
+            left join pet_types on posts.pet_type_id = pet_types.id
+            left join species on posts.species_id = species.id
+            where id = ${id}
+        `);
+        const pet = result.rows[0];
+        console.log(pet);
+
+
+        // send data to client
+        res.json({
+            data: pet,
+            message: "Get pet success",
+        });
+
+    } catch (error) {
+        logger.error("... [PET001] Server error ... " + error);
+        res.status(500).json({ message: "[PET001] Server error" });
+    }
 }
 
 // API -- get Media
@@ -61,6 +87,7 @@ async function getPets(req: Request, res: Response) {
 
         // get filtered info from query
         const queries = {
+            id: req.query.id,
             pet_type_id: req.query.pet_type_id,
             species_id: req.query.species_id,
             gender: req.query.gender,
@@ -81,9 +108,9 @@ async function getPets(req: Request, res: Response) {
             user_id,
             pet_name,
             posts.pet_type_id,
-            type_name,
+            pet_types.type_name,
             posts.species_id,
-            species_name,
+            species.species_name,
             gender,
             birthday,
             pet_fine_with_children,
@@ -137,7 +164,7 @@ async function getPetTypes(req: Request, res: Response) {
     try {
 
         // find data from database
-        const result = await client.query("select id, type_name from pet_types")
+        const result = await client.query("select id, type_name from pet_types");
         const petTypes = result.rows;
 
         // send data to client
@@ -184,9 +211,18 @@ async function postPets(req: Request, res: Response) {
         // receive data from client
         const { fields, files } = await formidablePromise(req);
 
+        // process fields, make empty field null
+        let fields_processed = fields;
+        for (let key in fields_processed) {
+            if (!fields_processed[key]) {
+                fields_processed[key] = null;
+            }
+        }
+
         // prepare data
         const userID = 1;
-        const {
+
+        let {
 
             adoption_pet_name,
             adoption_pet_type,
@@ -206,7 +242,27 @@ async function postPets(req: Request, res: Response) {
 
             adoption_pet_other_info
 
-        } = fields;
+        } = fields_processed;
+
+        console.log('fields_processed = ', fields_processed);
+
+        // return if no pet name
+        if (adoption_pet_name == null) {
+            logger.debug('no pet name');
+            res.json({
+                message: "pet name shall be provided",
+            });
+            return;
+        }
+
+        // return if no pet type
+        if (adoption_pet_type == null) {
+            logger.debug('no pet type');
+            res.json({
+                message: "pet type shall be selected",
+            });
+            return;
+        }
 
         // prepare species id
         let speciesID = adoption_species_choice;
@@ -233,9 +289,10 @@ async function postPets(req: Request, res: Response) {
             birthday = now;
             birthday.setMonth(now.getMonth() - adoption_pet_age);
         }
+        console.log('birthday = ', birthday);
 
         // set default status
-        const defaultStatus = 'waiting';
+        const defaultStatus = 'active';
 
         // set default price
         const defaultPrice = 0;

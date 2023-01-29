@@ -1,6 +1,6 @@
 import pg from "pg";
 import dotenv from "dotenv";
-// import { hashPassword } from "../util/Bcrypt";
+import { hashPassword } from "../util/Bcrypt";
 
 dotenv.config();
 
@@ -18,13 +18,13 @@ async function main() {
     const user1 = {
         email: "123@gmail.com",
         username: "123",
-        password: "123",
+        password: await hashPassword("123"),
     };
-    await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,now(),now())", [
+    const user1_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,now(),now()) returning id", [
         user1.email,
         user1.username,
         user1.password
-    ]);
+    ])).rows[0].id;
 
     // add pet types
     const pet_types = {
@@ -94,7 +94,7 @@ async function main() {
         species_id: cat_species1_id,
     };
     const post1_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now()) returning id", [
-        1,
+        user1_id,
         post1.pet_name,
         post1.type,
         post1.gender,
@@ -116,7 +116,7 @@ async function main() {
         species_id: cat_species2_id,
     };
     const post2_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now()) returning id", [
-        1,
+        user1_id,
         post2.pet_name,
         post2.type,
         post2.gender,
@@ -138,7 +138,7 @@ async function main() {
         species_id: dog_species1_id,
     };
     const post3_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,now(),now()) returning id", [
-        1,
+        user1_id,
         post3.pet_name,
         post3.type,
         post3.gender,
