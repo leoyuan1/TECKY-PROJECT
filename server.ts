@@ -20,7 +20,6 @@ interface Application {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// user can upload media
 const grantExpress = grant.express({
     defaults: {
         origin: "http://localhost:8080",

@@ -9,8 +9,8 @@ async function getPet() {
     return result.data[0];
 
 }
-async function init() {
 
+async function init() {
 
     async function getMedia() {
 
