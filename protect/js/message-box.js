@@ -1,5 +1,14 @@
 async function init() {
 
+  // socket.io section
+  const socket = io.connect("localhost:8080");
+
+  socket.on("reload-people", (data) => {
+    const people = data.data;
+    console.log("loaded people = ", people);
+    showPeople(people);
+  });
+
   // find user's ID
   const userID = await getUserID();
   console.log(`User id: ${userID} has opened msg box.`);
@@ -14,31 +23,12 @@ async function init() {
   //event listeners
   writeElem.addEventListener('change', sendMsg);
 
-  // socket.io section
-  const socket = io.connect("localhost:8080");
-  socket.on("msg-sent", (data) => {
-    console.log('testing socket...');
-    console.log('data = ', data);
-  });
-
   function showPeople(people) {
-    // add codes here
-  }
-
-  async function loadPeople() { // in progress
-
-    const res = await fetch('/msgs/people');
-    const result = await res.json();
-    const people = result.data;
-
-    console.log('people = ', people);
-
     peopleElem.innerHTML = '';
-
     for (let person of people) {
       const date = person.last_date.split('T')[0];
       const time = person.last_date.split('T')[1].split('.')[0];
-      const image = person.icon? person.icon : "default_profile_image.png";
+      const image = person.icon ? person.icon : "default_profile_image.png";
       peopleElem.innerHTML += `
         <li class="person" data-chat="person" id="people-${person.id}">
           <img src="/user-img/${image}" alt="" />
@@ -49,13 +39,20 @@ async function init() {
         </li>
       `;
     }
-
   }
 
   async function getUserID() {
     const res = await fetch('/user-id');
     const id = (await res.json()).data;
     return id;
+  }
+
+  async function loadPeople() {
+
+    const res = await fetch('/msgs/people');
+    const result = await res.json();
+    console.log('result = ', result.message);
+
   }
 
   async function sendMsg() {
@@ -76,8 +73,10 @@ async function init() {
     const result = await res.json();
 
     console.log('result = ', result.message);
-
-    msgWritten.value = "";
+    if (result.message === 'msg sent') {
+      msgWritten.value = "";
+      await loadPeople();
+    }
 
   }
 

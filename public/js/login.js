@@ -72,6 +72,7 @@ document.querySelector('#logout-btn').addEventListener('click', async () => {
     let res = await fetch('/logout')
     let data = await res.json()
     if (data.message == 'logout') {
-        location.reload('/')
+        // location.reload('/')
+        window.location.href = '/';
     }
 })

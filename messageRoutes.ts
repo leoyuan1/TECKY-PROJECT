@@ -1,12 +1,12 @@
 import express from 'express';
 import { Request, Response } from 'express';
 import { io } from './util/connection-config';
-import { PORT } from "./util/connection-config";
+// import { PORT } from "./util/connection-config";
 import { client } from './util/psql-config';
 
 io.on('connection', function (socket) {
     console.log(`${socket.id} is connected to message box.`);
-    socket.join('chat-room');
+    socket.join('msg-box');
 })
 
 export const msgRoutes = express.Router();
@@ -65,10 +65,9 @@ async function getPeople(req: Request, res: Response) {
 
     const people = result.rows;
 
-    res.json({
-        data: people,
-        message: "people found"
-    });
+    // send data to client
+    io.to('msg-box').emit('reload-people', { data: people });
+    res.json({ message: 'people loaded' })
 
 }
 
@@ -94,7 +93,6 @@ async function postMsg(req: Request, res: Response) {
     `, [msg, fromID, toID]);
 
     // send data to client
-    io.to('chat-room').emit('msg-sent', `echo: ${msg}`);
     res.json({ message: 'msg sent' })
 
 }
