@@ -11,6 +11,8 @@ import { isLoggedIn } from "./util/guard";
 import { communityRoutes } from "./communityRoutes";
 import { io } from "./util/connection-config";
 
+// import { io } from "./util/connection-config";
+// import { communityRoutes } from "./communities_route";
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),

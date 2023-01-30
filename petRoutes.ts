@@ -429,11 +429,15 @@ async function status(req: Request, res: Response) {
             message: 'update succeed',
             status: resultStatus
         })
-    } else {
+    } else if (existData.status == 'hidden') {
         let resultStatus = (await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2 Returning status`, ['active', result])).rows
         res.json({
             message: 'update succeed',
             status: resultStatus
+        })
+    } else if (existData.status == 'adopted') {
+        res.json({
+            message: 'adopted'
         })
     }
 }
@@ -441,15 +445,30 @@ async function status(req: Request, res: Response) {
 async function request(req: Request, res: Response) {
     let result = req.body
     let session = req.session.user
+
     if (!session) {
         res.json('not user')
         return
     }
     let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
-    // console.log(existingUser);
-
     let postUser = (await client.query(`select * from posts where id = $1`, [result.postIDResult])).rows[0]
-    // console.log(postUser);
+    console.log(existingUser.id);
+    console.log(postUser.user_id);
+
+
+    if (existingUser.id == postUser.user_id) {
+        res.json({
+            message: 'request fail'
+        })
+        return
+    }
+    let checkPostRequest = (await client.query(`select * from post_request where post_id = $1 and from_id = $2`, [postUser.id, existingUser.id])).rows[0]
+    if (checkPostRequest) {
+        res.json({
+            message: 'requested'
+        })
+        return
+    }
 
     await client.query(`insert into post_request (post_id, from_id, to_id,status, created_at) values ($1,$2,$3,$4, now())`,
         [result.postIDResult, existingUser.id, postUser.user_id, 'waiting for approval'])
@@ -487,10 +506,8 @@ async function detail(req: Request, res: Response) {
 
 async function changeRequestO(req: Request, res: Response) {
     let result = req.params.id
-    console.log(result);
 
     let nowStatus = (await client.query('select * from post_request where id = $1', [result])).rows[0]
-    console.log(nowStatus);
 
     if (!nowStatus) {
         res.status(403).json({
@@ -498,15 +515,19 @@ async function changeRequestO(req: Request, res: Response) {
         })
         return
     }
+
+    let postStatus = await (await client.query(`update posts set status = $1 where id = $2 returning *`, ['adopted', nowStatus.post_id])).rows[0]
     if (nowStatus.status == 'waiting for approval') {
+
         let requestResult = (await client.query(`UPDATE post_request SET status = $1 where id = $2 returning *`, ['approval', result])).rows[0]
 
         let otherRequest = (await client.query(`update post_request set status = $1 where post_id = $2 and id != $3 returning id,status`, ['not approval', nowStatus.post_id, result])).rows
-        // console.log(otherRequest);
+
         res.json({
             message: 'updated all data',
             otherRequest: otherRequest,
-            requestResult: requestResult
+            requestResult: requestResult,
+            postStatus: postStatus
         })
     }
 }

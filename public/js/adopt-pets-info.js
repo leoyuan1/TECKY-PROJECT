@@ -9,18 +9,13 @@ async function getPet() {
     return result.data[0];
 
 }
+async function getMedia() {
+    const res = await fetch(`/pets/one-pet/${postID}/media`);
+    const result = await res.json();
+    return result.data;
+}
 
 async function init() {
-
-    async function getMedia() {
-
-
-        const res = await fetch(`/pets/one-pet/${postID}/media`);
-        const result = await res.json();
-        return result.data;
-
-    }
-
     let pet = await getPet();
     const media = await getMedia();
     console.log('media = ', media);
@@ -113,8 +108,12 @@ async function init() {
 init();
 
 document.querySelector('.form-submit-button').addEventListener('click', async () => {
-    let postID = await getPet()
-    let postIDResult = postID.id
+    let post = await getPet()
+    let postIDResult = post.id
+    if (post.status == "adopted") {
+        Swal.fire('已被領養');
+        return
+    }
     let res = await fetch(`/pets/request`, {
         method: 'post',
         body: JSON.stringify({ postIDResult }),
@@ -123,6 +122,14 @@ document.querySelector('.form-submit-button').addEventListener('click', async ()
         }
     })
     let result = await res.json()
+    if (result.message == 'request fail') {
+        Swal.fire('自己post都申請?');
+        return
+    }
+    if (result.message == 'requested') {
+        Swal.fire('已申請');
+        return
+    }
     if (result.message == 'request info') {
         Swal.fire('申請成功');
     } else {

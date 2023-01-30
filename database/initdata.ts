@@ -24,8 +24,8 @@ async function main() {
         user1.email,
         user1.username,
         user1.password,
-        "2020-01-01",
-        "2020-01-01"
+        "2020-01-01 10:14:09.316",
+        "2020-01-01 10:14:09.316"
     ])).rows[0].id;
 
     const user2 = {
@@ -37,8 +37,8 @@ async function main() {
         user2.email,
         user2.username,
         user2.password,
-        "2019-02-06",
-        "2020-03-07"
+        "2020-03-07 10:14:09.316",
+        "2020-03-07 10:14:09.316"
     ])).rows[0].id;
 
     // add pet types
@@ -120,8 +120,8 @@ async function main() {
         status: "active",
         price: 0,
         species_id: cat_species2_id,
-        created_at: "2021-07-21",
-        updated_at: "2021-08-31"
+        created_at: "2021-07-21 10:14:09.316",
+        updated_at: "2021-08-31 10:14:09.316"
     };
     const post_cat_1_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning id", [
         user2_id,
@@ -146,8 +146,8 @@ async function main() {
         status: "active",
         price: 0,
         species_id: cat_species3_id,
-        created_at: "2022-09-25",
-        updated_at: "2022-10-10"
+        created_at: "2022-09-25 10:14:09.316",
+        updated_at: "2022-10-10 10:14:09.316"
     };
     const post_cat_2_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning id", [
         user1_id,
@@ -174,8 +174,8 @@ async function main() {
         species_id: cat_species2_id,
         pet_fine_with_children: true,
         pet_neutered: true,
-        created_at: "2021-12-24",
-        updated_at: "2021-12-25"
+        created_at: "2021-12-25 10:14:09.316",
+        updated_at: "2021-12-25 10:14:09.316"
     };
     const post_cat_3_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, pet_fine_with_children, pet_neutered, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) returning id", [
         user1_id,
@@ -202,8 +202,8 @@ async function main() {
         status: "active",
         price: 0,
         species_id: dog_species5_id,
-        created_at: "2022-02-04",
-        updated_at: "2022-03-21"
+        created_at: "2022-03-21 10:14:09.316",
+        updated_at: "2022-03-21 10:14:09.316"
     };
     const post_dog_1_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) returning id", [
         user2_id,
@@ -231,8 +231,8 @@ async function main() {
         pet_fine_with_dog: true,
         pet_need_outing: true,
         pet_know_instruc: true,
-        created_at: "2021-06-04",
-        updated_at: "2021-06-04"
+        created_at: "2021-06-04 10:14:09.316",
+        updated_at: "2021-06-04 10:14:09.316"
     };
     const post_dog_2_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, pet_fine_with_dog, pet_need_outing, pet_know_instruc, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) returning id", [
         user1_id,

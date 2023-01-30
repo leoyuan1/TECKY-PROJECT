@@ -125,6 +125,7 @@
     padding: 12px 10% 16px;
     cursor: pointer;
     background-color: var(--white);
+    /* height: 100px; */
 }
 
 .container .left .people .person:after {
@@ -156,7 +157,7 @@
     font-weight: 600;
 }
 
-.container .left .people .person .time {
+.container .left .people .person .date {
     font-size: 14px;
     position: absolute;
     top: 16px;
@@ -164,13 +165,25 @@
     padding: 0 0 5px 5px;
     color: var(--grey);
     background-color: var(--white);
+    display: block;
+}
+
+.container .left .people .person .time {
+    font-size: 14px;
+    position: absolute;
+    top: 36px;
+    right: 10%;
+    padding: 0 0 5px 5px;
+    color: var(--grey);
+    background-color: var(--white);
+    display: block;
 }
 
 .container .left .people .person .preview {
     font-size: 14px;
     display: inline-block;
     overflow: hidden !important;
-    width: 70%;
+    width: 50%;
     white-space: nowrap;
     text-overflow: ellipsis;
     color: var(--grey);

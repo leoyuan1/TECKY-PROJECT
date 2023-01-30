@@ -48,7 +48,7 @@ async function postData() {
             <td class="delete-col"><i type="button"class="fa-solid fa-trash" id="delete-${dataResult.id}"></i></td>
             </tr>
                 `
-        } else {
+        } else if (dataResult.status == 'active') {
             document.querySelector('#post-table').innerHTML += `
         <tr id="post-table-${dataResult.id}">
             <td class="name-col">${dataResult.pet_name}</td>
@@ -64,6 +64,18 @@ async function postData() {
             <td class="delete-col""><i type="button" class="fa-solid fa-trash" id="delete-${dataResult.id}"></i></td>
         </tr>
             `
+        } else {
+            document.querySelector('#post-table').innerHTML += `
+            <tr id="post-table-${dataResult.id}">
+                <td class="name-col">${dataResult.pet_name}</td>
+                <td class="add-date-col">${dataResult.created_at}</td>
+                <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
+                <td class="change-status-col">            
+                </td>
+                <td class="detail-status-col"><i type='button' class="fa-solid fa-book" id='detail-${dataResult.id}'></i></td>
+                <td class="delete-col""><i type="button" class="fa-solid fa-trash" id="delete-${dataResult.id}"></i></td>
+            </tr>
+                `
         }
     }
     applicationStatus()
@@ -84,8 +96,8 @@ async function applicationStatus() {
 }
 
 function detailRequest() {
-    const requestStatusOs = document.querySelectorAll('.fa-solid.fa-circle-check')
-    const requestStatusXs = document.querySelectorAll('.fa-solid.fa-circle-xmark')
+    const requestStatusOs = document.querySelectorAll('.O-logo')
+    const requestStatusXs = document.querySelectorAll('.X-logo')
     for (let requestStatusO of requestStatusOs) {
         requestStatusO.addEventListener('click', changeRequestStatusO)
     }
@@ -103,7 +115,7 @@ async function init() {
         elem.addEventListener('click', getElm)
     }
     for (let requestDetail of requestDetails) {
-        await requestDetail.addEventListener('click', detail)
+        requestDetail.addEventListener('click', detail)
     }
     for (let deletePost of deletePosts) {
         deletePost.addEventListener('click', deletePostItem)
@@ -163,12 +175,14 @@ async function detail(event) {
                 <td class="add-date-col">${resultData.created_at}</td>
                 <td class="request-name-col">${resultData.username}</td>
                 <td class="status-col" id="status-col-${resultData.id}">${resultData.status}</td>
-                <td class="buttons-col"><i type="button" class="fa-solid fa-circle-check" id="request-status-O-${resultData.id}"></i>   <i type="button" class="fa-solid fa-circle-xmark" id="request-status-X-${resultData.id}"></i></td>
+                <td class="buttons-col"><i type="button" class="fa-solid fa-circle-check O-logo" id="request-status-O-${resultData.id}"></i>   <i type="button" class="fa-solid fa-circle-xmark X-logo" id="request-status-X-${resultData.id}"></i></td>
             </tr>`
         if (resultData.status == 'approval') {
             document.querySelector(`#request-status-X-${resultData.id}`).style.display = 'none'
+            document.querySelector(`#request-status-O-${resultData.id}`).className = 'fa-solid fa-circle-check'
         } else if (resultData.status == 'not approval') {
             document.querySelector(`#request-status-O-${resultData.id}`).style.display = 'none'
+            document.querySelector(`#request-status-X-${resultData.id}`).className = 'fa-solid fa-circle-xmark'
         }
     }
     detailRequest()
@@ -192,10 +206,14 @@ async function changeRequestStatusO(event) {
             for (let otherUserRequest of otherUserRequests) {
                 document.querySelector(`#request-status-O-${otherUserRequest.id}`).style.display = 'none'
                 document.querySelector(`#status-col-${otherUserRequest.id}`).innerHTML = otherUserRequest.status
+                document.querySelector(`#request-status-X-${otherUserRequest.id}`).className = 'fa-solid fa-circle-xmark'
             }
             if (requestResult.message == 'updated all data') {
                 document.querySelector(`#request-status-X-${id}`).style.display = 'none'
                 document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
+                document.querySelector(`#request-status-O-${id}`).className = 'fa-solid fa-circle-check'
+                document.querySelector(`#renew-status-${requestResult.requestResult.post_id}`).innerHTML = 'adopted'
+                document.querySelector(`#status-${requestResult.postStatus.id}`).remove()
             }
             Swal.fire(
                 'Accepted!'
@@ -221,12 +239,12 @@ async function changeRequestStatusX(event) {
         if (requestResult.message == 'updated all data') {
             document.querySelector(`#request-status-O-${id}`).style.display = 'none'
             document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
+            document.querySelector(`#request-status-X-${otherUserRequest.id}`).className = 'fa-solid fa-circle-xmark'
         }
         Swal.fire(
             'Rejected!'
         )
     })
-    // if (requestResult.otherRequest)
 }
 
 async function deletePostItem(event) {
