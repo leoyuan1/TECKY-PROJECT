@@ -15,14 +15,6 @@ async function getMedia() {
     return result.data;
 }
 
-async function getMedia() {
-
-    const res = await fetch(`/pets/one-pet/${postID}/media`);
-    const result = await res.json();
-    return result.data;
-
-}
-
 async function init() {
     let pet = await getPet();
     const media = await getMedia();
