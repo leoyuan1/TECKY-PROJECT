@@ -429,11 +429,15 @@ async function status(req: Request, res: Response) {
             message: 'update succeed',
             status: resultStatus
         })
-    } else {
+    } else if (existData.status == 'hidden') {
         let resultStatus = (await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2 Returning status`, ['active', result])).rows
         res.json({
             message: 'update succeed',
             status: resultStatus
+        })
+    } else if (existData.status == 'adopted') {
+        res.json({
+            message: 'adopted'
         })
     }
 }
@@ -487,10 +491,8 @@ async function detail(req: Request, res: Response) {
 
 async function changeRequestO(req: Request, res: Response) {
     let result = req.params.id
-    console.log(result);
 
     let nowStatus = (await client.query('select * from post_request where id = $1', [result])).rows[0]
-    console.log(nowStatus);
 
     if (!nowStatus) {
         res.status(403).json({
@@ -498,15 +500,19 @@ async function changeRequestO(req: Request, res: Response) {
         })
         return
     }
+
+    let postStatus = await (await client.query(`update posts set status = $1 where id = $2 returning *`, ['adopted', nowStatus.post_id])).rows[0]
     if (nowStatus.status == 'waiting for approval') {
+
         let requestResult = (await client.query(`UPDATE post_request SET status = $1 where id = $2 returning *`, ['approval', result])).rows[0]
 
         let otherRequest = (await client.query(`update post_request set status = $1 where post_id = $2 and id != $3 returning id,status`, ['not approval', nowStatus.post_id, result])).rows
-        // console.log(otherRequest);
+
         res.json({
             message: 'updated all data',
             otherRequest: otherRequest,
-            requestResult: requestResult
+            requestResult: requestResult,
+            postStatus: postStatus
         })
     }
 }
