@@ -438,7 +438,7 @@ async function request(req: Request, res: Response) {
     console.log(postUser);
 
     await client.query(`insert into post_request (post_id, from_id, to_id,status, created_at) values ($1,$2,$3,$4, now())`,
-        [result.postIDResult, existingUser.id, postUser.id, 'waiting for approval'])
+        [result.postIDResult, existingUser.id, postUser.user_id, 'waiting for approval'])
     res.json({
         message: "request info",
     })
