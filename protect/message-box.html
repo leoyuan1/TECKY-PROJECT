@@ -98,9 +98,9 @@
                 </nav>
             </div>
         </header>
-        <!-- end header section -->
+        <!-- header section ends -->
 
-        <!-- main section -->
+        <!-- main section starts -->
 
         <!-- <div class="message-box-container container-fluid">
             <div class="row">
@@ -285,7 +285,7 @@
                         </div>
                         <div class="write">
                             <a href="javascript:;" class="write-link attach"></a>
-                            <input type="text" />
+                            <input type="text" value="" placeholder="type your message here">
                             <a href="javascript:;" class="write-link smiley"></a>
                             <a href="javascript:;" class="write-link send"></a>
                         </div>
@@ -294,8 +294,10 @@
             </div>
 
         </div>
+        <!-- main section ends -->
 
-        <!-- main section -->
+        <!-- Socket.IO -->
+        <script src="/socket.io/socket.io.js"></script>
 
         <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
@@ -312,7 +314,7 @@
         <script src="/js/navbar.js"></script>
 
         <!-- Message Box's Script -->
-        <script src="/js/message-box.js"></script>
+        <script type="module" src="/js/message-box.js"></script>
 
 </body>
 
