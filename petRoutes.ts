@@ -22,6 +22,7 @@ petRoutes.get('/posted-pets', postedPets);
 petRoutes.put('/post-status/:id', status)
 petRoutes.post('/request', request)
 petRoutes.post('/request-detail', detail)
+
 // API -- get Media
 async function getMedia(req: Request, res: Response) {
     try {
@@ -219,7 +220,7 @@ async function postPets(req: Request, res: Response) {
         if (adoption_pet_name == null) {
             logger.debug('no pet name');
             res.json({
-                message: "pet name shall be provided",
+                message: "missing pet name",
             });
             return;
         }
@@ -228,7 +229,7 @@ async function postPets(req: Request, res: Response) {
         if (adoption_pet_type == null) {
             logger.debug('no pet type');
             res.json({
-                message: "pet type shall be selected",
+                message: "missing pet type",
             });
             return;
         }

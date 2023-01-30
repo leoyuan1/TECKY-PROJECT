@@ -88,6 +88,17 @@ async function init() {
         event.preventDefault();
 
         const form = event.target;
+
+        if (!form.adoption_pet_name.value) {
+            Swal.fire("請填上名稱/標題");
+            return;
+        }
+
+        if (!form.adoption_pet_type.value) {
+            Swal.fire("請選擇寵物類別");
+            return;
+        }
+
         const formData = new FormData(form);
 
         const res = await fetch('/pets', {
@@ -96,7 +107,18 @@ async function init() {
         })
 
         const data = await res.json();
-        alert(data.message);
+
+        if (data.message === "missing pet name") {
+            Swal.fire("請填上名稱/標題");
+            return;
+        }
+
+        if (data.message === "missing pet type") {
+            Swal.fire("請選擇寵物類別");
+            return;
+        }
+
+        Swal.fire("成功登記")
 
     }
 
