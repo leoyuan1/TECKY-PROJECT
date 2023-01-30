@@ -33,17 +33,18 @@ async function signup() {
                 })
                 let data = await res.json()
                 if (data.message === 'OK') {
-                    await Swal.fire(`
+                    Swal.fire(`
                             email: ${email}
                             註冊成功
                             `.trim())
+
                 } else if (data.message === 'email registered') {
-                    await Swal.fire(`
+                    Swal.fire(`
                     email: ${email}
                     已被註冊
                     `.trim())
                 } else if (data.message === 'username registered') {
-                    await Swal.fire(`
+                    Swal.fire(`
                     username: ${username}
                     已被註冊
                     `.trim())
