@@ -1,3 +1,44 @@
+async function init() {
+
+  //  await loadMsgs();
+
+  const writeElem = document.querySelector('.write');
+
+  writeElem.addEventListener('change', async () => {
+
+    const msgWritten = document.querySelector('.write > input')
+    console.log(`user is writing...\n${msgWritten.value}`);
+
+    const userID = 1;
+    const fetchDetails = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: msgWritten.value
+      })
+    }
+    const res = await fetch(`/msgs/user-id/${userID}`, fetchDetails);
+
+    console.log('res = ', res);
+    console.log('res.ok = ', res.ok);
+
+    msgWritten.value = "";
+
+  })
+
+  const socket = io.connect("localhost:8080");
+  socket.on("msg-sent", (data) => {
+    console.log('testing socket...');
+    console.log('data = ', data);
+  });
+
+}
+
+init();
+
+/*********************************/
+/*** codes from library starts ***/
+/*********************************/
 document.querySelector('.chat[data-chat=person2]').classList.add('active-chat')
 document.querySelector('.person[data-chat=person2]').classList.add('active')
 
@@ -29,3 +70,6 @@ function setAciveChat(f) {
   friends.name = f.querySelector('.name').innerText
   chat.name.innerHTML = friends.name
 }
+/*******************************/
+/*** codes from library ends ***/
+/*******************************/
