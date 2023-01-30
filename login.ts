@@ -86,13 +86,14 @@ async function signup(req: express.Request, res: express.Response) {
         let fileName = files.image ? files.image['newFilename'] : ''
 
         let hashedPassword = await hashPassword(fields.password)
-        await client.query('INSERT INTO users (email,password,icon,username,created_at,updated_at) values ($1,$2,$3,$4,now(),now())',
+        let user = (await client.query('INSERT INTO users (email,password,icon,username,created_at,updated_at) values ($1,$2,$3,$4,now(),now()) returning *',
             [fields.email,
                 hashedPassword,
                 fileName,
             fields.username,
             ]
-        )
+        )).rows[0]
+        req.session.user = user
         res.json({
             message: "OK"
         })

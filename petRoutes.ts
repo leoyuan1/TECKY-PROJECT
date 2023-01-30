@@ -370,16 +370,13 @@ async function updatePets(req: Request, res: Response) {
 // API --- delete pet
 async function deletePets(req: Request, res: Response) {
     try {
-
-        // receive data from client
-
-
-        // read data from server
-
-
-        // msg to client
-
-
+        let id = req.params.id
+        await client.query(`delete from post_media where post_id = $1`, [id])
+        await client.query('delete from post_request where post_id = $1', [id])
+        await client.query('delete from posts where id = $1', [id])
+        res.json({
+            message: 'deleted'
+        })
     } catch (error) {
         logger.error("... [MEM030] Server error ... " + error);
         res.status(500).json({ message: "[MEM020] Server error" });
