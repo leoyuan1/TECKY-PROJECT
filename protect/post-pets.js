@@ -71,11 +71,19 @@ async function init() {
     await postData()
     const elems = document.querySelectorAll('.slider.round');
     const requestDetails = document.querySelectorAll('.fa-solid.fa-book')
+    const requestStatusOs = document.querySelectorAll('.fa-solid.fa-circle-check')
+    const requestStatusXs = document.querySelectorAll('.fa-solid.fa-circle-xmark')
     for (let elem of elems) {
         elem.addEventListener('click', getElm)
     }
     for (let requestDetail of requestDetails) {
         requestDetail.addEventListener('click', detail)
+    }
+    for (let requestStatusO of requestStatusOs) {
+        requestStatusO.addEventListener('click', changeRequestStatus)
+    }
+    for (let requestStatusX of requestStatusXs) {
+        requestStatusX.addEventListener('click', changeRequestStatus)
     }
 }
 init()
@@ -110,7 +118,6 @@ async function detail(event) {
         return
     }
     let resultDatas = result.data
-    let postsDetail = result.post
 
     document.querySelector('#request-usertable').innerHTML = `           
     <thead>
@@ -127,11 +134,15 @@ async function detail(event) {
     for (let resultData of resultDatas) {
         document.querySelector('#request-usertable').innerHTML +=
             `<tr>
-                <td class="name-col">${postsDetail.pet_name}</td>
+                <td class="name-col">${resultData.pet_name}</td>
                 <td class="add-date-col">${resultData.created_at}</td>
-                <td class="request-name-col">請求用戶</td>
+                <td class="request-name-col">${resultData.username}</td>
                 <td class="status-col">${resultData.status}</td>
-                <td class="buttons-col"><i class="fa-solid fa-circle-check"></i><i class="fa-solid fa-circle-xmark"></i></td>
+                <td class="buttons-col"><i type="button" class="fa-solid fa-circle-check" id="request-status-${resultData.id}"></i>   <i type="button" class="fa-solid fa-circle-xmark" id="request-status-${resultData.id}"></i></td>
             </tr>`
     }
-}   
+}
+
+async function changeRequestStatus() {
+
+}

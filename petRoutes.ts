@@ -448,7 +448,16 @@ async function detail(req: Request, res: Response) {
     let id = req.body
     let postID = id.id
 
-    let postIDresults = (await client.query(`select * from post_request where post_id = $1`, [postID])).rows
+    let postIDresults = (await client.query(`select
+    posts.pet_name,
+    post_request.status,
+    post_request.created_at,
+    users.username,
+    post_request.id
+    from post_request
+    join posts on post_request.post_id = posts.id
+    join users on post_request.from_id = users.id
+    where post_request.post_id = $1`, [postID])).rows
 
     if (!postIDresults[0]) {
         res.json({
@@ -456,10 +465,8 @@ async function detail(req: Request, res: Response) {
         })
         return
     }
-    let postsDetail = await (await client.query('select * from posts where id = $1', [postID])).rows[0]
     res.json({
         message: 'have request',
-        data: postIDresults,
-        post: postsDetail
+        data: postIDresults
     })
 }
