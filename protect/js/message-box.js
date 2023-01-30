@@ -4,11 +4,12 @@ async function init() {
   const userID = await getUserID();
   console.log(`User id: ${userID} has opened msg box.`);
 
-  //  await loadMsgs();
-
   // query selectors
   const writeElem = document.querySelector('.write');
-  const people = document.querySelector('.people');
+  const peopleElem = document.querySelector('.people');
+
+  await loadPeople();
+  //  await loadMsgs();
 
   //event listeners
   writeElem.addEventListener('change', sendMsg);
@@ -20,9 +21,34 @@ async function init() {
     console.log('data = ', data);
   });
 
-  async function loadMsgs() { // in progress
+  function showPeople(people) {
+    // add codes here
+  }
+
+  async function loadPeople() { // in progress
 
     const res = await fetch('/msgs/people');
+    const result = await res.json();
+    const people = result.data;
+
+    console.log('people = ', people);
+
+    peopleElem.innerHTML = '';
+
+    for (let person of people) {
+      const date = person.last_date.split('T')[0];
+      const time = person.last_date.split('T')[1].split('.')[0];
+      const image = person.icon? person.icon : "default_profile_image.png";
+      peopleElem.innerHTML += `
+        <li class="person" data-chat="person" id="people-${person.id}">
+          <img src="/user-img/${image}" alt="" />
+          <div class="name">${person.username}</div>
+          <span class="date">${date}</span>
+          <span class="time">${time}</span>
+          <span class="preview">${person.last_message}</span>
+        </li>
+      `;
+    }
 
   }
 
@@ -44,7 +70,7 @@ async function init() {
       })
     }
 
-    const toID = 2;
+    const toID = 3;
 
     const res = await fetch(`/msgs/to-user-id/${toID}`, fetchDetails);
     const result = await res.json();
