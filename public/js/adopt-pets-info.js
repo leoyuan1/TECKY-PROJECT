@@ -15,14 +15,6 @@ async function getMedia() {
     return result.data;
 }
 
-async function getMedia() {
-
-    const res = await fetch(`/pets/one-pet/${postID}/media`);
-    const result = await res.json();
-    return result.data;
-
-}
-
 async function init() {
     let pet = await getPet();
     const media = await getMedia();
@@ -130,6 +122,10 @@ document.querySelector('.form-submit-button').addEventListener('click', async ()
         }
     })
     let result = await res.json()
+    if (result.message == 'request fail') {
+        Swal.fire('自己post都申請?');
+        return
+    }
     if (result.message == 'requested') {
         Swal.fire('已申請');
         return
