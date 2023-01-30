@@ -33,11 +33,11 @@ async function signup() {
                 })
                 let data = await res.json()
                 if (data.message === 'OK') {
+                    showUserNav()
                     Swal.fire(`
                             email: ${email}
                             註冊成功
                             `.trim())
-
                 } else if (data.message === 'email registered') {
                     Swal.fire(`
                     email: ${email}
@@ -61,4 +61,15 @@ function validateEmail(email) {
     return false
 }
 
-
+// async function showUserNav() {
+//     let res = await fetch('/session')
+//     let result = await res.json()
+//     if (result.message === 'isUser') {
+//         document.getElementById("login-btn").style.display = "none";
+//         document.getElementById("welcome-btn").style.display = "block";
+//         document.getElementById("postPets").style.display = "block";
+//         document.getElementById('navbarDropdownMenuLink').innerHTML = `Welcome ${result.user.username}`;
+//     } else if (result.message === 'no session data') {
+//         return
+//     }
+// }

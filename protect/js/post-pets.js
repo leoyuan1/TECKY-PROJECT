@@ -34,7 +34,7 @@ async function postData() {
     for (let dataResult of dataResults) {
         if (dataResult.status == 'hidden') {
             document.querySelector('#post-table').innerHTML += `
-            <tr>
+            <tr id="post-table-${dataResult.id}">
                 <td class="name-col">${dataResult.pet_name}</td>
                 <td class="add-date-col">${dataResult.created_at}</td>
                 <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
@@ -45,11 +45,12 @@ async function postData() {
                 </label>
                 </td>
             <td class="detail-status-col"><i type='button' class="fa-solid fa-book" id="detail-${dataResult.id}"></i></td>
+            <td class="delete-col"><i type="button"class="fa-solid fa-trash" id="delete-${dataResult.id}"></i></td>
             </tr>
                 `
         } else {
             document.querySelector('#post-table').innerHTML += `
-        <tr>
+        <tr id="post-table-${dataResult.id}">
             <td class="name-col">${dataResult.pet_name}</td>
             <td class="add-date-col">${dataResult.created_at}</td>
             <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
@@ -60,6 +61,7 @@ async function postData() {
             </label>
             </td>
             <td class="detail-status-col"><i type='button' class="fa-solid fa-book" id='detail-${dataResult.id}'></i></td>
+            <td class="delete-col""><i type="button" class="fa-solid fa-trash" id="delete-${dataResult.id}"></i></td>
         </tr>
             `
         }
@@ -95,13 +97,17 @@ async function init() {
     await postData()
     const elems = document.querySelectorAll('.slider.round');
     const requestDetails = document.querySelectorAll('.fa-solid.fa-book')
+    const deletePosts = document.querySelectorAll('.fa-solid.fa-trash')
+    // console.log(deletePosts);
     for (let elem of elems) {
         elem.addEventListener('click', getElm)
     }
     for (let requestDetail of requestDetails) {
         await requestDetail.addEventListener('click', detail)
     }
-
+    for (let deletePost of deletePosts) {
+        deletePost.addEventListener('click', deletePostItem)
+    }
 }
 init()
 
@@ -130,7 +136,10 @@ async function detail(event) {
     })
     let result = await res.json()
     if (result.message == 'no request') {
-        alert('沒有申請')
+        Swal.fire({
+            title: '沒有收到請求申請',
+            showConfirmButton: true
+        })
         return
     }
     let resultDatas = result.data
@@ -166,32 +175,84 @@ async function detail(event) {
 }
 
 async function changeRequestStatusO(event) {
-    let id = event.target.id.replace('request-status-O-', '')
-    let res = await fetch(`/pets/change-request-O-status/${id}`, {
-        method: 'put'
+    Swal.fire({
+        title: 'You confirm to accept the application?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            let id = event.target.id.replace('request-status-O-', '')
+            let res = await fetch(`/pets/change-request-O-status/${id}`, {
+                method: 'put'
+            })
+            let requestResult = await res.json()
+            let otherUserRequests = requestResult.otherRequest
+            for (let otherUserRequest of otherUserRequests) {
+                document.querySelector(`#request-status-O-${otherUserRequest.id}`).style.display = 'none'
+                document.querySelector(`#status-col-${otherUserRequest.id}`).innerHTML = otherUserRequest.status
+            }
+            if (requestResult.message == 'updated all data') {
+                document.querySelector(`#request-status-X-${id}`).style.display = 'none'
+                document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
+            }
+            Swal.fire(
+                'Accepted!'
+            )
+        }
     })
-    let requestResult = await res.json()
-    let otherUserRequests = requestResult.otherRequest
-    for (let otherUserRequest of otherUserRequests) {
-        document.querySelector(`#request-status-O-${otherUserRequest.id}`).style.display = 'none'
-        document.querySelector(`#status-col-${otherUserRequest.id}`).innerHTML = otherUserRequest.status
-    }
-    if (requestResult.message == 'updated all data') {
-        document.querySelector(`#request-status-X-${id}`).style.display = 'none'
-        document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
-    }
     // if (requestResult.otherRequest)
 }
 
 async function changeRequestStatusX(event) {
-    let id = event.target.id.replace('request-status-X-', '')
-    let res = await fetch(`/pets/change-request-X-status/${id}`, {
-        method: 'put'
+    Swal.fire({
+        title: 'You confirm to reject the application?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then(async (result) => {
+        let id = event.target.id.replace('request-status-X-', '')
+        let res = await fetch(`/pets/change-request-X-status/${id}`, {
+            method: 'put'
+        })
+        let requestResult = await res.json()
+        if (requestResult.message == 'updated all data') {
+            document.querySelector(`#request-status-O-${id}`).style.display = 'none'
+            document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
+        }
+        Swal.fire(
+            'Rejected!'
+        )
     })
-    let requestResult = await res.json()
-    if (requestResult.message == 'updated all data') {
-        document.querySelector(`#request-status-O-${id}`).style.display = 'none'
-        document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
-    }
     // if (requestResult.otherRequest)
+}
+
+async function deletePostItem(event) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            let id = event.target.id.replace('delete-', '')
+            let res = await fetch(`/pets/${id}`, {
+                method: 'delete'
+            })
+            let result = await res.json()
+            if (result.message == 'deleted') {
+                document.querySelector(`#post-table-${id}`).remove()
+            }
+            Swal.fire(
+                'Deleted!',
+                'Your post has been deleted.',
+                'success'
+            )
+        }
+    })
 }

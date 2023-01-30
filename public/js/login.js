@@ -44,13 +44,13 @@ logInFormElm.addEventListener('click', async () => {
                 await Swal.fire(`
                 登入成功
                 `.trim())
-                isUser()
+                showUserNav()
             }
         }
     })
 })
 
-async function isUser() {
+async function showUserNav() {
     let res = await fetch('/session')
     let result = await res.json()
     if (result.message === 'isUser') {
@@ -64,7 +64,7 @@ async function isUser() {
 }
 
 function init() {
-    isUser()
+    showUserNav()
 }
 init()
 
