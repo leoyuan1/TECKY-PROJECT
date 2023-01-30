@@ -7,6 +7,7 @@ import { userRoutes } from "./login";
 import expressSession from "express-session";
 import grant from "grant";
 import { isLoggedIn } from "./util/guard";
+import { communityRoutes } from "./communities_route";
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -45,6 +46,7 @@ app.use(express.static("public"));
 app.use(express.static("uploads"));
 app.use('/', userRoutes)
 app.use('/pets', petRoutes);
+app.use('/community', communityRoutes);
 // static files 
 // app.use(express.static("pet template"));
 app.use(grantExpress as express.RequestHandler);

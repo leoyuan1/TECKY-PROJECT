@@ -12,7 +12,7 @@ export const form = formidable({
     maxFileSize: 50 * 1024 * 1024 ** 2, // the default limit is 50MB
     filter: (part) => part.mimetype?.startsWith("image/") || part.mimetype?.startsWith("video/") || false,
     filename: (originalName, originalExt, part, form) => {
-        let fieldName = part.name?.substring(0, part.name.length-1);
+        let fieldName = part.name?.substring(0, part.name.length - 1);
         let timestamp = Date.now();
         let ext = part.mimetype?.split("/").pop();
         return `${fieldName}-${timestamp}.${ext}`;
@@ -21,7 +21,7 @@ export const form = formidable({
 
 export function formidablePromise(req: express.Request) {
     return new Promise<any>((resolve, reject) => {
-        form.parse(req, (err, fields, files) => {  
+        form.parse(req, (err, fields, files) => {
             if (err) {
                 reject(err);
                 return;

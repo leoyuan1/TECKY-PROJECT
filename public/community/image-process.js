@@ -18,7 +18,7 @@ function getObjectURL(file) {
 }
 
 
-document.querySelector('.new-post-container [type=file]').addEventListener('change', (e) => {
+document.querySelector('.btn-btn-link [type=file]').addEventListener('change', (e) => {
 
     console.log('file field changed');
     let image = e.target.files[0]
