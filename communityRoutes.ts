@@ -5,7 +5,7 @@ import { isLoggedInAPI } from "./util/guard";
 import { logger } from "./util/logger";
 import { client } from "./util/psql-config";
 
-export let communityRoutes = express.Router()
+export const communityRoutes = express.Router()
 
 communityRoutes.put('/:id', isLoggedInAPI, updatePostById)
 communityRoutes.post('/', createPost)

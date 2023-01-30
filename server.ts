@@ -8,12 +8,9 @@ import { userRoutes } from "./login";
 import expressSession from "express-session";
 import grant from "grant";
 import { isLoggedIn } from "./util/guard";
-<<<<<<< HEAD
 import { communityRoutes } from "./communityRoutes";
 import { io } from "./util/connection-config";
-=======
-import { communityRoutes } from "./communities_route";
->>>>>>> 7f89c2112cc0a9ecebba17d49735eb44e684b0da
+
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
