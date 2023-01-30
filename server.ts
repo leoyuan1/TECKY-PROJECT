@@ -2,12 +2,17 @@ import express from "express";
 import path from "path";
 import { logger } from './util/logger';
 import { petRoutes } from "./petRoutes";
+import { msgRoutes } from "./messageRoutes";
 import { app, PORT, server } from "./util/connection-config";
 import { userRoutes } from "./login";
 import expressSession from "express-session";
 import grant from "grant";
 import { isLoggedIn } from "./util/guard";
+<<<<<<< HEAD
 import { communityRoutes } from "./communities_route";
+=======
+import { io } from "./util/connection-config";
+>>>>>>> fabb37d66186a85a9698ae3ace2ad93859c96a16
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -23,7 +28,7 @@ app.use(express.json());
 
 const grantExpress = grant.express({
     defaults: {
-        origin: "http://localhost:8080",
+        origin: `http://localhost:${PORT}`,
         transport: "session",
         state: true,
     },
@@ -46,7 +51,11 @@ app.use(express.static("public"));
 app.use(express.static("uploads"));
 app.use('/', userRoutes)
 app.use('/pets', petRoutes);
+<<<<<<< HEAD
 app.use('/community', communityRoutes);
+=======
+app.use('/msgs', msgRoutes);
+>>>>>>> fabb37d66186a85a9698ae3ace2ad93859c96a16
 // static files 
 // app.use(express.static("pet template"));
 app.use(grantExpress as express.RequestHandler);

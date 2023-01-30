@@ -49,8 +49,6 @@ export async function createPost(req: express.Request, res: express.Response) {
 }
 
 
-
-
 export async function updatePostById(
     req: express.Request,
     res: express.Response
