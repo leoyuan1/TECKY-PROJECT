@@ -118,7 +118,9 @@ async function init() {
             return;
         }
 
-        Swal.fire("成功登記")
+        window.location.href = '/post-pets.html';
+
+        // Swal.fire("成功登記")
 
     }
 

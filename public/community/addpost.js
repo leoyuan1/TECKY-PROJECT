@@ -1,4 +1,4 @@
-let newPostformElm = document.querySelector('.new-post-container')
+let newPostformElm = document.querySelector('.btn-btn-link')
 // let signinformElm = document.querySelector('.signin-form > form')
 
 newPostformElm.addEventListener('submit', async (e) => {
@@ -21,8 +21,8 @@ signinformElm.addEventListener('submit', async (e) => {
     // prep
 
     let uploadData = {
-        username: newPostformElm.username.value,
-        password: newPostformElm.password.value
+        username: newPostformElm.value,
+        password: newPostformElm.value
     }
 
     // send
@@ -57,37 +57,37 @@ async function loadPost() {
     }
 }
 
-function updatePostContainer(posts) {
-    let postContainerElem = document.querySelector('.post-container')
-    postContainerElem.innerHTML = ''
-    for (let postItem of posts) {
-        postContainerElem.innerHTML += `
-        <div class="post-wrapper" id="post${postItem.id}">
-            <div class="post-icon first">
-                <span class="material-symbols-outlined" onclick='deletePost("${postItem.id}")'>
-                    delete
-                </span>
-            </div>
-        
-            <div class="post-icon second">
-                <span class="material-symbols-outlined" onclick='updatePost("${postItem.id}")'>
-                    edit_note
-                </span>
-            </div>
-			<div class="post-icon third">
-                <span class="material-symbols-outlined" onclick='toggleLikePost("${postItem.id}")'>
-                    favorite
-                </span>
-            </div>
-            <div class="post-wrapper-inner">
-                <textarea class='btn btn-link'>${postItem.content}
-                </textarea>
-                <img class='post-image' src="/${postItem.image}" alt="" >
-            </div>
-        </div>
-        `
-    }
-}
+// function updatePostContainer(posts) {
+//     let postContainerElem = document.querySelector('.post-container')
+//     postContainerElem.innerHTML = ''
+//     for (let postItem of posts) {
+//         postContainerElem.innerHTML += `
+//         <div class="post-wrapper" id="post${postItem.id}">
+//             <div class="post-icon first">
+//                 <span class="material-symbols-outlined" onclick='deletePost("${postItem.id}")'>
+//                     delete
+//                 </span>
+//             </div>
+
+//             <div class="post-icon second">
+//                 <span class="material-symbols-outlined" onclick='updatePost("${postItem.id}")'>
+//                     edit_note
+//                 </span>
+//             </div>
+// 			<div class="post-icon third">
+//                 <span class="material-symbols-outlined" onclick='toggleLikePost("${postItem.id}")'>
+//                     favorite
+//                 </span>
+//             </div>
+//             <div class="post-wrapper-inner">
+//                 <textarea class='btn btn-link'>${postItem.content}
+//                 </textarea>
+//                 <img class='post-image' src="/${postItem.image}" alt="" >
+//             </div>
+//         </div>
+//         `
+//     }
+// }
 
 // async function deletePost(postId) {
 //     await fetch(`/posts/${postId}`, {

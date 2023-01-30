@@ -19,7 +19,7 @@ newPostformElm.addEventListener('click', async () => {
         willClose: async () => {
             let formData = new FormData(document.querySelector('#new-post-form'))
             // start add post to server logic
-            let res = await fetch('/post', {
+            let res = await fetch('/community/post', {
                 method: 'POST',
                 body: formData
             })
@@ -28,14 +28,14 @@ newPostformElm.addEventListener('click', async () => {
 
 })
 
-if (file) {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-        Swal.fire({
-            title: 'Your uploaded picture',
-            imageUrl: e.target.result,
-            imageAlt: 'The uploaded picture'
-        })
-    }
-    reader.readAsDataURL(file)
-}
+// if (file) {
+//     const reader = new FileReader()
+//     reader.onload = (e) => {
+//         Swal.fire({
+//             title: 'Your uploaded picture',
+//             imageUrl: e.target.result,
+//             imageAlt: 'The uploaded picture'
+//         })
+//     }
+//     reader.readAsDataURL(file)
+// }
