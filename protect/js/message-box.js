@@ -22,7 +22,7 @@ async function init() {
 
   async function loadMsgs() { // in progress
 
-    const res = await fetch
+    const res = await fetch('/msgs/people');
 
   }
 
@@ -35,7 +35,6 @@ async function init() {
   async function sendMsg() {
 
     const msgWritten = document.querySelector('.write > input')
-    console.log(`user is writing...\n${msgWritten.value}`);
 
     const fetchDetails = {
       method: 'POST',
@@ -45,10 +44,12 @@ async function init() {
       })
     }
 
-    const res = await fetch(`/msgs/user-id/${userID}`, fetchDetails);
+    const toID = 2;
 
-    console.log('res = ', res);
-    console.log('res.ok = ', res.ok);
+    const res = await fetch(`/msgs/to-user-id/${toID}`, fetchDetails);
+    const result = await res.json();
+
+    console.log('result = ', result.message);
 
     msgWritten.value = "";
 
