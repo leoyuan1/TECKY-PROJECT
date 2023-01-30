@@ -37,8 +37,7 @@ async function postData() {
             <tr>
                 <td class="name-col">${dataResult.pet_name}</td>
                 <td class="add-date-col">${dataResult.created_at}</td>
-                <td class="status-col">${dataResult.status}</td>
-
+                <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
                 <td class="change-status-col"> 
                 <label class="switch">
                 <input type="checkbox">
@@ -53,7 +52,7 @@ async function postData() {
         <tr>
             <td class="name-col">${dataResult.pet_name}</td>
             <td class="add-date-col">${dataResult.created_at}</td>
-            <td class="status-col">${dataResult.status}</td>
+            <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
             <td class="change-status-col">            
             <label class="switch">
             <input type="checkbox" checked>
@@ -65,26 +64,44 @@ async function postData() {
             `
         }
     }
+    applicationStatus()
 }
 
+async function applicationStatus() {
+    let res = await fetch('/pets/application-status')
+    let data = await res.json()
+    let results = data.applicationRequest
+    for (let result of results) {
+        document.querySelector('#request-table').innerHTML += `
+        <tr>
+        <td class="name-col">${result.pet_name}</td>
+        <td class="add-date-col">${result.created_at}</td>
+        <td class="status-col">${result.status}</td>
+        </tr>`
+    }
+}
+
+function detailRequest() {
+    const requestStatusOs = document.querySelectorAll('.fa-solid.fa-circle-check')
+    const requestStatusXs = document.querySelectorAll('.fa-solid.fa-circle-xmark')
+    for (let requestStatusO of requestStatusOs) {
+        requestStatusO.addEventListener('click', changeRequestStatusO)
+    }
+    for (let requestStatusX of requestStatusXs) {
+        requestStatusX.addEventListener('click', changeRequestStatusX)
+    }
+}
 async function init() {
     await postData()
     const elems = document.querySelectorAll('.slider.round');
     const requestDetails = document.querySelectorAll('.fa-solid.fa-book')
-    const requestStatusOs = document.querySelectorAll('.fa-solid.fa-circle-check')
-    const requestStatusXs = document.querySelectorAll('.fa-solid.fa-circle-xmark')
     for (let elem of elems) {
         elem.addEventListener('click', getElm)
     }
     for (let requestDetail of requestDetails) {
-        requestDetail.addEventListener('click', detail)
+        await requestDetail.addEventListener('click', detail)
     }
-    for (let requestStatusO of requestStatusOs) {
-        requestStatusO.addEventListener('click', changeRequestStatus)
-    }
-    for (let requestStatusX of requestStatusXs) {
-        requestStatusX.addEventListener('click', changeRequestStatus)
-    }
+
 }
 init()
 
@@ -92,14 +109,13 @@ init()
 
 async function getElm(event) {
     let id = event.target.id.replace('status-', '');
-    console.log(id);
+    // console.log(id);
     let res = await fetch(`/pets/post-status/${id}`, {
         method: 'put'
     })
     let result = await res.json()
-    console.log(result);
     if (result.message == 'update succeed') {
-        location.reload('/post-pets.html')
+        document.querySelector(`#renew-status-${id}`).innerHTML = result.status[0].status
     }
 }
 
@@ -137,12 +153,45 @@ async function detail(event) {
                 <td class="name-col">${resultData.pet_name}</td>
                 <td class="add-date-col">${resultData.created_at}</td>
                 <td class="request-name-col">${resultData.username}</td>
-                <td class="status-col">${resultData.status}</td>
-                <td class="buttons-col"><i type="button" class="fa-solid fa-circle-check" id="request-status-${resultData.id}"></i>   <i type="button" class="fa-solid fa-circle-xmark" id="request-status-${resultData.id}"></i></td>
+                <td class="status-col" id="status-col-${resultData.id}">${resultData.status}</td>
+                <td class="buttons-col"><i type="button" class="fa-solid fa-circle-check" id="request-status-O-${resultData.id}"></i>   <i type="button" class="fa-solid fa-circle-xmark" id="request-status-X-${resultData.id}"></i></td>
             </tr>`
+        if (resultData.status == 'approval') {
+            document.querySelector(`#request-status-X-${resultData.id}`).style.display = 'none'
+        } else if (resultData.status == 'not approval') {
+            document.querySelector(`#request-status-O-${resultData.id}`).style.display = 'none'
+        }
     }
+    detailRequest()
 }
 
-async function changeRequestStatus() {
+async function changeRequestStatusO(event) {
+    let id = event.target.id.replace('request-status-O-', '')
+    let res = await fetch(`/pets/change-request-O-status/${id}`, {
+        method: 'put'
+    })
+    let requestResult = await res.json()
+    let otherUserRequests = requestResult.otherRequest
+    for (let otherUserRequest of otherUserRequests) {
+        document.querySelector(`#request-status-O-${otherUserRequest.id}`).style.display = 'none'
+        document.querySelector(`#status-col-${otherUserRequest.id}`).innerHTML = otherUserRequest.status
+    }
+    if (requestResult.message == 'updated all data') {
+        document.querySelector(`#request-status-X-${id}`).style.display = 'none'
+        document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
+    }
+    // if (requestResult.otherRequest)
+}
 
+async function changeRequestStatusX(event) {
+    let id = event.target.id.replace('request-status-X-', '')
+    let res = await fetch(`/pets/change-request-X-status/${id}`, {
+        method: 'put'
+    })
+    let requestResult = await res.json()
+    if (requestResult.message == 'updated all data') {
+        document.querySelector(`#request-status-O-${id}`).style.display = 'none'
+        document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
+    }
+    // if (requestResult.otherRequest)
 }

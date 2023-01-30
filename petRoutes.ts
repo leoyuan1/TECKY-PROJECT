@@ -1,5 +1,6 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import { json } from 'stream/consumers';
 // import session from 'express-session';
 import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
@@ -22,6 +23,10 @@ petRoutes.get('/posted-pets', postedPets);
 petRoutes.put('/post-status/:id', status)
 petRoutes.post('/request', request)
 petRoutes.post('/request-detail', detail)
+petRoutes.put('/change-request-O-status/:id', changeRequestO)
+petRoutes.put('/change-request-X-status/:id', changeRequestX)
+petRoutes.get('/application-status', applicationStatus)
+
 // API -- get Media
 async function getMedia(req: Request, res: Response) {
     try {
@@ -213,7 +218,7 @@ async function postPets(req: Request, res: Response) {
 
         } = fields_processed;
 
-        console.log('fields_processed = ', fields_processed);
+        // console.log('fields_processed = ', fields_processed);
 
         // return if no pet name
         if (adoption_pet_name == null) {
@@ -258,7 +263,7 @@ async function postPets(req: Request, res: Response) {
             birthday = now;
             birthday.setMonth(now.getMonth() - adoption_pet_age);
         }
-        console.log('birthday = ', birthday);
+        // console.log('birthday = ', birthday);
 
         // set default status
         const defaultStatus = 'active';
@@ -391,10 +396,10 @@ async function postedPets(req: Request, res: Response) {
             return
         }
         let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
-        console.log(existingUser);
+        // console.log(existingUser);
 
         let getPostData = (await client.query('select * from posts where user_id = $1', [existingUser.id])).rows
-        console.log(getPostData);
+        // console.log(getPostData);
 
         if (!getPostData) {
             res.json({
@@ -415,13 +420,18 @@ async function status(req: Request, res: Response) {
     let result = req.params.id
     let existData = (await client.query(`select * from posts where id = $1`, [result])).rows[0]
     if (existData.status == 'active') {
-        await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2`, ['hidden', result])
+        let resultStatus = (await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2 Returning status`, ['hidden', result])).rows
+        res.json({
+            message: 'update succeed',
+            status: resultStatus
+        })
     } else {
-        await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2`, ['active', result])
+        let resultStatus = (await client.query(`UPDATE posts SET status = $1, updated_at = now() WHERE id = $2 Returning status`, ['active', result])).rows
+        res.json({
+            message: 'update succeed',
+            status: resultStatus
+        })
     }
-    res.json({
-        message: 'update succeed'
-    })
 }
 
 async function request(req: Request, res: Response) {
@@ -432,10 +442,10 @@ async function request(req: Request, res: Response) {
         return
     }
     let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
-    console.log(existingUser);
+    // console.log(existingUser);
 
     let postUser = (await client.query(`select * from posts where id = $1`, [result.postIDResult])).rows[0]
-    console.log(postUser);
+    // console.log(postUser);
 
     await client.query(`insert into post_request (post_id, from_id, to_id,status, created_at) values ($1,$2,$3,$4, now())`,
         [result.postIDResult, existingUser.id, postUser.user_id, 'waiting for approval'])
@@ -468,5 +478,74 @@ async function detail(req: Request, res: Response) {
     res.json({
         message: 'have request',
         data: postIDresults
+    })
+}
+
+async function changeRequestO(req: Request, res: Response) {
+    let result = req.params.id
+    console.log(result);
+
+    let nowStatus = (await client.query('select * from post_request where id = $1', [result])).rows[0]
+    console.log(nowStatus);
+
+    if (!nowStatus) {
+        res.status(403).json({
+            message: 'no request message'
+        })
+        return
+    }
+    if (nowStatus.status == 'waiting for approval') {
+        let requestResult = (await client.query(`UPDATE post_request SET status = $1 where id = $2 returning *`, ['approval', result])).rows[0]
+
+        let otherRequest = (await client.query(`update post_request set status = $1 where post_id = $2 and id != $3 returning id,status`, ['not approval', nowStatus.post_id, result])).rows
+        // console.log(otherRequest);
+        res.json({
+            message: 'updated all data',
+            otherRequest: otherRequest,
+            requestResult: requestResult
+        })
+    }
+}
+
+async function changeRequestX(req: Request, res: Response) {
+    let result = req.params.id
+    let nowStatus = (await client.query('select * from post_request where id = $1', [result])).rows[0]
+    console.log(nowStatus);
+
+    if (!nowStatus) {
+        res.status(403).json({
+            message: 'no request message'
+        })
+        return
+    }
+    if (nowStatus.status == 'waiting for approval') {
+        let requestResult = (await client.query(`UPDATE post_request SET status = $1 where id = $2 returning *`, ['not approval', result])).rows[0]
+
+        // let otherRequest = (await client.query(`update post_request set status = $1 where post_id = $2 and id != $3 returning id,status`, ['not approval', nowStatus.post_id, result])).rows
+        // console.log(otherRequest);
+        res.json({
+            message: 'updated all data',
+            // otherRequest: otherRequest,
+            requestResult: requestResult
+        })
+    }
+}
+
+async function applicationStatus(req: Request, res: Response) {
+    let user = req.session.user
+    if (!user) {
+        return
+    }
+    let userID = (await client.query('select * from users where email = $1', [user.email])).rows[0].id
+    let applicationRequest = (await client.query(
+        `select
+    posts.pet_name,
+    post_request.status,
+    post_request.created_at
+    from post_request
+    join posts on post_request.post_id = posts.id
+    where post_request.from_id = $1`, [userID])).rows
+    res.json({
+        applicationRequest: applicationRequest
     })
 }
