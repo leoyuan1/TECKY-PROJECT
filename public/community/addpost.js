@@ -8,7 +8,7 @@ newPostformElm.addEventListener('submit', async (e) => {
     let formData = new FormData(newPostformElm)
 
     // send
-    let res = await fetch('/posts', {
+    let res = await fetch('http://localhost:8080/community/index.html/', {
         method: 'POST',
         body: formData
     })
@@ -41,7 +41,7 @@ signinformElm.addEventListener('submit', async (e) => {
 
     let data = res.json()
     console.log(data)
-    window.location = '/post.html'
+    window.location = '/index.html'
 })
 
 async function loadPost() {
@@ -89,18 +89,18 @@ function updatePostContainer(posts) {
     }
 }
 
-async function deletePost(postId) {
-    await fetch(`/posts/${postId}`, {
-        method: 'delete'
-    })
-    loadPosts()
-}
+// async function deletePost(postId) {
+//     await fetch(`/posts/${postId}`, {
+//         method: 'delete'
+//     })
+//     loadPost()
+// }
 
-async function toggleLikePosts(postId) {
-    await fetch(`/post/like/${postId}`, {
-        method: 'post'
-    })
-}
+// async function toggleLikePosts(postId) {
+//     await fetch(`/post/like/${postId}`, {
+//         method: 'post'
+//     })
+// }
 
 async function updatePost(postId) {
     const options = {
@@ -113,7 +113,7 @@ async function updatePost(postId) {
         })
     }
 
-    let res = await fetch(`http://localhost:8080/posts/${postId}`, options)
+    let res = await fetch(`http://localhost:8080/community/index.html/${postId}`, options)
     let data = res.json()
     if (res.ok) {
         console.log(data)
@@ -122,7 +122,7 @@ async function updatePost(postId) {
     }
 }
 async function getMe() {
-    let res = await fetch('/me')
+    let res = await fetch('/uploads.js')
     if (res.ok) {
         let user = await res.json()
 
@@ -133,7 +133,7 @@ async function getMe() {
     await loadPost()
     const socket = io.connect();
     socket.on('load-post', () => {
-        loadMPost()
+        loadPost()
     })
     getMe()
 })()
