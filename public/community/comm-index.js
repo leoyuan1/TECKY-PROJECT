@@ -2,22 +2,28 @@
 const newPostformElm = document.querySelector('#postaddbtn')
 
 newPostformElm.addEventListener('click', async () => {
-    const { value } = await Swal.fire({
-        html: `<form id='new-post-form'>
-        <input type='title' id='title' name='title' placeholder='Title'>
-        <input type='feeling' id='feeling' name='feeling' placeholder='Feeling good?'>
-        <textarea name='conent'>Text here..</textarea>
-        <input name='image' type='file'>
-        </form>
-        `,
+    let result;
+    await Swal.fire({
+        title: '建立帖子',
+        html: `<input type='title' id='swal-input1' name='title' placeholder='Title'>
+        <textarea name='conent' id="swal-input2">Text here..</textarea>`
+        ,
+        footer: `<input name='image' type='file'>`,
 
         showCancelButton: true,
         focusConfirm: false,
         confirmButtonText:
             'Comfirm!',
         confirmButtonAriaLabel: 'Thumbs up, great!',
+        preConfirm: async () => {
+            return [
+                document.getElementById('swal-input1').value,
+                document.getElementById('swal-input2').value
+            ]
+        },
+
         willClose: async () => {
-            let formData = new FormData(document.querySelector('#new-post-form'))
+            let formData = new FormData(document.querySelector('#postaddbtn'))
             // start add post to server logic
             let res = await fetch('/community/post', {
                 method: 'POST',
@@ -27,6 +33,10 @@ newPostformElm.addEventListener('click', async () => {
     })
 
 })
+
+
+
+
 
 // if (file) {
 //     const reader = new FileReader()
