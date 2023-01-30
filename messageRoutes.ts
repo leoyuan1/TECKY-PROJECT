@@ -25,13 +25,50 @@ async function getPeople(req: Request, res: Response) {
     }
 
     // receive user's data
-    const fromID = req.session.user['id'];
+    const userID = req.session.user['id'];
 
     // get data from database
-    const result = await client.query(`
-        select * from messages
-        where from_id = $1`, [fromID]);
+
+    const sqlString = `
+        with
+        chat_list as
+        (
+            select from_id as user_id from messages m where from_id = $1 or to_id = $1
+            union 
+            select to_id as user_id  from messages m where from_id = $1 or to_id = $1
+        ),
+        my_chat_list as
+        (
+            select * from chat_list where user_id <> $1
+        )
+        
+        select
+        u.id,
+        u.username,
+        u.icon,
+        (select content from messages m
+            where (from_id = u.id and to_id = $1) or (to_id = u.id and from_id = $1)
+            order by created_at desc limit 1
+        ) as last_message,
+        (select created_at from messages m
+            where (from_id = u.id and to_id = $1) or (to_id = u.id and from_id = $1)
+            order by created_at desc limit 1
+        ) as last_date
+        from my_chat_list join users u on u.id = my_chat_list.user_id;
+    `;
+
+    const result = await client.query(sqlString, [userID]);
+
+    // const result = await client.query(`
+    //     select distinct to_id from messages
+    //     where from_id = $1`, [fromID]);
+
     const people = result.rows;
+
+    res.json({
+        data: people,
+        message: "people found"
+    });
 
 }
 
