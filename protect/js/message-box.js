@@ -1,19 +1,42 @@
 async function init() {
 
   // find user's ID
-  const userIDx = await fetch('/user-id');
-  console.log(userIDx);
+  const userID = await getUserID();
+  console.log(`User id: ${userID} has opened msg box.`);
 
   //  await loadMsgs();
 
+  // query selectors
   const writeElem = document.querySelector('.write');
+  const people = document.querySelector('.people');
 
-  writeElem.addEventListener('change', async () => {
+  //event listeners
+  writeElem.addEventListener('change', sendMsg);
+
+  // socket.io section
+  const socket = io.connect("localhost:8080");
+  socket.on("msg-sent", (data) => {
+    console.log('testing socket...');
+    console.log('data = ', data);
+  });
+
+  async function loadMsgs() { // in progress
+
+    const res = await fetch
+
+  }
+
+  async function getUserID() {
+    const res = await fetch('/user-id');
+    const id = (await res.json()).data;
+    return id;
+  }
+
+  async function sendMsg() {
 
     const msgWritten = document.querySelector('.write > input')
     console.log(`user is writing...\n${msgWritten.value}`);
 
-    const userID = 1;
     const fetchDetails = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -21,6 +44,7 @@ async function init() {
         content: msgWritten.value
       })
     }
+
     const res = await fetch(`/msgs/user-id/${userID}`, fetchDetails);
 
     console.log('res = ', res);
@@ -28,13 +52,7 @@ async function init() {
 
     msgWritten.value = "";
 
-  })
-
-  const socket = io.connect("localhost:8080");
-  socket.on("msg-sent", (data) => {
-    console.log('testing socket...');
-    console.log('data = ', data);
-  });
+  }
 
 }
 

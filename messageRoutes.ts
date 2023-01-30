@@ -10,19 +10,25 @@ io.on('connection', function (socket) {
 
 export const msgRoutes = express.Router();
 
+msgRoutes.get('/people', getPeople);
 msgRoutes.post('/user-id/:id', postMsg);
+
+async function getPeople(req: Request, res: Response) {
+
+
+
+}
 
 async function postMsg(req: Request, res: Response) {
 
+    // receive data from client
     const userID = req.params.id;
-
-    console.log("user ", userID, "want to send a msg");
-    console.log('req.body = ', req.body);
-
     const msg = req.body.content;
 
-    io.to('chat-room').emit('msg-sent', `echo: ${msg}`);
+    // insert data to database
 
+    // send data to client
+    io.to('chat-room').emit('msg-sent', `echo: ${msg}`);
     res.json({ message: 'msg sent' })
 
 }
