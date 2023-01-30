@@ -1,5 +1,9 @@
 async function init() {
 
+  // find user's ID
+  const userIDx = await fetch('/user-id');
+  console.log(userIDx);
+
   //  await loadMsgs();
 
   const writeElem = document.querySelector('.write');

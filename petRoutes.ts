@@ -193,8 +193,15 @@ async function postPets(req: Request, res: Response) {
             }
         }
 
+        if (!req.session.user) {
+            res.json({
+                message: 'no session data',
+            })
+            return
+        }
+
         // prepare data
-        const userID = 1;
+        const userID = req.session.user['id'];
 
         let {
 

@@ -15,6 +15,7 @@ userRoutes.get('/login/google', loginGoogle)
 userRoutes.get('/session', isUser)
 userRoutes.post('/change', changePassword)
 userRoutes.get('/logout', logout)
+userRoutes.get('/user-id', getUserID)
 
 declare module "express-session" {
     interface SessionData {
@@ -33,6 +34,17 @@ export async function isUser(req: express.Request, res: express.Response) {
         message: 'isUser',
         user: req.session.user
     })
+}
+
+async function getUserID(req: express.Request, res: express.Response) {
+    if (!req.session.user) {
+        res.json({
+            message: 'no session data',
+        })
+        return
+    }
+    const userID = req.session.user['id'];
+    res.json({ data: userID })
 }
 
 // export async function keepLogin(req: express.Request, res: express.Response) {
