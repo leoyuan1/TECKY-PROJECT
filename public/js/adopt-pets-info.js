@@ -122,6 +122,10 @@ document.querySelector('.form-submit-button').addEventListener('click', async ()
         }
     })
     let result = await res.json()
+    if (result.message == 'request fail') {
+        Swal.fire('自己post都申請?');
+        return
+    }
     if (result.message == 'requested') {
         Swal.fire('已申請');
         return

@@ -452,8 +452,16 @@ async function request(req: Request, res: Response) {
     }
     let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
     let postUser = (await client.query(`select * from posts where id = $1`, [result.postIDResult])).rows[0]
-    console.log(postUser);
+    console.log(existingUser.id);
+    console.log(postUser.user_id);
 
+
+    if (existingUser.id == postUser.user_id) {
+        res.json({
+            message: 'request fail'
+        })
+        return
+    }
     let checkPostRequest = (await client.query(`select * from post_request where post_id = $1 and from_id = $2`, [postUser.id, existingUser.id])).rows[0]
     if (checkPostRequest) {
         res.json({
