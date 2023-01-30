@@ -445,15 +445,22 @@ async function status(req: Request, res: Response) {
 async function request(req: Request, res: Response) {
     let result = req.body
     let session = req.session.user
+
     if (!session) {
         res.json('not user')
         return
     }
     let existingUser = (await client.query('select * from users where email = $1', [session.email])).rows[0]
-    // console.log(existingUser);
-
     let postUser = (await client.query(`select * from posts where id = $1`, [result.postIDResult])).rows[0]
-    // console.log(postUser);
+    console.log(postUser);
+
+    let checkPostRequest = (await client.query(`select * from post_request where post_id = $1 and from_id = $2`, [postUser.id, existingUser.id])).rows[0]
+    if (checkPostRequest) {
+        res.json({
+            message: 'requested'
+        })
+        return
+    }
 
     await client.query(`insert into post_request (post_id, from_id, to_id,status, created_at) values ($1,$2,$3,$4, now())`,
         [result.postIDResult, existingUser.id, postUser.user_id, 'waiting for approval'])
