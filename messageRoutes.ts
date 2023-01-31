@@ -50,6 +50,10 @@ async function getPeople(req: Request, res: Response) {
             where (from_id = u.id and to_id = $1) or (to_id = u.id and from_id = $1)
             order by created_at desc limit 1
         ) as last_message,
+        (select from_id from messages m
+            where (from_id = u.id and to_id = $1) or (to_id = u.id and from_id = $1)
+            order by created_at desc limit 1
+        ) as from_id,
         (select created_at from messages m
             where (from_id = u.id and to_id = $1) or (to_id = u.id and from_id = $1)
             order by created_at desc limit 1
