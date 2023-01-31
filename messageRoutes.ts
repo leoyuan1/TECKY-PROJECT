@@ -71,14 +71,14 @@ async function getMsgs(req: Request, res: Response) {
         order by selected_msgs.created_at;
     `;
 
-    console.log('fromID = ', fromID);
-    console.log('toID = ', toID);
+    // console.log('fromID = ', fromID);
+    // console.log('toID = ', toID);
 
     const result = await client.query(sqlString, [fromID, toID]);
 
     const msgs = result.rows;
 
-    console.log('msgs = ', msgs);
+    // console.log('msgs = ', msgs);
 
     // send data to client
     res.json({
@@ -90,7 +90,7 @@ async function getMsgs(req: Request, res: Response) {
 
 async function getPeople(req: Request, res: Response) {
 
-    console.log('getting people');
+    // console.log('getting people');
 
     // ensure session.user exists
     if (!req.session.user) {
@@ -148,7 +148,7 @@ async function getPeople(req: Request, res: Response) {
     // io.to(`user-${userID}`).emit('reload-people', { data: people });
     res.json({ 
         data: people,
-        message: `io.to user-${userID}` 
+        message: `${userID} got people` 
     })
 
 }
@@ -174,11 +174,17 @@ async function postMsg(req: Request, res: Response) {
         values ($1,$2,$3,now(),now())
     `, [msg, fromID, toID]);
 
-    // send data to client
+    // send data to target user
     io.to(`user-${toID}`).emit('receive-msg', {
-        data: { content: msg, to_id: toID }
+        data: { content: msg, to_id: toID },
+        message: `msg sent from ${fromID} to ${toID}` 
     });
-    res.json({ message: 'msg sent' })
+
+    // send data to source user
+    res.json({ 
+        data: { content: msg, to_id: toID },
+        message: `msg sent` 
+    })
 
 }
 

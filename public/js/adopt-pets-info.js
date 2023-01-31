@@ -121,6 +121,14 @@ document.querySelector('.form-submit-button').addEventListener('click', async ()
             'Content-Type': 'application/json'
         }
     })
+
+    // send msg to owner
+    await fetch(`msgs/to-user-id/${post.user_id}`, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: "Auto Message: 'adopt button has been clicked' " })
+    })
+
     let result = await res.json()
     if (result.message == 'request fail') {
         Swal.fire('自己post都申請?');

@@ -257,12 +257,12 @@
 
 .container .right .chat.active-chat .conversation-start {
     /* transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1); */
-    animation-duration: 0.1s;
+    /* animation-duration: 0.1s; */
 }
 
 .container .right .chat.active-chat .bubble {
     /* transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1); */
-    animation-duration: 0.1s;
+    /* animation-duration: 0.1s; */
 }
 
 /* .container .right .chat.active-chat .bubble:nth-of-type(n) {
@@ -391,7 +391,7 @@
     color: var(--white);
     background-color: var(--blue);
     align-self: flex-start;
-    animation-name: slideFromLeft;
+    /* animation-name: slideFromLeft; */
 }
 
 .container .right .bubble.you:before {
@@ -404,7 +404,7 @@
     color: var(--dark);
     background-color: #eceff1;
     align-self: flex-end;
-    animation-name: slideFromRight;
+    /* animation-name: slideFromRight; */
 }
 
 .container .right .bubble.me:before {
@@ -418,7 +418,7 @@
     margin-bottom: 27px;
     text-align: center;
     display: inline-block;
-    animation-name: popout;
+    /* animation-name: popout; */
 }
 
 .container .right .conversation-start span {

@@ -14,14 +14,16 @@ async function init() {
   // });
 
   socket.on("receive-msg", async (data) => {
+    console.log('received data: ', data);
     const msg = data.data;
-    console.log("received msg = ", msg.content);
-    if (toID = msg.to_id) {
+    console.log('toID = ', toID);
+    console.log('msg.to_id = ', msg.to_id);
+    if (msg.to_id == myID) {
       await loadPeople();
       listSingleMsg(msg);
       // scroll to bottom
-      console.log(document.querySelector('.chat'));
-      console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
+      // console.log(document.querySelector('.chat'));
+      // console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
       document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
     }
   });
@@ -36,10 +38,10 @@ async function init() {
   //event listeners
   writeElem.addEventListener('change', sendMsg);
 
-  function daysDiff(date_1, date_2) {
+  function minsDiff(date_1, date_2) {
     let difference = date_1.getTime() - date_2.getTime();
-    let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
-    return totalDays;
+    let totalMins = Math.ceil(difference / (1000 * 60));
+    return totalMins;
   }
 
   function showPeople(people) {
@@ -49,7 +51,7 @@ async function init() {
       const date = person.last_date.split('T')[0];
       const time = person.last_date.split('T')[1].split('.')[0];
       const image = person.icon ? person.icon : "default_profile_image.png";
-      const fromIcon = person.from_id === myID ? '>>' : '<<';
+      const fromIcon = person.from_id === myID ? '<<' : '>>';
       peopleListElem.innerHTML += `
         <li class="person" data-chat="person-${person.id}" id="person-${person.id}">
           <img src="/user-img/${image}" alt="" />
@@ -71,15 +73,15 @@ async function init() {
         await listMsgs();
 
         // using library for chatroom's style
-        console.log('person: ', personElem.id);
-        console.log(document.querySelector(`.chat`));
+        // console.log('person: ', personElem.id);
+        // console.log(document.querySelector(`.chat`));
         document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
         document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
         libraryFunction();
 
         // scroll to bottom
-        console.log(document.querySelector('.chat'));
-        console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
+        // console.log(document.querySelector('.chat'));
+        // console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
         document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
 
       });
@@ -112,9 +114,9 @@ async function init() {
     let lastDate = new Date(0, 0, 0);
     for (let msg of msgs) {
       let bubbleTarget = 'me';
-      if (msg.from_id === toID) { bubbleTarget = 'you' }
+      if (msg.from_id == toID) { bubbleTarget = 'you' }
       const msgTime = new Date(msg.created_at);
-      if (daysDiff(msgTime, lastDate) > 1) {
+      if (minsDiff(msgTime, lastDate) > 5) {
         lastDate = new Date(msg.created_at);
         chatElem.innerHTML += `
             <div class="conversation-start">
@@ -132,12 +134,18 @@ async function init() {
   }
 
   async function listSingleMsg(msg) {
+
+    console.log('listing msg: ', msg);
+
     let bubbleTarget = 'me';
-    if (msg.to_id === myID) { bubbleTarget = 'you' }
+    // msg_to_id = parseInt(msg.to_id);
+    if (msg.to_id == myID) { bubbleTarget = 'you' }
+
     const chatElem = document.querySelector('.chat');
     chatElem.innerHTML += `
       <div class="bubble ${bubbleTarget}">${msg.content}</div>
     `;
+
   }
 
   async function getUserID() {
@@ -147,10 +155,11 @@ async function init() {
   }
 
   async function loadPeople() {
+
     const res = await fetch('/msgs/people');
     const result = await res.json();
     const people = result.data;
-    console.log('result = ', result.message);
+    // console.log('result = ', result.message);
 
     showPeople(people);
 
@@ -158,7 +167,7 @@ async function init() {
 
   async function sendMsg() {
 
-    if (toID === 0) {
+    if (toID == 0) {
       Swal.fire('Please select a person to start conversation.');
       return;
     }
@@ -180,16 +189,22 @@ async function init() {
 
     const res = await fetch(`/msgs/to-user-id/${toID}`, fetchDetails);
     const result = await res.json();
-
     console.log('result = ', result.message);
+
     if (result.message === 'msg sent') {
+
       // await loadPeople();
-      listSingleMsg(msg);
+      listSingleMsg(result.data);
+      await loadPeople();
+
+      // empty the input bar
       msgWritten.value = '';
+
       // scroll to bottom
-      console.log(document.querySelector('.chat'));
-      console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
+      // console.log(document.querySelector('.chat'));
+      // console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
       document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+
     }
 
   }
