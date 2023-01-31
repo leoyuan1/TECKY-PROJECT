@@ -61,6 +61,7 @@ async function getPets(req: Request, res: Response) {
             id: req.query.id,
             pet_type_id: req.query.pet_type_id,
             species_id: req.query.species_id,
+            pet_name: req.query.pet_name,
             gender: req.query.gender,
             pet_fine_with_children: req.query.pet_fine_with_children,
             pet_fine_with_cat: req.query.pet_fine_with_cat,
@@ -107,12 +108,18 @@ async function getPets(req: Request, res: Response) {
                 if (queries[key]) {
                     if (sqlParameters.length > 0) { sqlString += "and " }
                     sqlParameters.push(queries[key]);
-                    sqlString += `posts.${key} = $${sqlParameters.length} `;
+                    if (key === 'pet_name') {
+                        sqlString += `posts.${key} like $${sqlParameters.length} `;
+                        console.log(sqlString);
+                        
+                    } else {
+                        sqlString += `posts.${key} = $${sqlParameters.length} `;
+                    }
                 }
             }
         }
 
-        sqlString += `order by posts.created_at`;
+        sqlString += `order by posts.created_at desc`;
 
         logger.debug(`sqlString = ${sqlString}`);
         logger.debug(`sqlParameters = ${sqlParameters}`);
