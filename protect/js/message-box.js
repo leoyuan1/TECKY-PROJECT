@@ -126,7 +126,7 @@ async function init() {
       }
       chatElem.innerHTML += `
         <div class="bubble ${bubbleTarget}">
-          ${msg.content}
+          ${emoji.replace_colons(msg.content)}
         </div>
       `;
     }
@@ -137,13 +137,15 @@ async function init() {
 
     console.log('listing msg: ', msg);
 
+    if (msg.from_id !== toID) { return; }
+
     let bubbleTarget = 'me';
     // msg_to_id = parseInt(msg.to_id);
     if (msg.to_id == myID) { bubbleTarget = 'you' }
 
     const chatElem = document.querySelector('.chat');
     chatElem.innerHTML += `
-      <div class="bubble ${bubbleTarget}">${msg.content}</div>
+      <div class="bubble ${bubbleTarget}">${emoji.replace_colons(msg.content)}</div>
     `;
 
   }
@@ -174,10 +176,14 @@ async function init() {
 
     const msgWritten = document.querySelector('.write > input');
 
+    console.log('msgWritten = ', msgWritten);
+
     const msg = {
       content: msgWritten.value,
       to_id: toID
     }
+
+    console.log('msg.content = ', msg.content);
 
     const fetchDetails = {
       method: 'POST',
@@ -274,7 +280,7 @@ document.querySelector('.write-link.smiley').addEventListener('click', () => {
 
 document.querySelector('.message-box-container').addEventListener('click', (e) => {
 
-  console.log(e.target.getAttribute('class'));
+  // console.log(e.target.getAttribute('class'));
   if (e.target.getAttribute('class') != "write-link smiley") {
     emojiLogo.style.display = 'none'
     counter = false
@@ -282,7 +288,7 @@ document.querySelector('.message-box-container').addEventListener('click', (e) =
 })
 
 
-var emoji = new EmojiConvertor();
+const emoji = new EmojiConvertor();
 
 let emojiElms = document.querySelectorAll('.em')
 

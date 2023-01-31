@@ -176,7 +176,7 @@ async function postMsg(req: Request, res: Response) {
 
     // send data to target user
     io.to(`user-${toID}`).emit('receive-msg', {
-        data: { content: msg, to_id: toID },
+        data: { content: msg, from_id: fromID, to_id: toID },
         message: `msg sent from ${fromID} to ${toID}` 
     });
 
