@@ -111,6 +111,9 @@ async function init() {
             } else {
                 htmlString += '<div>性別: 不知道</div>';
             }
+            if (pet.status == 'adopted') {
+                htmlString += '<span class="adopted">已被領養</span>'
+            }
             htmlString += "</li>";
 
             pet_list.innerHTML += htmlString;
