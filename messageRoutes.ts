@@ -1,12 +1,22 @@
 import express from 'express';
 import { Request, Response } from 'express';
+import { Socket } from 'socket.io';
 import { io } from './util/connection-config';
 // import { PORT } from "./util/connection-config";
 import { client } from './util/psql-config';
 
 io.on('connection', function (socket) {
-    console.log(`${socket.id} is connected to message box.`);
-    socket.join('msg-box');
+
+    const req = socket.request as express.Request;
+
+    if (req.session['user']) {
+        socket.join(`user-${req.session['user'].id}`);
+        console.log(`${req.session['user'].id} is connected to message box.`);
+    }
+
+    // console.log(`${socket.id} is connected to message box.`);
+    // socket.join('msg-box');
+
 })
 
 export const msgRoutes = express.Router();
@@ -80,6 +90,8 @@ async function getMsgs(req: Request, res: Response) {
 
 async function getPeople(req: Request, res: Response) {
 
+    console.log('getting people');
+
     // ensure session.user exists
     if (!req.session.user) {
         res.json({
@@ -133,8 +145,11 @@ async function getPeople(req: Request, res: Response) {
     const people = result.rows;
 
     // send data to client
-    io.to('msg-box').emit('reload-people', { data: people });
-    res.json({ message: 'people loaded' })
+    // io.to(`user-${userID}`).emit('reload-people', { data: people });
+    res.json({ 
+        data: people,
+        message: `io.to user-${userID}` 
+    })
 
 }
 
@@ -160,6 +175,9 @@ async function postMsg(req: Request, res: Response) {
     `, [msg, fromID, toID]);
 
     // send data to client
+    io.to(`user-${toID}`).emit('receive-msg', {
+        data: { content: msg, to_id: toID }
+    });
     res.json({ message: 'msg sent' })
 
 }

@@ -1,19 +1,30 @@
 async function init() {
 
+  // find user's ID
+  const myID = await getUserID();
   let toID = 0;
 
   // socket.io section
   const socket = io.connect("localhost:8080");
 
-  socket.on("reload-people", (data) => {
-    const people = data.data;
-    console.log("loaded people = ", people);
-    showPeople(people);
-  });
+  // socket.on("reload-people", (data) => {
+  //   const people = data.data;
+  //   console.log("people = ", people);
+  //   showPeople(people);
+  // });
 
-  // find user's ID
-  const userID = await getUserID();
-  console.log(`User id: ${userID} has opened msg box.`);
+  socket.on("receive-msg", async (data) => {
+    const msg = data.data;
+    console.log("received msg = ", msg.content);
+    if (toID = msg.to_id) {
+      await loadPeople();
+      listSingleMsg(msg);
+      // scroll to bottom
+      console.log(document.querySelector('.chat'));
+      console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
+      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+    }
+  });
 
   // query selectors
   const writeElem = document.querySelector('.write');
@@ -38,7 +49,7 @@ async function init() {
       const date = person.last_date.split('T')[0];
       const time = person.last_date.split('T')[1].split('.')[0];
       const image = person.icon ? person.icon : "default_profile_image.png";
-      const fromIcon = person.from_id === userID ? '>>' : '<<';
+      const fromIcon = person.from_id === myID ? '>>' : '<<';
       peopleListElem.innerHTML += `
         <li class="person" data-chat="person-${person.id}" id="person-${person.id}">
           <img src="/user-img/${image}" alt="" />
@@ -65,6 +76,11 @@ async function init() {
         document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
         document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
         libraryFunction();
+
+        // scroll to bottom
+        console.log(document.querySelector('.chat'));
+        console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
+        document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
 
       });
     }
@@ -96,10 +112,9 @@ async function init() {
     let lastDate = new Date(0, 0, 0);
     for (let msg of msgs) {
       let bubbleTarget = 'me';
-      console.log('from_id = ', msg.from_id);
       if (msg.from_id === toID) { bubbleTarget = 'you' }
       const msgTime = new Date(msg.created_at);
-      if (daysDiff(msgTime, lastDate) >= 1) {
+      if (daysDiff(msgTime, lastDate) > 1) {
         lastDate = new Date(msg.created_at);
         chatElem.innerHTML += `
             <div class="conversation-start">
@@ -116,6 +131,15 @@ async function init() {
 
   }
 
+  async function listSingleMsg(msg) {
+    let bubbleTarget = 'me';
+    if (msg.to_id === myID) { bubbleTarget = 'you' }
+    const chatElem = document.querySelector('.chat');
+    chatElem.innerHTML += `
+      <div class="bubble ${bubbleTarget}">${msg.content}</div>
+    `;
+  }
+
   async function getUserID() {
     const res = await fetch('user-id');
     const id = (await res.json()).data;
@@ -125,7 +149,11 @@ async function init() {
   async function loadPeople() {
     const res = await fetch('/msgs/people');
     const result = await res.json();
+    const people = result.data;
     console.log('result = ', result.message);
+
+    showPeople(people);
+
   }
 
   async function sendMsg() {
@@ -135,13 +163,18 @@ async function init() {
       return;
     }
 
-    const msgWritten = document.querySelector('.write > input')
+    const msgWritten = document.querySelector('.write > input');
+
+    const msg = {
+      content: msgWritten.value,
+      to_id: toID
+    }
 
     const fetchDetails = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        content: msgWritten.value
+        content: msg.content
       })
     }
 
@@ -150,9 +183,13 @@ async function init() {
 
     console.log('result = ', result.message);
     if (result.message === 'msg sent') {
-      msgWritten.value = "";
-      await loadPeople();
-      await listMsgs();
+      // await loadPeople();
+      listSingleMsg(msg);
+      msgWritten.value = '';
+      // scroll to bottom
+      console.log(document.querySelector('.chat'));
+      console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
+      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
     }
 
   }
@@ -192,7 +229,7 @@ function libraryFunction() {
     chat.current = chat.container.querySelector('.active-chat')
     chat.person = f.getAttribute('data-chat')
     chat.current.classList.remove('active-chat')
-    console.log('chat.person = ', chat.person);
+    // console.log('chat.person = ', chat.person);
     // chat.container.querySelector(`[data-chat="${chat.person}"]`).classList.add('active-chat')
     friends.name = f.querySelector('.name').innerText
     chat.name.innerHTML = friends.name
@@ -204,5 +241,5 @@ function libraryFunction() {
 
 }
 
-init();
+window.onload = init();
 // libraryFunction();
