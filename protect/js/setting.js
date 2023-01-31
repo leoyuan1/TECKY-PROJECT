@@ -3,10 +3,10 @@ let newPassword = document.getElementById("password");
 let confirmPassword = document.getElementById("confirmPassword");
 let changePasswordFunction = document.querySelector('#submitButton')
 
-console.log(existPassword.value);
-console.log(newPassword.value);
-console.log(confirmPassword.value);
 function validatePassword() {
+    console.log(existPassword.value);
+    console.log(newPassword.value);
+    console.log(confirmPassword.value);
     if (newPassword.value != confirmPassword.value) {
         // console.log('testing1');
         confirmPassword.setCustomValidity("Passwords Don't Match");
@@ -56,10 +56,8 @@ changePasswordFunction.addEventListener("click", async (e) => {
     let data = await res.json()
     if (data.message == "Updated Password") {
         Swal.fire(
-            '密碼更改成功!',
-            'success'
+            '密碼更改成功!'
         )
-        window.location.href = "/"
     } else if (data.message == 'Invalid password') {
         Swal.fire(
             '密碼錯誤!'
