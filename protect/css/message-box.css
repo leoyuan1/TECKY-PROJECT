@@ -239,26 +239,33 @@
 .container .right .chat {
     position: relative;
     display: none;
-    overflow: hidden;
+    overflow: auto;
     padding: 0 35px 92px;
+    /* padding: 0 10px 90px 10px; */
     border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: var(--light);
-    height: calc(100% - 48px);
+    height: calc(100% - 130px);
     justify-content: flex-end;
     flex-direction: column;
 }
 
 .container .right .chat.active-chat {
     display: block;
-    display: flex;
+    /* display: flex; */
+}
+
+.container .right .chat.active-chat .conversation-start {
+    /* transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1); */
+    animation-duration: 0.1s;
 }
 
 .container .right .chat.active-chat .bubble {
-    transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
+    /* transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1); */
+    animation-duration: 0.1s;
 }
 
-.container .right .chat.active-chat .bubble:nth-of-type(1) {
+/* .container .right .chat.active-chat .bubble:nth-of-type(n) {
     animation-duration: 0.15s;
 }
 
@@ -296,7 +303,7 @@
 
 .container .right .chat.active-chat .bubble:nth-of-type(10) {
     animation-duration: 1.5s;
-}
+} */
 
 .container .right .write {
     position: absolute;
@@ -410,6 +417,8 @@
     width: 100%;
     margin-bottom: 27px;
     text-align: center;
+    display: inline-block;
+    animation-name: popout;
 }
 
 .container .right .conversation-start span {
@@ -518,4 +527,27 @@
     text-align: center;
     padding-right: 15px;
     margin: auto;
+}
+
+@keyframes popout {
+    from {
+        transform: scale(0)
+    }
+
+    80% {
+        transform: scale(1.05)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+.scroller * {
+    overflow-anchor: none;
+}
+
+.anchor {
+    overflow-anchor: auto;
+    height: 1px;
 }

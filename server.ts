@@ -39,14 +39,21 @@ const grantExpress = grant.express({
         callback: "/login/google",
     },
 });
-app.use(
-    expressSession({
-        secret: "Tecky Academy teaches typescript",
-        resave: true,
-        saveUninitialized: true,
-        cookie: { secure: false },
-    })
-);
+
+const sessionMiddleware = expressSession({
+    secret: "Tecky Academy teaches typescript",
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: false },
+})
+
+app.use(sessionMiddleware);
+io.use((socket, next) => {
+    let req = socket.request as express.Request;
+    let res = req.res as express.Response;
+    sessionMiddleware(req, res, next as express.NextFunction);
+});
+
 app.use(express.static("public"));
 app.use(express.static("uploads"));
 app.use('/', userRoutes)
