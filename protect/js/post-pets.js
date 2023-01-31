@@ -274,3 +274,6 @@ async function deletePostItem(event) {
         }
     })
 }
+
+// let emojiValue = document.querySelectorAll('.em')
+// console.log(emojiValue);
