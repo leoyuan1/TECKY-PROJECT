@@ -20,6 +20,7 @@ async function init() {
     console.log('msg.to_id = ', msg.to_id);
     if (msg.to_id == myID) {
       await loadPeople();
+      if (msg.from_id != toID) { return }
       listSingleMsg(msg);
       // scroll to bottom
       // console.log(document.querySelector('.chat'));
@@ -136,8 +137,6 @@ async function init() {
   async function listSingleMsg(msg) {
 
     console.log('listing msg: ', msg);
-
-    if (msg.from_id !== toID) { return; }
 
     let bubbleTarget = 'me';
     // msg_to_id = parseInt(msg.to_id);
