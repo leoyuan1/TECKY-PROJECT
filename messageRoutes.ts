@@ -11,8 +11,72 @@ io.on('connection', function (socket) {
 
 export const msgRoutes = express.Router();
 
+msgRoutes.get('/username/:id', getUsername);
 msgRoutes.get('/people', getPeople);
+msgRoutes.get('/to-user-id/:id', getMsgs);
 msgRoutes.post('/to-user-id/:id', postMsg);
+
+async function getUsername(req: Request, res: Response) {
+    const id = req.params.id;
+    const data = await client.query(`
+        select username from users where id = $1
+    `, [id]);
+    const username = data.rows[0];
+    res.json({
+        data: username,
+        message: 'username found'
+    })
+}
+
+async function getMsgs(req: Request, res: Response) {
+
+    // ensure session.user exists
+    if (!req.session.user) {
+        res.json({
+            message: 'no session data',
+        });
+        return;
+    }
+
+    // receive user's data
+    const fromID = req.session.user['id'];
+    const toID = req.params.id;
+
+    // get data from database
+    const sqlString = `
+        with selected_msgs as
+        (
+            select * from messages
+            where (from_id = $1 or to_id = $1)
+            and (from_id = $2 or to_id = $2)
+        )
+        
+        select
+            from_id,
+            username as from_user,
+            content,
+            selected_msgs.created_at
+        from selected_msgs
+        join users on selected_msgs.from_id = users.id
+        order by selected_msgs.created_at;
+    `;
+
+    console.log('fromID = ', fromID);
+    console.log('toID = ', toID);
+
+    const result = await client.query(sqlString, [fromID, toID]);
+
+    const msgs = result.rows;
+
+    console.log('msgs = ', msgs);
+
+    // send data to client
+    res.json({
+        data: msgs,
+        message: 'msgs loaded'
+    })
+
+}
 
 async function getPeople(req: Request, res: Response) {
 
@@ -28,7 +92,6 @@ async function getPeople(req: Request, res: Response) {
     const userID = req.session.user['id'];
 
     // get data from database
-
     const sqlString = `
         with
         chat_list as
