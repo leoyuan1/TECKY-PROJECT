@@ -10,11 +10,12 @@ export const communityRoutes = express.Router()
 communityRoutes.put('/:id', isLoggedInAPI, updatePostById)
 communityRoutes.post('/', createPost)
 communityRoutes.delete('/:id', deletePostById)
-communityRoutes.get('/posts', getPosts)
+communityRoutes.get('/posts/', getPosts)
+communityRoutes.get('/post/:id', getPost)
 
+async function getPost(req: express.Request, res: express.Response) {
+    const id = req.params.id;
 
-
-async function getPosts(req: express.Request, res: express.Response) {
     let result = await client.query(`
     
     select 
@@ -29,7 +30,35 @@ async function getPosts(req: express.Request, res: express.Response) {
         username
         from community_messages cm  
         join users u on u.id = cm.from_id 
-        order by cm.id desc
+        where cm.id = ${id}
+        `)
+    let post = result.rows[0];
+    console.log(post);
+
+    res.json({
+        data: post,
+        message: 'got post'
+    })
+
+}
+
+async function getPosts(req: express.Request, res: express.Response) {
+
+    let result = await client.query(`
+    
+    select 
+        cm.id as community_post_id,
+        cm.content,
+        cm.community_id,
+        cm.media,
+        cm.title,
+        cm.created_at,
+        u.id as user_id,
+        icon,
+        username
+        from community_messages cm  
+        join users u on u.id = cm.from_id 
+        order by cm.id desc 
         `)
 
     let posts = result.rows
