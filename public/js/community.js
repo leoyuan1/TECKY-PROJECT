@@ -64,7 +64,7 @@ function renderPopTodayPost(popToday) {
                 <div class="card">
 						<div class="row">
 							<div class="col-md-5 wrapthumbnail">
-								<!-- <a href="post-details.html?communityMessageId="> -->
+								<a href="post-details.html?communityMessageId=${popTodayPost.community_post_id}">
 								<div class="thumbnail" style="background-image:url(/community-img/${popTodayPost.media});">
 									</button>
 								</div>
