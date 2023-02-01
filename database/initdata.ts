@@ -14,8 +14,6 @@ async function main() {
     await client.connect();
     console.log('database is connected')
 
-
-
     await client.query(`INSERT INTO community
         (title, created_at, updated_at)
     VALUES($1, now(), now())`, ["fornum1"]);
@@ -23,9 +21,9 @@ async function main() {
 
     // add user
     const user1 = {
-        email: "amy@gmail.com",
-        username: "Amy",
-        password: await hashPassword("amy"),
+        email: "messi@gmail.com",
+        username: "messi",
+        password: await hashPassword("messi"),
     };
     const user1_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
         user1.email,
@@ -36,9 +34,9 @@ async function main() {
     ])).rows[0].id;
 
     const user2 = {
-        email: "ben@gmail.com",
-        username: "Ben",
-        password: await hashPassword("ben"),
+        email: "neymer@gmail.com",
+        username: "neymer",
+        password: await hashPassword("neymer"),
     };
     const user2_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
         user2.email,
@@ -49,9 +47,9 @@ async function main() {
     ])).rows[0].id;
 
     const user3 = {
-        email: "cathy@gmail.com",
-        username: "Cathy",
-        password: await hashPassword("cathy"),
+        email: "clong@gmail.com",
+        username: "c_long",
+        password: await hashPassword("clong"),
     };
     const user3_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
         user3.email,
