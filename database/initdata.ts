@@ -18,7 +18,6 @@ async function main() {
         (title, created_at, updated_at)
     VALUES($1, now(), now())`, ["fornum1"]);
 
-
     // add user
     const user1 = {
         email: "messi@gmail.com",
