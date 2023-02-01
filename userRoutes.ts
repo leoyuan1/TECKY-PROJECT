@@ -92,8 +92,9 @@ async function signup(req: express.Request, res: express.Response) {
             fields.username,
             ]
         )).rows[0]
-        await client.query('insert into community_members (user_id, created_at, updated_at) values ($1,$2,now(),now())',
+        await client.query('insert into community_members (community_id,user_id, created_at, updated_at) values ($1,$2,now(),now())',
             [
+                "1",
                 user.id
             ])
         req.session.user = user
