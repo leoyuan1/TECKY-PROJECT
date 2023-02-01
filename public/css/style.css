@@ -167,8 +167,6 @@ a:focus {
   padding: 6% 0;
   background-size: cover;
   background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
 }
 
 .slider_section .row {
@@ -628,4 +626,10 @@ a:focus {
   max-width: 3000px;
 }
 
-.carousel-inner {}
+.carousel-title {
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  color: black;
+  margin-bottom: 40px;
+}
