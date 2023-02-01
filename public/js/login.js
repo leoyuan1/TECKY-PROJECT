@@ -2,16 +2,28 @@
 
 const logInFormElm = document.querySelector('.login-btn')
 const logOutElm = document.querySelector('#logout-btn')
-logInFormElm.addEventListener('click', async () => {
+const carouselLoginElm = document.querySelector('.carousel-loginBtn')
+
+logInFormElm.addEventListener('click', () => {
+    login()
+})
+
+if (carouselLoginElm) {
+    carouselLoginElm.addEventListener('click', () => {
+        login()
+    })
+}
+
+async function login() {
     let result;
     await Swal.fire({
         title: 'login Form',
         html: `<input type="text" id="email" class="swal2-input" placeholder="Email address">
-        <input type="password" id="password" class="swal2-input" placeholder="Password">
-        `,
+            <input type="password" id="password" class="swal2-input" placeholder="Password">
+            `,
         footer: `<a href="/connect/google" class="btn btn-success">Sign in With Google</a>
-            <a type="button" class="signup-btn" onclick='signup()'>Sign Up Here</a>
-        `,
+                <a type="button" class="signup-btn" onclick='signup()'>Sign Up Here</a>
+            `,
         confirmButtonText: 'Sign in',
         focusConfirm: false,
         showCancelButton: true,
@@ -33,22 +45,22 @@ logInFormElm.addEventListener('click', async () => {
             let data = await res.json()
             if (data.message === "email not register") {
                 await Swal.fire(`
-                email: ${result.email}
-                未註冊
-                `.trim())
+                    email: ${result.email}
+                    未註冊
+                    `.trim())
             } else if (data.message === "Invalid password") {
                 await Swal.fire(`
-                password 錯誤
-                `.trim())
+                    password 錯誤
+                    `.trim())
             } else if (data.message === "correct") {
                 await Swal.fire(`
-                登入成功
-                `.trim())
+                    登入成功
+                    `.trim())
                 showUserNav()
             }
         }
     })
-})
+}
 
 async function showUserNav() {
     let res = await fetch('/session')
@@ -57,6 +69,9 @@ async function showUserNav() {
         document.getElementById("login-btn").style.display = "none";
         document.getElementById("welcome-btn").style.display = "block";
         document.getElementById("postPets").style.display = "block";
+        if (carouselLoginElm) {
+            carouselLoginElm.style.display = "none";
+        }
         document.getElementById('navbarDropdownMenuLink').innerHTML = `Welcome ${result.user.username}`;
     } else if (result.message === 'no session data') {
         return

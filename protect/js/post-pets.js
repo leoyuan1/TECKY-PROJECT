@@ -36,7 +36,7 @@ async function postData() {
             document.querySelector('#post-table').innerHTML += `
             <tr id="post-table-${dataResult.id}">
                 <td class="name-col">${dataResult.pet_name}</td>
-                <td class="add-date-col">${dataResult.created_at}</td>
+                <td class="add-date-col">${dataResult.created_at.replace('T', " ").split('.')[0]}</td>
                 <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
                 <td class="change-status-col"> 
                 <label class="switch">
@@ -52,7 +52,7 @@ async function postData() {
             document.querySelector('#post-table').innerHTML += `
         <tr id="post-table-${dataResult.id}">
             <td class="name-col">${dataResult.pet_name}</td>
-            <td class="add-date-col">${dataResult.created_at}</td>
+            <td class="add-date-col">${dataResult.created_at.replace('T', " ").split('.')[0]}</td>
             <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
             <td class="change-status-col">            
             <label class="switch">
@@ -68,7 +68,7 @@ async function postData() {
             document.querySelector('#post-table').innerHTML += `
             <tr id="post-table-${dataResult.id}">
                 <td class="name-col">${dataResult.pet_name}</td>
-                <td class="add-date-col">${dataResult.created_at}</td>
+                <td class="add-date-col">${dataResult.created_at.replace('T', " ").split('.')[0]}</td>
                 <td class="status-col" id="renew-status-${dataResult.id}">${dataResult.status}</td>
                 <td class="change-status-col">            
                 </td>
@@ -89,7 +89,7 @@ async function applicationStatus() {
         document.querySelector('#request-table').innerHTML += `
         <tr>
         <td class="name-col">${result.pet_name}</td>
-        <td class="add-date-col">${result.created_at}</td>
+        <td class="add-date-col">${result.created_at.replace('T', " ").split('.')[0]}</td>
         <td class="status-col">${result.status}</td>
         </tr>`
     }
@@ -172,7 +172,7 @@ async function detail(event) {
         document.querySelector('#request-usertable').innerHTML +=
             `<tr>
                 <td class="name-col">${resultData.pet_name}</td>
-                <td class="add-date-col">${resultData.created_at}</td>
+                <td class="add-date-col">${resultData.created_at.replace('T', " ").split('.')[0]}</td>
                 <td class="request-name-col">${resultData.username}</td>
                 <td class="status-col" id="status-col-${resultData.id}">${resultData.status}</td>
                 <td class="buttons-col"><i type="button" class="fa-solid fa-circle-check O-logo" id="request-status-O-${resultData.id}"></i>   <i type="button" class="fa-solid fa-circle-xmark X-logo" id="request-status-X-${resultData.id}"></i></td>
@@ -239,7 +239,7 @@ async function changeRequestStatusX(event) {
         if (requestResult.message == 'updated all data') {
             document.querySelector(`#request-status-O-${id}`).style.display = 'none'
             document.querySelector(`#status-col-${id}`).innerHTML = requestResult.requestResult.status
-            document.querySelector(`#request-status-X-${otherUserRequest.id}`).className = 'fa-solid fa-circle-xmark'
+            document.querySelector(`#request-status-X-${id}`).className = 'fa-solid fa-circle-xmark'
         }
         Swal.fire(
             'Rejected!'

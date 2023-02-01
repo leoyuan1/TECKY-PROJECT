@@ -62,7 +62,7 @@ async function init() {
             // load pet from array
             const pet = pets[i - 1];
 
-            if (pet.status === 'hidden') { continue }
+            // if (pet.status === 'hidden') { continue }
 
             // prepare media
             const post_id = pet.id;
