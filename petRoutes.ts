@@ -98,11 +98,12 @@ async function getPets(req: Request, res: Response) {
             posts.updated_at
             from posts 
             left join pet_types on posts.pet_type_id = pet_types.id
-            left join species on posts.species_id = species.id `
+            left join species on posts.species_id = species.id
+            where status != 'hidden' `
 
         if (Object.keys(req.query).length > 0) {
             logger.debug(req.query);
-            sqlString += "where ";
+            sqlString += "and ";
             for (let key in queries) {
                 if (queries[key]) {
                     if (sqlParameters.length > 0) { sqlString += "and " }

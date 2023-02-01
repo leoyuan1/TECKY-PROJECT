@@ -167,6 +167,8 @@ a:focus {
   padding: 6% 0;
   background-size: cover;
   background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
 }
 
 .slider_section .row {
@@ -184,6 +186,15 @@ a:focus {
   display: inline-block;
   color: #434242;
   font-weight: bold;
+}
+
+.post-type,
+.post-species,
+.second-post-type,
+.second-post-species,
+.third-post-type,
+.third-post-species {
+  font-size: 20px;
 }
 
 .slider_detail-box p {
@@ -593,3 +604,26 @@ a:focus {
 #welcome-btn {
   display: none;
 }
+
+@media only screen and (max-width: 1000px) {
+  .carousel-indicators {
+    bottom: -5%;
+  }
+}
+
+#post-photo,
+#second-post-photo,
+#third-post-photo {
+  object-fit: cover;
+  width: 400px;
+  height: 400px;
+
+}
+
+#carouselExampleIndicators {
+  display: flex;
+  justify-content: center;
+  max-width: 3000px;
+}
+
+.carousel-inner {}
