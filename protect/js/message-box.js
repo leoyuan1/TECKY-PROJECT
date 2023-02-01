@@ -54,8 +54,9 @@ async function init() {
       const time = person.last_date.split('T')[1].split('.')[0];
       const image = person.icon ? person.icon : "default_profile_image.png";
       const fromIcon = person.from_id === myID ? '<<' : '>>';
+      const className = person.id == toID ? 'person active' : 'person';
       peopleListElem.innerHTML += `
-        <li class="person" data-chat="person-${person.id}" id="person-${person.id}">
+        <li class="${className}" data-chat="person-${person.id}" id="person-${person.id}">
           <img src="/user-img/${image}" alt="" />
           <div class="name">${person.username}</div>
           <span class="date">${date}</span>
