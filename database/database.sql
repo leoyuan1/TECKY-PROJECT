@@ -107,10 +107,3 @@ CREATE table post_request(
     to_id INTEGER not null,
     created_at TIMESTAMP without time zone DEFAULT now()
 );
-CREATE TABLE community_media (
-    id SERIAL primary key,
-    file_name TEXT,
-    message_id INTEGER,
-    FOREIGN KEY(message_id) REFERENCES community_messages(id),
-    media_type TEXT
-);

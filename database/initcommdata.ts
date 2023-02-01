@@ -37,7 +37,7 @@ async function main() {
         updated_at: "2021-12-25 10:14:09.316",
 
     };
-    const post1_id = (await client.query("Insert into community_messages (title, content, media, from_id, community_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7) returning id", [
+    await client.query("Insert into community_messages (title, content, media, from_id, community_id, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7) returning id", [
         post1.title,
         post1.content,
         post1.media,
@@ -46,18 +46,6 @@ async function main() {
         post1.created_at,
         post1.updated_at
 
-    ])).rows[0].id;
-
-    /// post media
-    const post1_media = {
-        post1_file_name: "3.jpg",
-        post1_message_id: post1_id,
-        post1_media_type: "image"
-    }
-    await client.query("Insert into community_media (file_name, message_id, media_type) values ($1, $2, $3)", [
-        post1_media.post1_file_name,
-        post1_media.post1_message_id,
-        post1_media.post1_media_type
     ]);
 
     await client.end();
