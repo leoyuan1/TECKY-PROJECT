@@ -5,7 +5,7 @@ async function init() {
   let toID = 0;
 
   // socket.io section
-  const socket = io.connect("http://192.168.59.107:8080");
+  const socket = io.connect("http://localhost:8080");
 
   // socket.on("reload-people", (data) => {
   //   const people = data.data;
