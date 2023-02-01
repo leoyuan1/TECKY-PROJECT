@@ -46,6 +46,10 @@ async function init() {
     event.preventDefault();
     const name = searchElem.person_name.value;
     const res = await fetch(`/msgs/user-id/${name}`);
+    if (!res.ok) {
+      Swal.fire('No such user.');
+      return;
+    }
     const result = await res.json();
     const id = result.data.id;
     toID = parseInt(id);
@@ -102,8 +106,13 @@ async function init() {
         // using library for chatroom's style
         // console.log('person: ', personElem.id);
         // console.log(document.querySelector(`.chat`));
+        const unSelectedPeople = document.querySelectorAll('.left > .people .person.active');
+        for (let unSelectedPerson of unSelectedPeople) {
+          unSelectedPerson.classList.remove('active');
+        }
         document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
         document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
+        console.log(`added active to ${personElem.id}`);
         libraryFunction();
 
         // scroll to bottom
@@ -253,6 +262,8 @@ function libraryFunction() {
   // document.querySelector('.chat[data-chat=person]').classList.add('active-chat')
   // document.querySelector('.person[data-chat=person]').classList.add('active')
 
+  console.log('debug-1');
+
   let friends = {
     list: document.querySelector('ul.people'),
     all: document.querySelectorAll('.left .person'),
@@ -267,12 +278,14 @@ function libraryFunction() {
 
   friends.all.forEach(f => {
     f.addEventListener('mousedown', () => {
+      console.log('debug-2');
       f.classList.contains('active') || setAciveChat(f)
     })
   });
 
   function setAciveChat(f) {
-    friends.list.querySelector('.active').classList.remove('active')
+    friends.list.querySelector('.active').classList.remove('active');
+    console.log(`removed active from ${friends.list.querySelector('.active')}`);
     f.classList.add('active')
     chat.current = chat.container.querySelector('.active-chat')
     chat.person = f.getAttribute('data-chat')
@@ -288,9 +301,6 @@ function libraryFunction() {
   /*******************************/
 
 }
-/*******************************/
-/*** codes from library ends ***/
-/*******************************/
 
 let emojiLogo = document.querySelector('.emoji-picker')
 let counter = false

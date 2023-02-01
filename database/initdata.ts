@@ -16,37 +16,50 @@ async function main() {
 
     // add user
     const user1 = {
-        email: "123@gmail.com",
-        username: "123",
-        password: await hashPassword("123"),
+        email: "amy@gmail.com",
+        username: "Amy",
+        password: await hashPassword("amy"),
     };
     const user1_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
         user1.email,
         user1.username,
         user1.password,
-        "2020-01-01 10:14:09.316",
-        "2020-01-01 10:14:09.316"
+        "2015-01-01 10:14:09.316",
+        "2015-01-01 10:14:09.316"
     ])).rows[0].id;
 
     const user2 = {
-        email: "asd@gmail.com",
-        username: "asd",
-        password: await hashPassword("asd"),
+        email: "ben@gmail.com",
+        username: "Ben",
+        password: await hashPassword("ben"),
     };
     const user2_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
         user2.email,
         user2.username,
         user2.password,
-        "2020-03-07 10:14:09.316",
-        "2020-03-07 10:14:09.316"
+        "2016-03-07 10:14:09.316",
+        "2016-03-07 10:14:09.316"
+    ])).rows[0].id;
+
+    const user3 = {
+        email: "cathy@gmail.com",
+        username: "Cathy",
+        password: await hashPassword("cathy"),
+    };
+    const user3_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
+        user3.email,
+        user3.username,
+        user3.password,
+        "2017-03-07 10:14:09.316",
+        "2017-03-07 10:14:09.316"
     ])).rows[0].id;
 
     // add pet types
     const pet_types = {
         type1: "貓",
         type2: "狗",
-        type3: "鳥",
-        type4: "兔",
+        type3: "兔",
+        type4: "鳥",
         type5: "爬蟲",
         type6: "其他"
     };
@@ -61,6 +74,10 @@ async function main() {
     console.log("cat_id = ", cat_id);
     const dog_id = (await client.query("select id from pet_types where type_name = $1", [pet_types.type2])).rows[0].id;
     console.log("dog_id = ", dog_id);
+    const rab_id = (await client.query("select id from pet_types where type_name = $1", [pet_types.type3])).rows[0].id;
+    console.log("rab_id = ", rab_id);
+    const bir_id = (await client.query("select id from pet_types where type_name = $1", [pet_types.type4])).rows[0].id;
+    console.log("bir_id = ", bir_id);
 
     // create cat species
     const cat_species = {
@@ -81,12 +98,40 @@ async function main() {
         name2: "貴婦",
         name3: "牧羊犬",
         name4: "柴犬",
-        name5: "金毛尋回犬"
+        name5: "金毛尋回犬",
+        name6: "臘腸狗",
+        name7: "芝娃娃"
     };
     for (let dog_specie in dog_species) {
         await client.query("INSERT INTO species (species_name, pet_type_id, created_at, updated_at) values ($1,$2,now(),now())", [
             dog_species[dog_specie],
             dog_id,
+        ])
+    }
+
+    // create rabbit species
+    const rab_species = {
+        name1: "侏儒兔",
+        name2: "垂耳兔",
+        name3: "獅子兔"
+    };
+    for (let rab_specie in rab_species) {
+        await client.query("INSERT INTO species (species_name, pet_type_id, created_at, updated_at) values ($1,$2,now(),now())", [
+            rab_species[rab_specie],
+            rab_id,
+        ])
+    }
+
+    // create bird species
+    const bir_species = {
+        name1: "鸚鵡",
+        name2: "貓頭鷹",
+        name3: "麻雀"
+    };
+    for (let bir_specie in bir_species) {
+        await client.query("INSERT INTO species (species_name, pet_type_id, created_at, updated_at) values ($1,$2,now(),now())", [
+            bir_species[bir_specie],
+            bir_id,
         ])
     }
 
@@ -96,7 +141,7 @@ async function main() {
     const cat_species2_id = (await client.query("select id from species where species_name = $1", [cat_species.name2])).rows[0].id;
     console.log("短毛貓_id = ", cat_species2_id);
     const cat_species3_id = (await client.query("select id from species where species_name = $1", [cat_species.name3])).rows[0].id;
-    console.log("唐貓_id = ", cat_species2_id);
+    console.log("唐貓_id = ", cat_species3_id);
 
     // find dog species ids
     const dog_species1_id = (await client.query("select id from species where species_name = $1", [dog_species.name1])).rows[0].id;
@@ -109,6 +154,26 @@ async function main() {
     console.log("柴犬_id = ", dog_species4_id);
     const dog_species5_id = (await client.query("select id from species where species_name = $1", [dog_species.name5])).rows[0].id;
     console.log("金毛尋回犬_id = ", dog_species5_id);
+    const dog_species6_id = (await client.query("select id from species where species_name = $1", [dog_species.name6])).rows[0].id;
+    console.log("臘腸狗_id = ", dog_species4_id);
+    const dog_species7_id = (await client.query("select id from species where species_name = $1", [dog_species.name7])).rows[0].id;
+    console.log("芝娃娃_id = ", dog_species5_id);
+
+    // find rabbit species ids
+    const rab_species1_id = (await client.query("select id from species where species_name = $1", [rab_species.name1])).rows[0].id;
+    console.log("侏儒兔_id = ", rab_species1_id);
+    const rab_species2_id = (await client.query("select id from species where species_name = $1", [rab_species.name2])).rows[0].id;
+    console.log("垂耳兔_id = ", rab_species2_id);
+    const rab_species3_id = (await client.query("select id from species where species_name = $1", [rab_species.name3])).rows[0].id;
+    console.log("獅子兔_id = ", rab_species3_id);
+
+    // find bird species ids
+    const bir_species1_id = (await client.query("select id from species where species_name = $1", [bir_species.name1])).rows[0].id;
+    console.log("鸚鵡_id = ", bir_species1_id);
+    const bir_species2_id = (await client.query("select id from species where species_name = $1", [bir_species.name2])).rows[0].id;
+    console.log("貓頭鷹_id = ", bir_species2_id);
+    const bir_species3_id = (await client.query("select id from species where species_name = $1", [bir_species.name3])).rows[0].id;
+    console.log("麻雀_id = ", bir_species3_id);
 
     // post pets
     const post_cat_1 = {
@@ -116,7 +181,7 @@ async function main() {
         type: cat_id,
         gender: "F",
         birthday: "2018-03-04",
-        description: "This cat never listen to me! I hate this cat!",
+        description: "This cat never listens to me! I hate this cat!",
         status: "active",
         price: 0,
         species_id: cat_species2_id,
@@ -250,7 +315,99 @@ async function main() {
         post_dog_2.created_at,
         post_dog_2.updated_at
     ])).rows[0].id;
+    console.log('posted dog2');
+    
 
+    const post_dog_3 = {
+        pet_name: "阿芝",
+        type: dog_id,
+        gender: "F",
+        birthday: "2017-01-19",
+        description: "鍾意熱鬧，必須有伴，適合加狗家庭一齊領養，愛玩",
+        status: "active",
+        price: 0,
+        species_id: dog_species5_id,
+        pet_fine_with_dog: true,
+        pet_fine_with_cat: true,
+        pet_neutered: true,
+        created_at: "2021-02-21 10:14:09.316",
+        updated_at: "2021-02-21 10:14:09.316"
+    };
+    const post_dog_3_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, pet_fine_with_cat, pet_fine_with_dog, pet_neutered, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) returning id", [
+        user1_id,
+        post_dog_3.pet_name,
+        post_dog_3.type,
+        post_dog_3.gender,
+        post_dog_3.birthday,
+        post_dog_3.description,
+        post_dog_3.status,
+        post_dog_3.price,
+        post_dog_3.species_id,
+        post_dog_3.pet_fine_with_cat,
+        post_dog_3.pet_fine_with_dog,
+        post_dog_3.pet_neutered,
+        post_dog_3.created_at,
+        post_dog_3.updated_at
+    ])).rows[0].id;
+    console.log('posted dog3');
+
+    const post_rab_1 = {
+        pet_name: "混混",
+        type: rab_id,
+        gender: "M",
+        birthday: "2016-12-22",
+        description: "自信活潑 熱力四射",
+        status: "active",
+        price: 0,
+        species_id: rab_species1_id,
+        pet_know_hygiene: true,
+        created_at: "2020-07-21 10:14:09.316",
+        updated_at: "2020-07-21 10:14:09.316"
+    };
+    const post_rab_1_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, pet_know_hygiene, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning id", [
+        user3_id,
+        post_rab_1.pet_name,
+        post_rab_1.type,
+        post_rab_1.gender,
+        post_rab_1.birthday,
+        post_rab_1.description,
+        post_rab_1.status,
+        post_rab_1.price,
+        post_rab_1.species_id,
+        post_rab_1.pet_know_hygiene,
+        post_rab_1.created_at,
+        post_rab_1.updated_at
+    ])).rows[0].id;
+    console.log('posted rab1');
+
+    const post_bir_1 = {
+        pet_name: "丹丹",
+        type: bir_id,
+        gender: "F",
+        birthday: "2018-12-22",
+        description: "勁溫柔",
+        status: "active",
+        price: 0,
+        species_id: bir_species1_id,
+        pet_know_hygiene: true,
+        created_at: "2020-08-21 10:14:09.316",
+        updated_at: "2020-08-21 10:14:09.316"
+    };
+    const post_bir_1_id = (await client.query("INSERT INTO posts (user_id, pet_name, pet_type_id, gender, birthday, pet_description, status, price, species_id, pet_know_hygiene, created_at, updated_at) values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning id", [
+        user3_id,
+        post_bir_1.pet_name,
+        post_bir_1.type,
+        post_bir_1.gender,
+        post_bir_1.birthday,
+        post_bir_1.description,
+        post_bir_1.status,
+        post_bir_1.price,
+        post_bir_1.species_id,
+        post_bir_1.pet_know_hygiene,
+        post_bir_1.created_at,
+        post_bir_1.updated_at
+    ])).rows[0].id;
+    console.log('posted bir2');
 
     // add post media
     const post_cat_1_media_a = {
@@ -339,6 +496,61 @@ async function main() {
         post_dog_2_media_a.post_media_file_name,
         post_dog_2_media_a.post_media_post_id,
         post_dog_2_media_a.post_media_type
+    ]);
+
+    const post_dog_3_media_a = {
+        post_media_file_name: "dog3a.jpeg",
+        post_media_post_id: post_dog_3_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (file_name, post_id, media_type) values ($1,$2,$3)", [
+        post_dog_3_media_a.post_media_file_name,
+        post_dog_3_media_a.post_media_post_id,
+        post_dog_3_media_a.post_media_type
+    ]);
+
+    const post_dog_3_media_b = {
+        post_media_file_name: "dog3b.jpeg",
+        post_media_post_id: post_dog_3_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (file_name, post_id, media_type) values ($1,$2,$3)", [
+        post_dog_3_media_b.post_media_file_name,
+        post_dog_3_media_b.post_media_post_id,
+        post_dog_3_media_b.post_media_type
+    ]);
+
+    const post_rab_1_media_a = {
+        post_media_file_name: "rab1a.jpeg",
+        post_media_post_id: post_rab_1_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (file_name, post_id, media_type) values ($1,$2,$3)", [
+        post_rab_1_media_a.post_media_file_name,
+        post_rab_1_media_a.post_media_post_id,
+        post_rab_1_media_a.post_media_type
+    ]);
+
+    const post_rab_1_media_b = {
+        post_media_file_name: "rab1a.jpeg",
+        post_media_post_id: post_rab_1_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (file_name, post_id, media_type) values ($1,$2,$3)", [
+        post_rab_1_media_b.post_media_file_name,
+        post_rab_1_media_b.post_media_post_id,
+        post_rab_1_media_b.post_media_type
+    ]);
+
+    const post_bir_1_media_a = {
+        post_media_file_name: "bir1.jpeg",
+        post_media_post_id: post_bir_1_id,
+        post_media_type: "image"
+    }
+    await client.query("INSERT INTO post_media (file_name, post_id, media_type) values ($1,$2,$3)", [
+        post_bir_1_media_a.post_media_file_name,
+        post_bir_1_media_a.post_media_post_id,
+        post_bir_1_media_a.post_media_type
     ]);
 
     await client.end();
