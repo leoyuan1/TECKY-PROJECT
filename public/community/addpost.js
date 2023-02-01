@@ -147,20 +147,20 @@ async function getMe() {
 
 
 
-window.onload = async () => {
-    const searchParams = new URLSearchParams(location.search);
-    const userId = searchParams.get("userId");
+// window.onload = async () => {
+//     const searchParams = new URLSearchParams(location.search);
+//     const userId = searchParams.get("userId");
 
-    console.log(userId);
-    // Use the id to fetch data from
-    const res = await fetch(`/post/like/user/${userId}`)
-    if (res.ok) {
-        const likedPosts = await res.json();
-        console.log(`user ${userId} liked posts = `, likeposts)
-        updatePostContainer(Likedposts)
+//     console.log(userId);
+//     // Use the id to fetch data from
+//     const res = await fetch(`/post/like/user/${userId}`)
+//     if (res.ok) {
+//         const likedPosts = await res.json();
+//         console.log(`user ${userId} liked posts = `, likeposts)
+//         updatePostContainer(likedposts)
 
-    } else {
-        console.log('get liked posts fail');
-    }
-    // Rest of the code
-};
+//     } else {
+//         console.log('get liked posts fail');
+//     }
+//     // Rest of the code
+// };

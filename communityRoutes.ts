@@ -7,9 +7,9 @@ import { client } from "./util/psql-config";
 
 export const communityRoutes = express.Router()
 
-communityRoutes.put('/:id', isLoggedInAPI, updatePostById)
+// communityRoutes.put('/:id', isLoggedInAPI, updatePostById)
 communityRoutes.post('/', createPost)
-communityRoutes.delete('/:id', deletePostById)
+// communityRoutes.delete('/:id', deletePostById)
 communityRoutes.get('/posts/', getPosts)
 communityRoutes.get('/post/:id', getPost)
 
@@ -124,49 +124,49 @@ async function createPost(req: express.Request, res: express.Response) {
 }
 
 
-async function updatePostById(
-    req: express.Request,
-    res: express.Response
-) {
-    try {
-        let postId = req.params.id
-        let newContent = req.body.content
+// async function updatePostById(
+//     req: express.Request,
+//     res: express.Response
+// ) {
+//     try {
+//         let postId = req.params.id
+//         let newContent = req.body.content
 
-        await client.query(`update posts set content = $1 where id = $2`, [
-            newContent,
-            postId
-        ])
-        io.emit('loading-post')
-        res.json({ message: 'ok' })
-    } catch (error) {
-        logger.error(error)
-        res.status(500).json({
-            message: '[POS002] - Server error'
-        })
-    }
-}
+//         await client.query(`update posts set content = $1 where id = $2`, [
+//             newContent,
+//             postId
+//         ])
+//         io.emit('loading-post')
+//         res.json({ message: 'ok' })
+//     } catch (error) {
+//         logger.error(error)
+//         res.status(500).json({
+//             message: '[POS002] - Server error'
+//         })
+//     }
+// }
 
-async function deletePostById(
-    req: express.Request,
-    res: express.Response
-) {
-    try {
-        let postId = req.params.id
+// async function deletePostById(
+//     req: express.Request,
+//     res: express.Response
+// ) {
+//     try {
+//         let postId = req.params.id
 
-        if (!Number(postId)) {
-            res.status(400).json({
-                message: 'Invalid post id'
-            })
-            return
-        }
+//         if (!Number(postId)) {
+//             res.status(400).json({
+//                 message: 'Invalid post id'
+//             })
+//             return
+//         }
 
-        await client.query(`delete from posts where id = $1`, [postId])
+//         await client.query(`delete from posts where id = $1`, [postId])
 
-        res.json({ message: 'delete post ok' })
-    } catch (error) {
-        logger.error(error)
-        res.status(500).json({
-            message: '[POS003] - Server error'
-        })
-    }
-}
+//         res.json({ message: 'delete post ok' })
+//     } catch (error) {
+//         logger.error(error)
+//         res.status(500).json({
+//             message: '[POS003] - Server error'
+//         })
+//     }
+// }
