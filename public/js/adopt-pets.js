@@ -59,6 +59,8 @@ async function init() {
             // load pet from array
             const pet = pets[i - 1];
 
+            if (pet.status === 'hidden') { continue }
+
             // prepare media
             const post_id = pet.id;
             const media = await getMedia(post_id);
@@ -110,6 +112,9 @@ async function init() {
                 htmlString += `<div>性別: ${pet.gender}</div>`;
             } else {
                 htmlString += '<div>性別: 不知道</div>';
+            }
+            if (pet.status == 'adopted') {
+                htmlString += '<span class="adopted">已被領養</span>'
             }
             htmlString += "</li>";
 

@@ -4,7 +4,7 @@ import { logger } from './util/logger';
 import { petRoutes } from "./petRoutes";
 import { msgRoutes } from "./messageRoutes";
 import { app, PORT, server } from "./util/connection-config";
-import { userRoutes } from "./login";
+import { userRoutes } from "./userRoutes";
 import expressSession from "express-session";
 import grant from "grant";
 import { isLoggedIn } from "./util/guard";
@@ -39,14 +39,21 @@ const grantExpress = grant.express({
         callback: "/login/google",
     },
 });
-app.use(
-    expressSession({
-        secret: "Tecky Academy teaches typescript",
-        resave: true,
-        saveUninitialized: true,
-        cookie: { secure: false },
-    })
-);
+
+const sessionMiddleware = expressSession({
+    secret: "Tecky Academy teaches typescript",
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: false },
+})
+
+app.use(sessionMiddleware);
+io.use((socket, next) => {
+    let req = socket.request as express.Request;
+    let res = req.res as express.Response;
+    sessionMiddleware(req, res, next as express.NextFunction);
+});
+
 app.use(express.static("public"));
 app.use(express.static("uploads"));
 app.use('/', userRoutes)

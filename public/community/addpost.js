@@ -2,6 +2,7 @@ let newPostformElm = document.querySelector('.btn-btn-link')
 let signinformElm = document.querySelector('.swal2-confirm swal2-styled')
 
 newPostformElm.addEventListener('comfirm!', async (e) => {
+
     e.preventDefault()
 
     // prep

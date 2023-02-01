@@ -3,13 +3,15 @@ let newPassword = document.getElementById("password");
 let confirmPassword = document.getElementById("confirmPassword");
 let changePasswordFunction = document.querySelector('#submitButton')
 
-
 function validatePassword() {
+    console.log(existPassword.value);
+    console.log(newPassword.value);
+    console.log(confirmPassword.value);
     if (newPassword.value != confirmPassword.value) {
         // console.log('testing1');
         confirmPassword.setCustomValidity("Passwords Don't Match");
         return false;
-    } else if (existPassword == newPassword) {
+    } else if (existPassword.value == newPassword.value) {
         // console.log('testing2');
         newPassword.setCustomValidity("Exist Password and New Password Should not be a same");
         return false;
@@ -41,8 +43,8 @@ changePasswordFunction.addEventListener("click", async (e) => {
     }
 
     let result = {
-        existPassword: `${newPassword.value}`,
-        newPasswordValue: `${existPassword.value}`
+        existPassword: `${existPassword.value}`,
+        newPasswordValue: `${newPassword.value}`
     }
     let res = await fetch("/change", {
         method: 'post',
@@ -53,11 +55,13 @@ changePasswordFunction.addEventListener("click", async (e) => {
     })
     let data = await res.json()
     if (data.message == "Updated Password") {
-        alert('更改密碼成功')
-        location.reload('/setting')
+        Swal.fire(
+            '密碼更改成功!'
+        )
     } else if (data.message == 'Invalid password') {
-        alert('密碼錯誤')
-        location.reload('/setting')
+        Swal.fire(
+            '密碼錯誤!'
+        )
     }
 })
 

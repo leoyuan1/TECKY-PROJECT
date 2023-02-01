@@ -18,13 +18,18 @@ function getObjectURL(file) {
 }
 
 
-document.querySelector('.btn-btn-link [type=file]').addEventListener('change', (e) => {
+function regEventListener() {
+    document.querySelector('.btn-btn-link [type=file]').addEventListener('change', (e) => {
 
-    console.log('file field changed');
-    let image = e.target.files[0]
-    let imageURL = getObjectURL(image)
-    document.querySelector('#preview').src = imageURL
-})
+        console.log('file field changed');
+        let image = e.target.files[0]
+        let imageURL = getObjectURL(image)
+        document.querySelector('#preview').src = imageURL
+    })
+
+
+}
+
 
 function showPreview(event) {
     if (event.target.files.length > 0) {
@@ -35,4 +40,4 @@ function showPreview(event) {
     }
 }
 
-showPreview();
+// showPreview();
