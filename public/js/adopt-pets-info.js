@@ -126,7 +126,7 @@ document.querySelector('.form-submit-button').addEventListener('click', async ()
     await fetch(`msgs/to-user-id/${post.user_id}`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: "Auto Message: 'adopt button has been clicked' " })
+        body: JSON.stringify({ content: `自動訊息: 已申請領養你的"${post.pet_name}" 請到寵物列表確認` })
     })
 
     let result = await res.json()
