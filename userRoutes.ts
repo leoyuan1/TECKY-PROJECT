@@ -1,6 +1,6 @@
 import express from "express";
 import { checkPassword, hashPassword } from "./util/bcrypt";
-import { formidablePromise } from "./util/formidable";
+import { userFormidablePromise } from "./util/formidable";
 import { client } from "./util/psql-config";
 import { User } from "./util/session";
 import fetch from 'cross-fetch';
@@ -62,7 +62,7 @@ async function getUserID(req: express.Request, res: express.Response) {
 
 async function signup(req: express.Request, res: express.Response) {
     try {
-        let { fields, files } = await formidablePromise(req)
+        let { fields, files } = await userFormidablePromise(req)
         let selectUserResult = await client.query(`select * from users where email = $1`, [fields.email])
         let foundUser = selectUserResult.rows[0]
 

@@ -167,8 +167,8 @@ a:focus {
   padding: 6% 0;
   background-size: cover;
   background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: center; */
 }
 
 .slider_section .row {

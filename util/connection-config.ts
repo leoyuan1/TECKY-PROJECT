@@ -11,10 +11,5 @@ export const app = express();
 app.use(cors())
 
 export const server = new http.Server(app);
-export const io = new SocketIO(server, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
-    }
-});
+export const io = new SocketIO(server);
 

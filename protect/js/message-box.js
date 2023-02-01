@@ -5,7 +5,7 @@ async function init() {
   let toID = 0;
 
   // socket.io section
-  const socket = io.connect("localhost:8080");
+  const socket = io.connect("http://192.168.59.107:8080");
 
   // socket.on("reload-people", (data) => {
   //   const people = data.data;
@@ -355,7 +355,8 @@ for (let icon of emojiList) {
   let div = document.createElement('a')
   div.innerHTML = emoji.replace_colons(icon)
   div.addEventListener('click', () => {
-    input.value += emoji.replace_colons(icon)
+    input.value += emoji.replace_colons(icon);
+    input.focus();
   })
   emojiListDiv.appendChild(div)
 }
