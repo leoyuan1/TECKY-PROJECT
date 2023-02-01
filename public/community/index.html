@@ -19,6 +19,7 @@
 	<!-- Custom styles for this template -->
 	<link href="assets/css/mediumish.css" rel="stylesheet">
 	<link href="css/newpost.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -89,24 +90,24 @@
 					<li class="nav-item active">
 						<a class="nav-link" href="index.html">Stories <span class="sr-only">(current)</span></a>
 					</li>
-					<li class="nav-item">
+					<!-- <li class="nav-item">
 						<a class="nav-link" href="post.html">Post</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="author.html">Author</a>
 					</li>
-				</ul>
-				<!-- End Menu -->
-				<!-- Begin Search -->
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search">
-					<span class="search-icon"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25">
-							<path
-								d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z">
-							</path>
-						</svg></span>
-				</form>
-				<!-- End Search -->
+				</ul> -->
+					<!-- End Menu -->
+					<!-- Begin Search -->
+					<form class="form-inline my-2 my-lg-0">
+						<input class="form-control mr-sm-2" type="text" placeholder="Search">
+						<span class="search-icon"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25">
+								<path
+									d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z">
+								</path>
+							</svg></span>
+					</form>
+					<!-- End Search -->
 			</div>
 		</div>
 	</nav>
@@ -139,7 +140,7 @@
 			<div class="card-columns listfeaturedtag">
 
 				<!-- begin post -->
-				<div class="card">
+				<!-- <div class="card">
 					<div class="row">
 						<div class="col-md-5 wrapthumbnail">
 							<a href="post.html">
@@ -175,11 +176,11 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- end post -->
 
 				<!-- begin post -->
-				<div class="card">
+				<!-- <div class="card">
 					<div class="row">
 						<div class="col-md-5 wrapthumbnail">
 							<a href="post.html">
@@ -216,16 +217,20 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!--end post -->
 
 				<!-- begin post -->
 				<div class="card">
 					<div class="row">
 						<div class="col-md-5 wrapthumbnail">
-							<a href="post.html">
-								<div class="thumbnail" style="background-image:url(assets/img/demopic/3.jpg);">
-								</div>
+							<!-- <a href="post.html"> -->
+							<div class="thumbnail" style="background-image:url(assets/img/demopic/3.jpg);">
+								<button class="button button-like">
+									<i class="fa fa-heart"></i>
+									<span>Like</span>
+								</button>
+							</div>
 							</a>
 						</div>
 						<div class="col-md-7">
@@ -552,6 +557,8 @@
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/ie10-viewport-bug-workaround.js"></script>
 	<script src="./comm-index.js"></script>
+	<script src="./addpost.js"></script>
+	<script type="module" src="./image-process.js"></script>
 </body>
 
 </html>

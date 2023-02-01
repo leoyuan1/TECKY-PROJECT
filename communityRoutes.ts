@@ -22,15 +22,15 @@ export async function createPost(req: express.Request, res: express.Response) {
         console.log(formParedReuslt)
 
         // insert data into database (community)
-
+        console.log(req.session.user)
         // 2. insert data into database (community_messages)
-        const postData = await client.query(`insert in community_messages(
+        const postData = await client.query(`insert into community_messages(
             from_id,
             content,
             community_id,
             created_at,
             updated_at
-        )values ($1,$2,$3,now(),now() return id`)
+        )values ($1,$2,$3,now(),now() ) returning id`, [req.session![`user`]![`user_id`], formParedReuslt.files.content, 1])
 
         const postID = postData.rows[0].id;
 

@@ -1,32 +1,39 @@
 let newPostformElm = document.querySelector('.btn-btn-link')
-// let signinformElm = document.querySelector('.signin-form > form')
+let signinformElm = document.querySelector('.swal2-confirm swal2-styled')
 
-newPostformElm.addEventListener('submit', async (e) => {
+newPostformElm.addEventListener('comfirm!', async (e) => {
     e.preventDefault()
 
     // prep
     let formData = new FormData(newPostformElm)
 
     // send
-    let res = await fetch('http://localhost:8080/community/index.html/', {
+    let res = await fetch('/index', {
         method: 'POST',
         body: formData
     })
 
+    // post handliing
+    if (res.ok) {
+        newPostformElm.reset()
+    } else {
+        console.log('Post Fail!')
+    }
+
 })
 
-signinformElm.addEventListener('submit', async (e) => {
+signinformElm.addEventListener('comfirm!', async (e) => {
     e.preventDefault()
 
     // prep
 
     let uploadData = {
-        username: newPostformElm.value,
-        password: newPostformElm.value
+        username: newPostformElm.username.value,
+        id: newPostformElm.id.value
     }
 
     // send
-    let res = await fetch('/login', {
+    let res = await fetch('/post', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -45,7 +52,7 @@ signinformElm.addEventListener('submit', async (e) => {
 })
 
 async function loadPost() {
-    let res = await fetch('/post')
+    let res = await fetch('/index')
     if (res.ok) {
         let data = await res.json()
         let posts = data.data
@@ -57,37 +64,31 @@ async function loadPost() {
     }
 }
 
-// function updatePostContainer(posts) {
-//     let postContainerElem = document.querySelector('.post-container')
-//     postContainerElem.innerHTML = ''
-//     for (let postItem of posts) {
-//         postContainerElem.innerHTML += `
-//         <div class="post-wrapper" id="post${postItem.id}">
-//             <div class="post-icon first">
-//                 <span class="material-symbols-outlined" onclick='deletePost("${postItem.id}")'>
-//                     delete
-//                 </span>
-//             </div>
-
-//             <div class="post-icon second">
-//                 <span class="material-symbols-outlined" onclick='updatePost("${postItem.id}")'>
-//                     edit_note
-//                 </span>
-//             </div>
-// 			<div class="post-icon third">
-//                 <span class="material-symbols-outlined" onclick='toggleLikePost("${postItem.id}")'>
-//                     favorite
-//                 </span>
-//             </div>
-//             <div class="post-wrapper-inner">
-//                 <textarea class='btn btn-link'>${postItem.content}
-//                 </textarea>
-//                 <img class='post-image' src="/${postItem.image}" alt="" >
-//             </div>
-//         </div>
-//         `
-//     }
-// }
+function updatePostContainer(posts) {
+    let postContainerElem = document.querySelector('.post-container')
+    postContainerElem.innerHTML = ''
+    for (let postItem of posts) {
+        postContainerElem.innerHTML += `
+        <div class="post-wrapper" id="post${postItem.id}">
+            <div class="post-icon first">
+                <span class="material-symbols-outlined" onclick='updatePost("${postItem.id}")'>
+                    edit_note
+                </span>
+            </div>
+			<div class="post-icon second">
+                <span class="material-symbols-outlined" onclick='toggleLikePost("${postItem.id}")'>
+                    favorite
+                </span>
+            </div>
+            <div class="post-wrapper-inner">
+                <textarea class='btn btn-link'>${postItem.content}
+                </textarea>
+                <img class='post-image' src="/${postItem.image}" alt="" >
+            </div>
+        </div>
+        `
+    }
+}
 
 // async function deletePost(postId) {
 //     await fetch(`/posts/${postId}`, {
@@ -122,10 +123,15 @@ async function updatePost(postId) {
     }
 }
 async function getMe() {
-    let res = await fetch('/uploads.js')
+    let res = await fetch('/comm-index.js')
     if (res.ok) {
         let user = await res.json()
-
+        if (Object.keys(user).length == 0) {
+            let postIcons = document.querySelectorAll('.post-icon')
+            for (let postIcon of postIcons) {
+                postIcon.classList.add('disable')
+            }
+        }
     }
 }
 
@@ -136,4 +142,24 @@ async function getMe() {
         loadPost()
     })
     getMe()
-})()
+})
+
+
+
+window.onload = async () => {
+    const searchParams = new URLSearchParams(location.search);
+    const userId = searchParams.get("userId");
+
+    console.log(userId);
+    // Use the id to fetch data from
+    const res = await fetch(`/post/like/user/${userId}`)
+    if (res.ok) {
+        const likedPosts = await res.json();
+        console.log(`user ${userId} liked posts = `, likeposts)
+        updatePostContainer(Likedposts)
+
+    } else {
+        console.log('get liked posts fail');
+    }
+    // Rest of the code
+};

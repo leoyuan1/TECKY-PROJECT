@@ -93,6 +93,9 @@ CREATE table community_messages (
     content text,
     community_id INTEGER not null,
     FOREIGN key(community_id) REFERENCES community(id),
+    like_count text,
+    media text,
+    title text,
     created_at date DEFAULT now(),
     updated_at date DEFAULT now()
 );
