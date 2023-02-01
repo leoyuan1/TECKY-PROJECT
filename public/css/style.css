@@ -168,6 +168,7 @@ a:focus {
   padding-bottom: 10%;
   background-size: cover;
   background-repeat: no-repeat;
+  background:linear-gradient(0deg, rgba(255, 179, 0, 0.478), rgba(97, 97, 97, 0.476)), url(../images/hero.jpg);
 }
 
 .slider_section .row {
@@ -636,11 +637,13 @@ a:focus {
 .justify-right {
   display: flex;
   justify-content: right;
+  padding: 0 5%;
 }
 
 .justify-left {
   display: flex;
   justify-content: left;
+  padding: 0 5%;
 }
 
 @media (max-width: 768px) {
@@ -657,4 +660,19 @@ a:focus {
   .carousel-indicators {
     bottom: -5%;
   }
+}
+
+.banner {
+  height: 200px;
+  padding: 0 70px;
+  background: #494949;
+  color: #f6f8f7;
+  /* cursor: pointer; */
+  vertical-align: middle;
+  font-size: 25px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }

@@ -1,18 +1,21 @@
 // const { resourceLimits } = require("worker_threads")
 const newPost = document.querySelector('#postaddbtn')
 
-
-
-function registerEventListener() {
+async function registerEventListener() {
     newPost.addEventListener('click', async () => {
+        let res = await fetch('/session')
+        let user = await res.json()
+        if (user.message == 'no session data') {
+            Swal.fire('請先登入!')
+            return
+        }
         await Swal.fire({
             title: '建立帖子',
             html: `<form id="new-post-form"><input type="text" id="title" class="swal2-input" name="title" placeholder="Title">
             <textarea type="text" id="content" class="swal2-input" name="content" placeholder="tpye here"></textarea> 
-            <button class="icon">Media upload<input type="file" name="image" id="media" /></button>
+            <button class="icon">Image upload<input type="file" name="image" id="media" /></button>
             </form>
             `,
-
             showCancelButton: true,
             focusConfirm: false,
             confirmButtonText:
@@ -22,8 +25,8 @@ function registerEventListener() {
                 const title = Swal.getPopup().querySelector('#title').value
                 const text = Swal.getPopup().querySelector('#content').value
                 const file = Swal.getPopup().querySelector('#media').value
-                if (!title || !text) {
-                    Swal.showValidatoinMessage(`Please fill the text area and title!`)
+                if (!title || !text || !file) {
+                    Swal.fire(`Please fill the title ,text area and add the img!`)
                     return
                 }
                 let formData = new FormData(document.querySelector('#new-post-form'))
@@ -34,9 +37,6 @@ function registerEventListener() {
                 if (res.ok) {
                     getCommunityPosts()
                 }
-            },
-
-            willClose: async () => {
             }
         })
     })
