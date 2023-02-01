@@ -74,14 +74,12 @@ async function init() {
         toID = parseInt(personElem.id.replace('person-', ''));
         await listMsgs();
 
-        if (!isSendingMsg) {
-          // using library for chatroom's style
-          // console.log('person: ', personElem.id);
-          // console.log(document.querySelector(`.chat`));
-          document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
-          document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
-          libraryFunction();
-        }
+        // using library for chatroom's style
+        // console.log('person: ', personElem.id);
+        // console.log(document.querySelector(`.chat`));
+        document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
+        document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
+        libraryFunction();
 
         // scroll to bottom
         // console.log(document.querySelector('.chat'));
