@@ -117,10 +117,12 @@
             <div class="wrapper">
                 <div class="container">
                     <div class="left">
-                        <div class="top">
-                            <input type="text" placeholder="Search" />
-                            <a href="javascript:;" class="search"></a>
-                        </div>
+                        <form class="top" id="searchbox">
+                            <input type="text" placeholder="Search Name" name="person_name"/>
+                            <a href="javascript:;" class="search">
+                                <input type="submit" value="">
+                            </a>
+                        </form>
                         <ul class="people">
                             <li class="person" data-chat="person">
                                 <!-- <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/thomas.jpg" alt="" />
@@ -292,12 +294,14 @@
                             </div>
                         </div> -->
 
-                        <div class="write">
+                        <form class="write">
                             <a href="javascript:;" class="write-link attach"></a>
                             <input type="text" class="message-input" placeholder="type your message here">
                             <a class="write-link smiley" type="button"></a>
-                            <a href="javascript:;" class="write-link send"></a>
-                        </div>
+                            <a href="javascript:;" class="write-link send">
+                                <input type="submit" value="">
+                            </a>
+                        </form>
                         <div class="emoji-picker">
                             <div class="emoji-picker__emojis">
                                 <ul class="emoji-list list-unstyled list-inline">

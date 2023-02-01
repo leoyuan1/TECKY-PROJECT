@@ -92,7 +92,7 @@ CREATE table community_messages (
     FOREIGN key (from_id) REFERENCES users(id),
     content text,
     community_id INTEGER not null,
-    FOREIGN key(community_id) REFERENCES community_members(id),
+    FOREIGN key(community_id) REFERENCES community(id),
     media text,
     title text,
     created_at date DEFAULT now(),

@@ -4,7 +4,7 @@ import { logger } from './util/logger';
 import { petRoutes } from "./petRoutes";
 import { msgRoutes } from "./messageRoutes";
 import { app, PORT, server } from "./util/connection-config";
-import { userRoutes } from "./login";
+import { userRoutes } from "./userRoutes";
 import expressSession from "express-session";
 import grant from "grant";
 import { isLoggedIn } from "./util/guard";

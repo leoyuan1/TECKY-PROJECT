@@ -7,6 +7,7 @@ async function init() {
     let selected = {
         pet_type_id: null,
         species_id: null,
+        pet_name: null,
         gender: null,
         pet_fine_with_children: false,
         pet_fine_with_cat: false,
@@ -23,6 +24,7 @@ async function init() {
     const species_list = document.querySelector('#species-list');
     const gender_list = document.querySelector('#gender-list');
     const featureElems = document.querySelectorAll('#feature-list > li > input');
+    const searchElem = document.querySelector('#search');
 
     await adoptPets_loadPets();
     await adoptPets_loadAnimals();
@@ -32,6 +34,7 @@ async function init() {
     const animalElems = document.querySelectorAll('#animal-list .filter > a');
 
     // add event listeners
+    searchElem.addEventListener('input', filterPetsByName);
     for (let animalElem of animalElems) {
         animalElem.addEventListener('click', filterPetsByAnimal);
     }
@@ -137,6 +140,21 @@ async function init() {
         const media = result.data;
 
         return media;
+
+    }
+
+    async function filterPetsByName(event) {
+
+        // get animal's name
+        let name = event.target.value;
+        if (name === '') {
+            selected.pet_name = null;
+        } else {
+            selected.pet_name = name;
+            console.log(name);
+        }
+
+        await adoptPets_loadPets();
 
     }
 
