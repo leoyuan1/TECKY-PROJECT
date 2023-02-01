@@ -65,7 +65,6 @@ async function signup(req: express.Request, res: express.Response) {
         let { fields, files } = await userFormidablePromise(req)
         let selectUserResult = await client.query(`select * from users where email = $1`, [fields.email])
         let foundUser = selectUserResult.rows[0]
-
         if (foundUser) {
             res.json({
                 message: "email registered"
@@ -93,6 +92,11 @@ async function signup(req: express.Request, res: express.Response) {
             fields.username,
             ]
         )).rows[0]
+        await client.query('insert into community_members (community_id,user_id, created_at, updated_at) values ($1,$2,now(),now())',
+            [
+                "1",
+                user.id
+            ])
         req.session.user = user
         res.json({
             message: "OK"

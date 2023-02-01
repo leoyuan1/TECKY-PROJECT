@@ -14,9 +14,11 @@ async function main() {
     await client.connect();
     console.log('database is connected')
 
-    INSERT INTO public.community
+
+
+    await client.query(`INSERT INTO community
         (title, created_at, updated_at)
-    VALUES('fornum1', now(), now());
+    VALUES($1, now(), now())`, ["fornum1"]);
 
 
     // add user
