@@ -154,9 +154,11 @@ async function init() {
       const msgTime = new Date(msg.created_at);
       if (minsDiff(msgTime, lastDate) > 5) {
         lastDate = new Date(msg.created_at);
+        const date = msg.created_at.split('T')[0];
+        const time = msg.created_at.split('T')[1].split('.')[0];
         chatElem.innerHTML += `
             <div class="conversation-start">
-              <span>${msg.created_at}</span>
+              <span>${date} ${time}</span>
             </div>
           `;
       }

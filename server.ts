@@ -22,7 +22,6 @@ interface Application {
     createdDate: string;
     updatedDate: string;
 }
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
