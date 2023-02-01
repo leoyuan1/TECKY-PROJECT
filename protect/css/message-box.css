@@ -325,6 +325,7 @@
 }
 
 .container .right .write>input {
+    margin-right: 20px;
     font-size: 16px;
     float: left;
     width: 80%;
