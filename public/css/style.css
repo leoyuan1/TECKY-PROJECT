@@ -179,7 +179,7 @@ a:focus {
 
 .slider_detail-box h1 {
   color: #ffffff;
-  font-size: 52px;
+  font-size: 35px;
 }
 
 .slider_detail-box h1 span {
@@ -232,6 +232,8 @@ a:focus {
 
 .slider_img-box {
   margin-right: 5%;
+  display: flex;
+  justify-content: center;
 }
 
 .slider_img-box img {
