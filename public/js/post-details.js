@@ -1,29 +1,29 @@
 
 function getSelectedCommunityPostId() {
-    let search = new URLSearchParams(window.location.search)
-    let communityMessageId = search.get('communityMessageId')
-    return communityMessageId
+	let search = new URLSearchParams(window.location.search)
+	let communityMessageId = search.get('communityMessageId')
+	return communityMessageId
 }
 async function getCommunityPosts(postId) {
 
-    let res = await fetch(`/community/post/${postId}`)
+	let res = await fetch(`/community/post/${postId}`)
 
-    if (res.ok) {
-        let data = await res.json()
-        console.log(data2)
+	if (res.ok) {
+		let data = await res.json()
+		console.log(data2)
 
-        return {
+		return {
 
-            title: '',
-            content: ''
-        }
-    }
+			title: '',
+			content: ''
+		}
+	}
 }
 function renderPostsUI() {
-    document.querySelector('.card-columns.listfeaturedtag')
-    popTodayContainer.innerHTML = ''
-    for (let popTodayPost of popToday) {
-        popTodayContainer.innerHTML += /* HTML */`
+	document.querySelector('.card-columns.listfeaturedtag')
+	popTodayContainer.innerHTML = ''
+	for (let popTodayPost of popToday) {
+		popTodayContainer.innerHTML += /* HTML */`
                 <div class="card">
 						<div class="row">
 							<div class="col-md-5 wrapthumbnail">
@@ -43,10 +43,6 @@ function renderPostsUI() {
 									<div class="metafooter">
 										<div class="wrapfooter">
 											<span class="meta-footer-thumb">
-												<a href="author.html">
-                                                    <img class="author-thumb"
-														src="${popTodayPost.icon}"
-														alt="Sal"></a>
 											</span>
 											<span class="author-meta">
 												<span class="post-name"><a href="author.html">${popTodayPost.username}</a></span><br />
@@ -70,15 +66,15 @@ function renderPostsUI() {
     
     
     `
-    }
+	}
 }
 
 async function init() {
 
-    let communityMessageId = getSelectedCommunityPostId()
-    let data = await getCommunityPosts(communityMessageId)
+	let communityMessageId = getSelectedCommunityPostId()
+	let data = await getCommunityPosts(communityMessageId)
 
-    renderPostsUI(data)
+	renderPostsUI(data)
 }
 
 init()

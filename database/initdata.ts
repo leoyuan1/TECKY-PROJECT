@@ -14,6 +14,11 @@ async function main() {
     await client.connect();
     console.log('database is connected')
 
+    INSERT INTO public.community
+        (title, created_at, updated_at)
+    VALUES('fornum1', now(), now());
+
+
     // add user
     const user1 = {
         email: "amy@gmail.com",
@@ -316,7 +321,7 @@ async function main() {
         post_dog_2.updated_at
     ])).rows[0].id;
     console.log('posted dog2');
-    
+
 
     const post_dog_3 = {
         pet_name: "阿芝",

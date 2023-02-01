@@ -13,6 +13,7 @@ communityRoutes.delete('/:id', deletePostById)
 communityRoutes.get('/posts', getPosts)
 
 
+
 async function getPosts(req: express.Request, res: express.Response) {
     let result = await client.query(`
     
