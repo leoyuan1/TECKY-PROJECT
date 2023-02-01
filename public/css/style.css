@@ -177,13 +177,22 @@ a:focus {
 
 .slider_detail-box h1 {
   color: #ffffff;
-  font-size: 52px;
+  font-size: 35px;
 }
 
 .slider_detail-box h1 span {
   display: inline-block;
   color: #434242;
   font-weight: bold;
+}
+
+.post-type,
+.post-species,
+.second-post-type,
+.second-post-species,
+.third-post-type,
+.third-post-species {
+  font-size: 20px;
 }
 
 .slider_detail-box p {
@@ -221,6 +230,8 @@ a:focus {
 
 .slider_img-box {
   margin-right: 5%;
+  display: flex;
+  justify-content: center;
 }
 
 .slider_img-box img {
@@ -592,4 +603,33 @@ a:focus {
 
 #welcome-btn {
   display: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  .carousel-indicators {
+    bottom: -5%;
+  }
+}
+
+#post-photo,
+#second-post-photo,
+#third-post-photo {
+  object-fit: cover;
+  width: 400px;
+  height: 400px;
+
+}
+
+#carouselExampleIndicators {
+  display: flex;
+  justify-content: center;
+  max-width: 3000px;
+}
+
+.carousel-title {
+  font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  color: black;
+  margin-bottom: 40px;
 }

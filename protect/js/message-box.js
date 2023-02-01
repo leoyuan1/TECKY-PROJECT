@@ -5,7 +5,7 @@ async function init() {
   let toID = 0;
 
   // socket.io section
-  const socket = io.connect("localhost:8080");
+  const socket = io.connect("http://192.168.59.107:8080");
 
   // socket.on("reload-people", (data) => {
   //   const people = data.data;
@@ -46,6 +46,10 @@ async function init() {
     event.preventDefault();
     const name = searchElem.person_name.value;
     const res = await fetch(`/msgs/user-id/${name}`);
+    if (!res.ok) {
+      Swal.fire('No such user.');
+      return;
+    }
     const result = await res.json();
     const id = result.data.id;
     toID = parseInt(id);
@@ -102,8 +106,13 @@ async function init() {
         // using library for chatroom's style
         // console.log('person: ', personElem.id);
         // console.log(document.querySelector(`.chat`));
+        const unSelectedPeople = document.querySelectorAll('.left > .people .person.active');
+        for (let unSelectedPerson of unSelectedPeople) {
+          unSelectedPerson.classList.remove('active');
+        }
         document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
         document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
+        console.log(`added active to ${personElem.id}`);
         libraryFunction();
 
         // scroll to bottom
@@ -145,9 +154,11 @@ async function init() {
       const msgTime = new Date(msg.created_at);
       if (minsDiff(msgTime, lastDate) > 5) {
         lastDate = new Date(msg.created_at);
+        const date = msg.created_at.split('T')[0];
+        const time = msg.created_at.split('T')[1].split('.')[0];
         chatElem.innerHTML += `
             <div class="conversation-start">
-              <span>${msg.created_at}</span>
+              <span>${date} ${time}</span>
             </div>
           `;
       }
@@ -253,6 +264,8 @@ function libraryFunction() {
   // document.querySelector('.chat[data-chat=person]').classList.add('active-chat')
   // document.querySelector('.person[data-chat=person]').classList.add('active')
 
+  console.log('debug-1');
+
   let friends = {
     list: document.querySelector('ul.people'),
     all: document.querySelectorAll('.left .person'),
@@ -267,12 +280,14 @@ function libraryFunction() {
 
   friends.all.forEach(f => {
     f.addEventListener('mousedown', () => {
+      console.log('debug-2');
       f.classList.contains('active') || setAciveChat(f)
     })
   });
 
   function setAciveChat(f) {
-    friends.list.querySelector('.active').classList.remove('active')
+    friends.list.querySelector('.active').classList.remove('active');
+    console.log(`removed active from ${friends.list.querySelector('.active')}`);
     f.classList.add('active')
     chat.current = chat.container.querySelector('.active-chat')
     chat.person = f.getAttribute('data-chat')
@@ -288,9 +303,6 @@ function libraryFunction() {
   /*******************************/
 
 }
-/*******************************/
-/*** codes from library ends ***/
-/*******************************/
 
 let emojiLogo = document.querySelector('.emoji-picker')
 let counter = false
@@ -343,7 +355,8 @@ for (let icon of emojiList) {
   let div = document.createElement('a')
   div.innerHTML = emoji.replace_colons(icon)
   div.addEventListener('click', () => {
-    input.value += emoji.replace_colons(icon)
+    input.value += emoji.replace_colons(icon);
+    input.focus();
   })
   emojiListDiv.appendChild(div)
 }

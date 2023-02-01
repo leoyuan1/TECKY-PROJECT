@@ -4,6 +4,7 @@ import { Socket } from 'socket.io';
 import { io } from './util/connection-config';
 // import { PORT } from "./util/connection-config";
 import { client } from './util/psql-config';
+import { logger } from './util/logger';
 
 io.on('connection', function (socket) {
 
@@ -28,15 +29,28 @@ msgRoutes.get('/to-user-id/:id', getMsgs);
 msgRoutes.post('/to-user-id/:id', postMsg);
 
 async function getUserID(req: Request, res: Response) {
-    const name = req.params.name;
-    const data = await client.query(`
-        select id from users where username = $1
-    `, [name]);
-    const id = data.rows[0];
-    res.json({
-        data: id,
-        message: 'id found'
-    })
+    try {
+        const name = req.params.name;
+        const data = await client.query(`
+            select id from users where username = $1
+        `, [name]);
+        const id = data.rows[0];
+
+        if (!id) {
+            res.status(400).json({
+				message: 'Invalid username'
+            });
+            return;
+        }
+
+        res.json({
+            data: id,
+            message: 'id found'
+        })
+    } catch (error) {
+        logger.error("... [MSG001] Server error ... " + error);
+        res.status(500).json({ message: "[MSG001] Server error" });
+    }
 }
 
 async function getUsername(req: Request, res: Response) {
@@ -45,6 +59,7 @@ async function getUsername(req: Request, res: Response) {
         select username from users where id = $1
     `, [id]);
     const username = data.rows[0];
+    
     res.json({
         data: username,
         message: 'username found'
@@ -159,9 +174,9 @@ async function getPeople(req: Request, res: Response) {
 
     // send data to client
     // io.to(`user-${userID}`).emit('reload-people', { data: people });
-    res.json({ 
+    res.json({
         data: people,
-        message: `${userID} got people` 
+        message: `${userID} got people`
     })
 
 }
@@ -190,13 +205,13 @@ async function postMsg(req: Request, res: Response) {
     // send data to target user
     io.to(`user-${toID}`).emit('receive-msg', {
         data: { content: msg, from_id: fromID, to_id: toID },
-        message: `msg sent from ${fromID} to ${toID}` 
+        message: `msg sent from ${fromID} to ${toID}`
     });
 
     // send data to source user
-    res.json({ 
+    res.json({
         data: { content: msg, to_id: toID },
-        message: `msg sent` 
+        message: `msg sent`
     })
 
 }
