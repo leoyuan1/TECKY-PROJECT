@@ -77,13 +77,9 @@ function renderPopTodayPost(popToday) {
 									<div class="metafooter">
 										<div class="wrapfooter">
 											<span class="meta-footer-thumb">
-												<a href="author.html">
-                                                    <img class="author-thumb"
-														src="${popTodayPost.icon}"
-														alt="Sal"></a>
 											</span>
 											<span class="author-meta">
-												<span class="post-name"><a href="author.html">${popTodayPost.username}</a></span><br />
+												<span class="post-name"><a href="">${popTodayPost.username}</a></span><br />
 												<span class="post-date">${popTodayPost.created_at}</span><span
 													class="dot"></span><span class="post-read">6 min read</span>
 											</span>
@@ -122,13 +118,9 @@ function renderAllStories(allStories) {
             <div class="metafooter">
                 <div class="wrapfooter">
                     <span class="meta-footer-thumb">
-                        <a href="author.html">
-                        <img class="author-thumb"
-                                src="/user-img/${storyPost.icon}"
-                                alt="Sal"></a>
                     </span>
                     <span class="author-meta">
-                        <span class="post-name"><a href="author.html">${storyPost.username}</a></span><br />
+                        <span class="post-name"><a href="">${storyPost.username}</a></span><br />
                         <span class="post-date">${storyPost.created_at}</span><span class="dot"></span><span
                             class="post-read">6 min read</span>
                     </span>
