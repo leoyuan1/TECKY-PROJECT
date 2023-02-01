@@ -23,11 +23,13 @@ async function main() {
         email: "messi@gmail.com",
         username: "messi",
         password: await hashPassword("messi"),
+        icon: "messi.webp"
     };
-    const user1_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
+    const user1_id = (await client.query("INSERT INTO users (email,username,password,icon,created_at,updated_at) values ($1,$2,$3,$4,$5,$6) returning id", [
         user1.email,
         user1.username,
         user1.password,
+        user1.icon,
         "2015-01-01 10:14:09.316",
         "2015-01-01 10:14:09.316"
     ])).rows[0].id;
@@ -36,11 +38,13 @@ async function main() {
         email: "neymer@gmail.com",
         username: "neymer",
         password: await hashPassword("neymer"),
+        icon: "neymer.jpeg"
     };
-    const user2_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
+    const user2_id = (await client.query("INSERT INTO users (email,username,password,icon,created_at,updated_at) values ($1,$2,$3,$4,$5,$6) returning id", [
         user2.email,
         user2.username,
         user2.password,
+        user2.icon,
         "2016-03-07 10:14:09.316",
         "2016-03-07 10:14:09.316"
     ])).rows[0].id;
@@ -49,11 +53,13 @@ async function main() {
         email: "clong@gmail.com",
         username: "c_long",
         password: await hashPassword("clong"),
+        icon: "clong.jpeg"
     };
-    const user3_id = (await client.query("INSERT INTO users (email,username,password,created_at,updated_at) values ($1,$2,$3,$4,$5) returning id", [
+    const user3_id = (await client.query("INSERT INTO users (email,username,password,icon,created_at,updated_at) values ($1,$2,$3,$4,$5,$6) returning id", [
         user3.email,
         user3.username,
         user3.password,
+        user3.icon,
         "2017-03-07 10:14:09.316",
         "2017-03-07 10:14:09.316"
     ])).rows[0].id;

@@ -46,57 +46,58 @@
         <!-- header section strats -->
         <header class="header_section">
             <div class="container-fluid">
-              <nav class="navbar navbar-expand-lg custom_nav-container ">
-                <a class="navbar-brand" href="index.html">
-                  <img src="images/logo.png" alt="">
-                  <span>
-                    Pet Adopt
-                  </span>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
-                    <ul class="navbar-nav">
-                      <li class="nav-item active">
-                        <a class="nav-link" href="index.html">主頁</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="adopt-pets.html">領養寵物</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="post-pets-info.html" id="post_pets">發佈領養</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="./community/index.html">寵物社區</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="message-box.html" id="message_box">訊息欄</a>
-                      </li>
-                      <li class="nav-item dropdown" id="welcome-btn">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          UserName
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                          <a class="dropdown-item" href="post-pets.html" id="postPets">寵物列表</a>
-                          <a class="dropdown-item" href="setting.html" id="setting-btn">設定</a>
-                          <a class="dropdown-item" href="#" id="logout-btn">登出</a>
+                <nav class="navbar navbar-expand-lg custom_nav-container ">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="images/logo.png" alt="">
+                        <span>
+                            Pet Adopt
+                        </span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="d-flex mx-auto flex-column flex-lg-row align-items-center">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="index.html">主頁</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="adopt-pets.html">領養寵物</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="post-pets-info.html" id="post_pets">發佈領養</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./community/index.html">寵物社區</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="message-box.html" id="message_box">訊息欄</a>
+                                </li>
+                                <li class="nav-item dropdown" id="welcome-btn">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        UserName
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                        <a class="dropdown-item" href="post-pets.html" id="postPets">寵物列表</a>
+                                        <a class="dropdown-item" href="setting.html" id="setting-btn">設定</a>
+                                        <a class="dropdown-item" href="#" id="logout-btn">登出</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a type="button" class="login-btn nav-link" id="login-btn">登入/註冊</a>
+                                </li>
+                            </ul>
                         </div>
-                      </li>
-                      <li class="nav-item">
-                        <a type="button" class="login-btn nav-link" id="login-btn">登入/註冊</a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="quote_btn-container  d-flex justify-content-center">
-                  </div>
-                </div>
-              </nav>
+                        <div class="quote_btn-container  d-flex justify-content-center">
+                        </div>
+                    </div>
+                </nav>
             </div>
-          </header>
+        </header>
         <!-- header section ends -->
 
         <!-- main section starts -->
@@ -116,7 +117,7 @@
                 <div class="container">
                     <div class="left">
                         <form class="top" id="searchbox">
-                            <input type="text" placeholder="Search Name" name="person_name" />
+                            <input type="text" placeholder="搜尋聯絡人" name="person_name" />
                             <a href="javascript:;" class="search">
                                 <input type="submit" value="">
                             </a>
@@ -163,22 +164,10 @@
                     </div>
 
                     <div class="right">
-                        <div class="top" id="to-whom"><span>To: <span class="name">Please Select A Person</span></span>
+                        <div class="top" id="to-whom"><span>To: <span class="name">請選擇聯絡人</span></span>
                         </div>
 
                         <div class="chat" data-chat="person">
-                            <!-- <div class="conversation-start">
-                                <span>Today, 6:48 AM</span>
-                            </div>
-                            <div class="bubble you">
-                                Hello,
-                            </div>
-                            <div class="bubble you">
-                                it's me.
-                            </div>
-                            <div class="bubble you">
-                                I was wondering...
-                            </div> -->
                         </div>
 
                         <!-- <div class="chat" data-chat="person2">
