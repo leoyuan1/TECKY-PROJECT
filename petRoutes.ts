@@ -56,6 +56,8 @@ async function getMedia(req: Request, res: Response) {
 async function getPets(req: Request, res: Response) {
     try {
 
+        
+
         // get filtered info from query
         const queries = {
             id: req.query.id,
@@ -109,9 +111,9 @@ async function getPets(req: Request, res: Response) {
                     if (sqlParameters.length > 0) { sqlString += "and " }
                     sqlParameters.push(queries[key]);
                     if (key === 'pet_name') {
-                        sqlString += `posts.${key} like $${sqlParameters.length} `;
+                        sqlString += `posts.${key} ilike $${sqlParameters.length} `;
                         console.log(sqlString);
-                        
+
                     } else {
                         sqlString += `posts.${key} = $${sqlParameters.length} `;
                     }

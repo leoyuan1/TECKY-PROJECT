@@ -37,7 +37,7 @@ async function init() {
   //  await loadMsgs();
 
   //event listeners
-  writeElem.addEventListener('change', sendMsg);
+  writeElem.addEventListener('submit', sendMsg);
 
   function minsDiff(date_1, date_2) {
     let difference = date_1.getTime() - date_2.getTime();
@@ -49,6 +49,7 @@ async function init() {
 
     peopleListElem.innerHTML = '';
     for (let person of people) {
+      console.log(person.last_date);
       const date = person.last_date.split('T')[0];
       const time = person.last_date.split('T')[1].split('.')[0];
       const image = person.icon ? person.icon : "default_profile_image.png";
@@ -73,12 +74,14 @@ async function init() {
         toID = parseInt(personElem.id.replace('person-', ''));
         await listMsgs();
 
-        // using library for chatroom's style
-        // console.log('person: ', personElem.id);
-        // console.log(document.querySelector(`.chat`));
-        document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
-        document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
-        libraryFunction();
+        if (!isSendingMsg) {
+          // using library for chatroom's style
+          // console.log('person: ', personElem.id);
+          // console.log(document.querySelector(`.chat`));
+          document.querySelector(`.chat[data-chat=${personElem.id}`).classList.add('active-chat');
+          document.querySelector(`.person[data-chat=${personElem.id}]`).classList.add('active');
+          libraryFunction();
+        }
 
         // scroll to bottom
         // console.log(document.querySelector('.chat'));
@@ -166,7 +169,9 @@ async function init() {
 
   }
 
-  async function sendMsg() {
+  async function sendMsg(event) {
+
+    event.preventDefault();
 
     if (toID == 0) {
       Swal.fire('Please select a person to start conversation.');

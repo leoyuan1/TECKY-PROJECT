@@ -317,7 +317,7 @@
     border-radius: 5px;
 }
 
-.container .right .write input {
+.container .right .write > input {
     font-size: 16px;
     float: left;
     width: 80%;
@@ -353,7 +353,7 @@
     background-position: center;
 }
 
-.container .right .write .write-link.send:before {
+.container .right .write .write-link.send > input {
     display: inline-block;
     float: left;
     width: 20px;
@@ -363,6 +363,7 @@
     background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/send.png');
     background-repeat: no-repeat;
     background-position: center;
+    border: 0;
 }
 
 .container .right .bubble {
