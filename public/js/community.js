@@ -64,7 +64,7 @@ function renderPopTodayPost(popToday) {
                 <div class="card">
 						<div class="row">
 							<div class="col-md-5 wrapthumbnail">
-								<!-- <a href="post-details.html?communityMessageId="> -->
+								<a href="post-details.html?communityMessageId=${popTodayPost.community_post_id}">
 								<div class="thumbnail" style="background-image:url(/community-img/${popTodayPost.media});">
 									</button>
 								</div>
@@ -108,7 +108,7 @@ function renderAllStories(allStories) {
     for (let storyPost of allStories) {
         allStoriesContainer.innerHTML += /* HTML */`
         <div class="card">
-        <a href="post-details.html?communityMessageId=">
+        <a href="post-details.html?communityMessageId=${storyPost.community_post_id}">
             <img class="img-fluid" src="/community-img/${storyPost.media}" alt="">
         </a>
         <div class="card-block">
@@ -117,7 +117,6 @@ function renderAllStories(allStories) {
             <h4 class="card-text">${storyPost.content}</h4>
             <div class="metafooter">
                 <div class="wrapfooter">
-                    <span class="meta-footer-thumb">
                     </span>
                     <span class="author-meta">
                         <span class="post-name"><a href="">${storyPost.username}</a></span><br />

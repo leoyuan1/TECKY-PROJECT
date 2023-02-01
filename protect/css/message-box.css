@@ -259,6 +259,7 @@
 
 .container .right .chat.active-chat {
     display: block;
+    padding-top: 20px;
     /* display: flex; */
 }
 
