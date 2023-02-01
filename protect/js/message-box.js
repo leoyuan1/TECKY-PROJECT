@@ -32,12 +32,36 @@ async function init() {
   // query selectors
   const writeElem = document.querySelector('.write');
   const peopleListElem = document.querySelector('.people');
+  const searchElem = document.querySelector('#searchbox');
 
   await loadPeople();
   //  await loadMsgs();
 
   //event listeners
-  writeElem.addEventListener('change', sendMsg);
+  writeElem.addEventListener('submit', sendMsg);
+  searchElem.addEventListener('submit', selectPerson);
+
+  async function selectPerson(event) {
+
+    event.preventDefault();
+    const name = searchElem.person_name.value;
+    const res = await fetch(`/msgs/user-id/${name}`);
+    const result = await res.json();
+    const id = result.data.id;
+    toID = parseInt(id);
+
+    await loadPeople();
+    await listMsgs();
+
+    // using library for chatroom's style
+    document.querySelector(`.chat[data-chat=person-${toID}`).classList.add('active-chat');
+    document.querySelector(`.person[data-chat=person-${toID}]`).classList.add('active');
+    libraryFunction();
+
+    // scroll to bottom
+    document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+
+  }
 
   function minsDiff(date_1, date_2) {
     let difference = date_1.getTime() - date_2.getTime();
@@ -49,12 +73,14 @@ async function init() {
 
     peopleListElem.innerHTML = '';
     for (let person of people) {
+      // console.log(person.last_date);
       const date = person.last_date.split('T')[0];
       const time = person.last_date.split('T')[1].split('.')[0];
       const image = person.icon ? person.icon : "default_profile_image.png";
       const fromIcon = person.from_id === myID ? '<<' : '>>';
+      const className = person.id == toID ? 'person active' : 'person';
       peopleListElem.innerHTML += `
-        <li class="person" data-chat="person-${person.id}" id="person-${person.id}">
+        <li class="${className}" data-chat="person-${person.id}" id="person-${person.id}">
           <img src="/user-img/${image}" alt="" />
           <div class="name">${person.username}</div>
           <span class="date">${date}</span>
@@ -166,7 +192,9 @@ async function init() {
 
   }
 
-  async function sendMsg() {
+  async function sendMsg(event) {
+
+    event.preventDefault();
 
     if (toID == 0) {
       Swal.fire('Please select a person to start conversation.');
