@@ -56,8 +56,6 @@ async function getMedia(req: Request, res: Response) {
 async function getPets(req: Request, res: Response) {
     try {
 
-        
-
         // get filtered info from query
         const queries = {
             id: req.query.id,

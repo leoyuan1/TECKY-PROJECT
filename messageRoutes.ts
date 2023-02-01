@@ -21,10 +21,23 @@ io.on('connection', function (socket) {
 
 export const msgRoutes = express.Router();
 
+msgRoutes.get('/user-id/:name', getUserID);
 msgRoutes.get('/username/:id', getUsername);
 msgRoutes.get('/people', getPeople);
 msgRoutes.get('/to-user-id/:id', getMsgs);
 msgRoutes.post('/to-user-id/:id', postMsg);
+
+async function getUserID(req: Request, res: Response) {
+    const name = req.params.name;
+    const data = await client.query(`
+        select id from users where username = $1
+    `, [name]);
+    const id = data.rows[0];
+    res.json({
+        data: id,
+        message: 'id found'
+    })
+}
 
 async function getUsername(req: Request, res: Response) {
     const id = req.params.id;

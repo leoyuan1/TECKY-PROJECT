@@ -32,12 +32,36 @@ async function init() {
   // query selectors
   const writeElem = document.querySelector('.write');
   const peopleListElem = document.querySelector('.people');
+  const searchElem = document.querySelector('#searchbox');
 
   await loadPeople();
   //  await loadMsgs();
 
   //event listeners
   writeElem.addEventListener('submit', sendMsg);
+  searchElem.addEventListener('submit', selectPerson);
+
+  async function selectPerson(event) {
+
+    event.preventDefault();
+    const name = searchElem.person_name.value;
+    const res = await fetch(`/msgs/user-id/${name}`);
+    const result = await res.json();
+    const id = result.data.id;
+    toID = parseInt(id);
+
+    await loadPeople();
+    await listMsgs();
+
+    // using library for chatroom's style
+    document.querySelector(`.chat[data-chat=person-${toID}`).classList.add('active-chat');
+    document.querySelector(`.person[data-chat=person-${toID}]`).classList.add('active');
+    libraryFunction();
+
+    // scroll to bottom
+    document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+
+  }
 
   function minsDiff(date_1, date_2) {
     let difference = date_1.getTime() - date_2.getTime();
@@ -49,7 +73,7 @@ async function init() {
 
     peopleListElem.innerHTML = '';
     for (let person of people) {
-      console.log(person.last_date);
+      // console.log(person.last_date);
       const date = person.last_date.split('T')[0];
       const time = person.last_date.split('T')[1].split('.')[0];
       const image = person.icon ? person.icon : "default_profile_image.png";
