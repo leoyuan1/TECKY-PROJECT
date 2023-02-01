@@ -5,7 +5,7 @@ async function init() {
   let toID = 0;
 
   // socket.io section
-  const socket = io.connect("http://192.168.59.107:8080");
+  const socket = io.connect("http://localhost:8080");
 
   // socket.on("reload-people", (data) => {
   //   const people = data.data;
@@ -77,9 +77,7 @@ async function init() {
 
     peopleListElem.innerHTML = '';
     for (let person of people) {
-      // console.log(person.last_date);
-      const date = person.last_date.split('T')[0];
-      const time = person.last_date.split('T')[1].split('.')[0];
+      const hkDate = new Date(person.last_date).toString().split(' ');
       const image = person.icon ? person.icon : "default_profile_image.png";
       const fromIcon = person.from_id === myID ? '<<' : '>>';
       const className = person.id == toID ? 'person active' : 'person';
@@ -87,8 +85,8 @@ async function init() {
         <li class="${className}" data-chat="person-${person.id}" id="person-${person.id}">
           <img src="/user-img/${image}" alt="" />
           <div class="name">${person.username}</div>
-          <span class="date">${date}</span>
-          <span class="time">${time}</span>
+          <span class="date">${hkDate[1]} ${hkDate[2]} ${hkDate[3]}</span>
+          <span class="time">${hkDate[4]}</span>
           <span class="preview">${fromIcon} ${person.last_message}</span>
         </li>
       `;
@@ -154,11 +152,12 @@ async function init() {
       const msgTime = new Date(msg.created_at);
       if (minsDiff(msgTime, lastDate) > 5) {
         lastDate = new Date(msg.created_at);
-        const date = msg.created_at.split('T')[0];
-        const time = msg.created_at.split('T')[1].split('.')[0];
+        hkDate = lastDate.toString().split(' ');
+        // const date = msg.created_at.split('T')[0];
+        // const time = msg.created_at.split('T')[1].split('.')[0];
         chatElem.innerHTML += `
             <div class="conversation-start">
-              <span>${date} ${time}</span>
+              <span>${hkDate[1]} ${hkDate[2]} ${hkDate[3]} ${hkDate[4]}</span>
             </div>
           `;
       }

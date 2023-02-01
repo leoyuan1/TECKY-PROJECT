@@ -72,7 +72,7 @@ async function showUserNav() {
         if (carouselLoginElm) {
             carouselLoginElm.style.display = "none";
         }
-        document.getElementById('navbarDropdownMenuLink').innerHTML = `Welcome ${result.user.username}`;
+        document.getElementById('navbarDropdownMenuLink').innerHTML = `歡迎 ${result.user.username}！`;
     } else if (result.message === 'no session data') {
         return
     }
