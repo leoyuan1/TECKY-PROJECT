@@ -165,6 +165,7 @@ async function init() {
         animalID = animalID.replace('animal-', '');
         if (animalID === 'all') {
             selected.pet_type_id = null;
+            selected.species_id = null;
         } else {
             animalID = parseInt(animalID);
             selected.pet_type_id = animalID;
