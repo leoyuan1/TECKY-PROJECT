@@ -27,5 +27,5 @@ async function checkUser(event) {
         window.location.href = 'message-box.html';
         return;
     }
-    
+
 }
