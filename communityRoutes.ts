@@ -33,7 +33,7 @@ async function getPost(req: express.Request, res: express.Response) {
         where cm.id = ${id}
         `)
     let post = result.rows[0];
-    console.log(post);
+    // console.log(post);
 
     res.json({
         data: post,
@@ -62,7 +62,7 @@ async function getPosts(req: express.Request, res: express.Response) {
         `)
 
     let posts = result.rows
-    console.log('be4');
+    // console.log('be4');
 
     console.table(posts)
     let popToday = posts.slice(0, 2)
@@ -85,10 +85,10 @@ async function createPost(req: express.Request, res: express.Response) {
 
         // 1. receiving data from user's request
         let formParedReuslt = await communityFormidablePromise(req)
-        console.log(formParedReuslt)
+        // console.log(formParedReuslt)
 
         // insert data into database (community)
-        console.log(req.session['user'])
+        // console.log(req.session['user'])
         // 2. insert data into database (community_messages)
         const postData = await client.query(`insert into community_messages(
             from_id,

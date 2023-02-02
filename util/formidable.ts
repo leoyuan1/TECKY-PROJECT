@@ -45,6 +45,7 @@ export const communityForm = formidable({
         let fieldName = part.name?.substring(0, part.name.length - 1);
         let timestamp = Date.now();
         let ext = part.mimetype?.split("/").pop();
+        console.log(`image = ${fieldName}-${timestamp}.${ext}`);
         return `${fieldName}-${timestamp}.${ext}`;
     }
 });

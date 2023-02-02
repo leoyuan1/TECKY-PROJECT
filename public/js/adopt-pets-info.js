@@ -44,7 +44,9 @@ async function init() {
     if (pet.birthday) {
         const old = birthdayToYearAndMonthOld(pet.birthday);
         document.querySelector('#year').textContent = old.years;
+        document.querySelector('#year_name').textContent = '歲';
         document.querySelector('#month').textContent = old.months;
+        document.querySelector('#month_name').textContent = '月';
     } else {
         document.querySelector('#year').textContent = '?';
         document.querySelector('#month').textContent = '?';
