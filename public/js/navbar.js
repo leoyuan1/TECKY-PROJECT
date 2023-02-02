@@ -6,6 +6,7 @@ document
     .querySelector('#message_box')
     .addEventListener('click', checkUser);
 
+// what is the right way?
 async function checkUser(event) {
 
     event.preventDefault();
@@ -19,12 +20,12 @@ async function checkUser(event) {
     }
 
     if (event.target.id === 'post_pets') {
-        window.location.href = 'post-pets-info.html';
+        window.location.href = '/post-pets-info.html';
         return;
     }
 
     if (event.target.id === 'message_box') {
-        window.location.href = 'message-box.html';
+        window.location.href = '/message-box.html';
         return;
     }
 

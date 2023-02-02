@@ -6,6 +6,7 @@ import { formidablePromise } from './util/formidable';
 import { logger } from './util/logger';
 import { client } from './util/psql-config';
 import { User } from './util/session';
+import { unlink } from 'node:fs';
 // import { User } from './util/session';
 // import { formidablePromise } from "./util/formidable"
 // import { io } from './util/connection-config';
@@ -378,13 +379,24 @@ async function updatePets(req: Request, res: Response) {
 // API --- delete pet
 async function deletePets(req: Request, res: Response) {
     try {
+
         let id = req.params.id
-        await client.query(`delete from post_media where post_id = $1`, [id])
+        const fileNames = (await client.query(`delete from post_media where post_id = $1 returning file_name`, [id])).rows;
         await client.query('delete from post_request where post_id = $1', [id])
         await client.query('delete from posts where id = $1', [id])
+
+        // delete from folder
+        // for (let fileName of fileNames) {
+        //     unlink(`/pet-img/${fileName}`, (err) => {
+        //         if (err) throw err;
+        //         console.log(`/pet-img/${fileName} was deleted`);
+        //     })
+        // }
+
         res.json({
             message: 'deleted'
         })
+
     } catch (error) {
         logger.error("... [MEM030] Server error ... " + error);
         res.status(500).json({ message: "[MEM020] Server error" });
@@ -543,7 +555,7 @@ async function changeRequestO(req: Request, res: Response) {
 async function changeRequestX(req: Request, res: Response) {
     let result = req.params.id
     let nowStatus = (await client.query('select * from post_request where id = $1', [result])).rows[0]
-    console.log(nowStatus);
+    // console.log(nowStatus);
 
     if (!nowStatus) {
         res.status(403).json({
