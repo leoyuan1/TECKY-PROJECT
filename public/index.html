@@ -37,6 +37,12 @@
 </head>
 
 <body>
+  <script>
+    async function getTest() {
+      fetch('/test')
+    }
+  </script>
+  <h1 onclick="getTest()">get test</h1>
   <div class="hero_area">
     <!-- header section strats -->
     <header class="header_section">

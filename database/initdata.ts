@@ -1,6 +1,6 @@
 import pg from "pg";
 import dotenv from "dotenv";
-import { hashPassword } from "../util/Bcrypt";
+import { hashPassword } from "../util/bcrypt";
 
 dotenv.config();
 

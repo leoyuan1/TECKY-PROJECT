@@ -19,14 +19,7 @@ async function checkUser(event) {
         return;
     }
 
-    if (event.target.id === 'post_pets') {
-        window.location.href = '/post-pets-info.html';
-        return;
-    }
+    window.location.href = event.target.href
 
-    if (event.target.id === 'message_box') {
-        window.location.href = '/message-box.html';
-        return;
-    }
 
 }

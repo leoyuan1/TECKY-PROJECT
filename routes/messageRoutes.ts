@@ -1,52 +1,39 @@
-import express from 'express';
-import { Request, Response } from 'express';
-import { Socket } from 'socket.io';
-import { io } from './util/connection-config';
-// import { PORT } from "./util/connection-config";
-import { client } from './util/psql-config';
-import { logger } from './util/logger';
-
-io.on('connection', function (socket) {
-
-    const req = socket.request as express.Request;
-
-    if (req.session['user']) {
-        socket.join(`user-${req.session['user'].id}`);
-        console.log(`${req.session['user'].id} is connected to message box.`);
-    }
-
-    // console.log(`${socket.id} is connected to message box.`);
-    // socket.join('msg-box');
-
-})
+import express from "express";
+import { Request, Response } from "express";
+import { client } from "../util/psql-config";
+import { logger } from "../util/logger";
+import { io } from "../util/socket";
 
 export const msgRoutes = express.Router();
 
-msgRoutes.get('/user-id/:name', getUserID);
-msgRoutes.get('/username/:id', getUsername);
-msgRoutes.get('/people', getPeople);
-msgRoutes.get('/to-user-id/:id', getMsgs);
-msgRoutes.post('/to-user-id/:id', postMsg);
+msgRoutes.get("/user-id/:name", getUserID);
+msgRoutes.get("/username/:id", getUsername);
+msgRoutes.get("/people", getPeople);
+msgRoutes.get("/to-user-id/:id", getMsgs);
+msgRoutes.post("/to-user-id/:id", postMsg);
 
 async function getUserID(req: Request, res: Response) {
     try {
         const name = req.params.name;
-        const data = await client.query(`
+        const data = await client.query(
+            `
             select id from users where username = $1
-        `, [name]);
+        `,
+            [name]
+        );
         const id = data.rows[0];
 
         if (!id) {
             res.status(400).json({
-				message: 'Invalid username'
+                message: "Invalid username",
             });
             return;
         }
 
         res.json({
             data: id,
-            message: 'id found'
-        })
+            message: "id found",
+        });
     } catch (error) {
         logger.error("... [MSG001] Server error ... " + error);
         res.status(500).json({ message: "[MSG001] Server error" });
@@ -55,29 +42,31 @@ async function getUserID(req: Request, res: Response) {
 
 async function getUsername(req: Request, res: Response) {
     const id = req.params.id;
-    const data = await client.query(`
+    const data = await client.query(
+        `
         select username from users where id = $1
-    `, [id]);
+    `,
+        [id]
+    );
     const username = data.rows[0];
-    
+
     res.json({
         data: username,
-        message: 'username found'
-    })
+        message: "username found",
+    });
 }
 
 async function getMsgs(req: Request, res: Response) {
-
     // ensure session.user exists
-    if (!req.session.user) {
-        res.json({
-            message: 'no session data',
-        });
-        return;
-    }
+    // if (!req.session["user"]) {
+    //     res.json({
+    //         message: "no session data",
+    //     });
+    //     return;
+    // }
 
     // receive user's data
-    const fromID = req.session.user['id'];
+    const fromID = req.session!["user"]!["id"];
     const toID = req.params.id;
 
     // get data from database
@@ -111,25 +100,23 @@ async function getMsgs(req: Request, res: Response) {
     // send data to client
     res.json({
         data: msgs,
-        message: 'msgs loaded'
-    })
-
+        message: "msgs loaded",
+    });
 }
 
 async function getPeople(req: Request, res: Response) {
-
     // console.log('getting people');
 
     // ensure session.user exists
-    if (!req.session.user) {
+    if (!req.session["user"]) {
         res.json({
-            message: 'no session data',
+            message: "no session data",
         });
         return;
     }
 
     // receive user's data
-    const userID = req.session.user['id'];
+    const userID = req.session["user"]["id"];
 
     // get data from database
     const sqlString = `
@@ -176,47 +163,42 @@ async function getPeople(req: Request, res: Response) {
     // io.to(`user-${userID}`).emit('reload-people', { data: people });
     res.json({
         data: people,
-        message: `${userID} got people`
-    })
-
+        message: `${userID} got people`,
+    });
 }
 
 async function postMsg(req: Request, res: Response) {
-
     // ensure session.user exists
-    if (!req.session.user) {
+    if (!req.session["user"]) {
         res.json({
-            message: 'no session data',
+            message: "no session data",
         });
         return;
     }
 
     // receive data from client
-    const fromID = req.session.user['id'];
+    const fromID = req.session["user"]["id"];
     const toID = req.params.id;
     const msg = req.body.content;
 
     // insert data to database
-    await client.query(`
+    await client.query(
+        `
         insert into messages (content, from_id, to_id, created_at, updated_at)
         values ($1,$2,$3,now(),now())
-    `, [msg, fromID, toID]);
+    `,
+        [msg, fromID, toID]
+    );
 
     // send data to target user
-    io.to(`user-${toID}`).emit('receive-msg', {
+    io.to(`user-${toID}`).emit("receive-msg", {
         data: { content: msg, from_id: fromID, to_id: toID },
-        message: `msg sent from ${fromID} to ${toID}`
+        message: `msg sent from ${fromID} to ${toID}`,
     });
 
     // send data to source user
     res.json({
         data: { content: msg, to_id: toID },
-        message: `msg sent`
-    })
-
+        message: `msg sent`,
+    });
 }
-
-// io.on("send-msg", sendMsg);
-// function sendMsg(socket: any) {
-//     socket.emit("msg-sent", { msg: "Your message has been sent." })
-// }

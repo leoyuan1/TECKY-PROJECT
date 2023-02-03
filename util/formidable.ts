@@ -7,6 +7,40 @@ const uploadUserDir = "uploads/user-img";
 const uploadCommunityDir = "uploads/community-img";
 fs.mkdirSync(uploadDir, { recursive: true });
 
+export function formBuilder(
+    options: formidable.Options = {
+        uploadDir,
+        keepExtensions: true,
+        maxFiles: 2,
+        maxFileSize: 50 * 1024 * 1024 ** 2, // the default limit is 50MB
+        filter: (part) => part.mimetype?.startsWith("image/") || part.mimetype?.startsWith("video/") || false,
+        filename: (originalName, originalExt, part, form) => {
+            let fieldName = part.name?.substring(0, part.name.length - 1);
+            let timestamp = Date.now();
+            let ext = part.mimetype?.split("/").pop();
+            return `${fieldName}-${timestamp}.${ext}`;
+        },
+    },
+    uploadDirOverride: string
+) {
+    const form = formidable({ ...options, uploadDir: uploadDirOverride });
+    function formPromise(req: express.Request) {
+        return new Promise<any>((resolve, reject) => {
+            form.parse(req, (err, fields, files) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve({ fields, files });
+            });
+        });
+    }
+
+    return formPromise;
+}
+
+// let formPromise = formBuilder();
+
 export const form = formidable({
     uploadDir,
     keepExtensions: true,
@@ -18,7 +52,7 @@ export const form = formidable({
         let timestamp = Date.now();
         let ext = part.mimetype?.split("/").pop();
         return `${fieldName}-${timestamp}.${ext}`;
-    }
+    },
 });
 
 export const userForm = formidable({
@@ -32,7 +66,7 @@ export const userForm = formidable({
         let timestamp = Date.now();
         let ext = part.mimetype?.split("/").pop();
         return `${fieldName}-${timestamp}.${ext}`;
-    }
+    },
 });
 
 export const communityForm = formidable({
@@ -47,7 +81,7 @@ export const communityForm = formidable({
         let ext = part.mimetype?.split("/").pop();
         console.log(`image = ${fieldName}-${timestamp}.${ext}`);
         return `${fieldName}-${timestamp}.${ext}`;
-    }
+    },
 });
 
 export function formidablePromise(req: express.Request) {

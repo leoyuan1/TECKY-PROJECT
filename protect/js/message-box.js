@@ -5,7 +5,7 @@ async function init() {
   let toID = 0;
 
   // socket.io section
-  const socket = io.connect("http://localhost:8080");
+  const socket = io.connect("");
 
   // socket.on("reload-people", (data) => {
   //   const people = data.data;
@@ -13,21 +13,7 @@ async function init() {
   //   showPeople(people);
   // });
 
-  socket.on("receive-msg", async (data) => {
-    console.log('received data: ', data);
-    const msg = data.data;
-    console.log('toID = ', toID);
-    console.log('msg.to_id = ', msg.to_id);
-    if (msg.to_id == myID) {
-      await loadPeople();
-      if (msg.from_id != toID) { return }
-      listSingleMsg(msg);
-      // scroll to bottom
-      // console.log(document.querySelector('.chat'));
-      // console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
-      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
-    }
-  });
+  registerSocketEvent(socket)
 
   // query selectors
   const writeElem = document.querySelector('.write');
@@ -302,66 +288,86 @@ function libraryFunction() {
   /*******************************/
 
 }
+function emojiSetup() {
 
-let emojiLogo = document.querySelector('.emoji-picker')
-let counter = false
-document.querySelector('.write-link.smiley').addEventListener('click', () => {
-  if (!counter) {
-    counter = true
-    emojiLogo.style.display = 'block'
-  } else if (counter) {
-    counter = false
-    emojiLogo.style.display = 'none'
-  }
-})
-
-
-document.querySelector('.message-box-container').addEventListener('click', (e) => {
-
-  // console.log(e.target.getAttribute('class'));
-  if (e.target.getAttribute('class') != "write-link smiley") {
-    emojiLogo.style.display = 'none'
-    counter = false
-  }
-})
-
-
-const emoji = new EmojiConvertor();
-
-let emojiElms = document.querySelectorAll('.em')
-
-for (let emojiElm of emojiElms) {
-  emojiElm.addEventListener('click', (e) => {
-    document.querySelector('.message-input').value += `<i class="${e.srcElement.getAttribute('class')}"></i>`
+  let emojiLogo = document.querySelector('.emoji-picker')
+  let counter = false
+  document.querySelector('.write-link.smiley').addEventListener('click', () => {
+    if (!counter) {
+      counter = true
+      emojiLogo.style.display = 'block'
+    } else if (counter) {
+      counter = false
+      emojiLogo.style.display = 'none'
+    }
   })
+
+
+  document.querySelector('.message-box-container').addEventListener('click', (e) => {
+
+    // console.log(e.target.getAttribute('class'));
+    if (e.target.getAttribute('class') != "write-link smiley") {
+      emojiLogo.style.display = 'none'
+      counter = false
+    }
+  })
+
+
+  const emoji = new EmojiConvertor();
+
+  let emojiElms = document.querySelectorAll('.em')
+
+  for (let emojiElm of emojiElms) {
+    emojiElm.addEventListener('click', (e) => {
+      document.querySelector('.message-input').value += `<i class="${e.srcElement.getAttribute('class')}"></i>`
+    })
+  }
+
+
+  let input = document.querySelector('.message-input')
+  const emojiList = [':smile:', ':laughing:', ':blush:', ':smiley:',
+    ':smirk:', ':heart_eyes:', ':kissing_heart:', ':kissing_closed_eyes:', ':flushed:',
+    ':relieved:', ':satisfied:', ':grin:', ':wink:', ':stuck_out_tongue_winking_eye:', ':stuck_out_tongue_closed_eyes:',
+    ':grinning:', ':kissing:', ':kissing_smiling_eyes:', ':stuck_out_tongue:', ':sleeping:', ':worried:',
+    ':frowning:', ':anguished:', ':open_mouth:', ':grimacing:', ':confused:', ':hushed:', ':expressionless:',
+    ':unamused:', ':sweat_smile:', ':sweat:', ':disappointed_relieved:', ':weary:', ':pensive:', ':disappointed:',
+    ':confounded:', ':fearful:', ':cold_sweat:', ':persevere:', ':cry:', ':sob:',
+    ':joy:', ':astonished:', ':scream:', ':tired_face:', ':angry:', ':rage:', ':triumph:', ':sleepy:',
+    ':yum:', ':mask:', ':sunglasses:', ':dizzy_face:', ':imp:', ':smiling_imp:',
+    ':neutral_face:', ':no_mouth:', ':innocent:', ':heart:'
+  ]
+  let emojiListDiv = document.querySelector('.smiley-list')
+  for (let icon of emojiList) {
+    let div = document.createElement('a')
+    div.innerHTML = emoji.replace_colons(icon)
+    div.addEventListener('click', () => {
+      input.value += emoji.replace_colons(icon);
+      input.focus();
+    })
+    emojiListDiv.appendChild(div)
+  }
+
+  emoji.replace_mode = 'unified';
+  emoji.allow_native = true;
 }
 
-
-let input = document.querySelector('.message-input')
-const emojiList = [':smile:', ':laughing:', ':blush:', ':smiley:',
-  ':smirk:', ':heart_eyes:', ':kissing_heart:', ':kissing_closed_eyes:', ':flushed:',
-  ':relieved:', ':satisfied:', ':grin:', ':wink:', ':stuck_out_tongue_winking_eye:', ':stuck_out_tongue_closed_eyes:',
-  ':grinning:', ':kissing:', ':kissing_smiling_eyes:', ':stuck_out_tongue:', ':sleeping:', ':worried:',
-  ':frowning:', ':anguished:', ':open_mouth:', ':grimacing:', ':confused:', ':hushed:', ':expressionless:',
-  ':unamused:', ':sweat_smile:', ':sweat:', ':disappointed_relieved:', ':weary:', ':pensive:', ':disappointed:',
-  ':confounded:', ':fearful:', ':cold_sweat:', ':persevere:', ':cry:', ':sob:',
-  ':joy:', ':astonished:', ':scream:', ':tired_face:', ':angry:', ':rage:', ':triumph:', ':sleepy:',
-  ':yum:', ':mask:', ':sunglasses:', ':dizzy_face:', ':imp:', ':smiling_imp:',
-  ':neutral_face:', ':no_mouth:', ':innocent:', ':heart:'
-]
-let emojiListDiv = document.querySelector('.smiley-list')
-for (let icon of emojiList) {
-  let div = document.createElement('a')
-  div.innerHTML = emoji.replace_colons(icon)
-  div.addEventListener('click', () => {
-    input.value += emoji.replace_colons(icon);
-    input.focus();
-  })
-  emojiListDiv.appendChild(div)
+function registerSocketEvent(socket) {
+  socket.on("receive-msg", async (data) => {
+    console.log('received data: ', data);
+    const msg = data.data;
+    console.log('toID = ', toID);
+    console.log('msg.to_id = ', msg.to_id);
+    if (msg.to_id == myID) {
+      await loadPeople();
+      if (msg.from_id != toID) { return }
+      listSingleMsg(msg);
+      // scroll to bottom
+      // console.log(document.querySelector('.chat'));
+      // console.log('scrollHeight = ', document.querySelector('.chat').scrollHeight);
+      document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight;
+    }
+  });
 }
-
-emoji.replace_mode = 'unified';
-emoji.allow_native = true;
-
 init();
+emojiSetup()
 // libraryFunction();

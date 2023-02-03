@@ -46,7 +46,7 @@ changePasswordFunction.addEventListener("click", async (e) => {
         existPassword: `${existPassword.value}`,
         newPasswordValue: `${newPassword.value}`
     }
-    let res = await fetch("/change", {
+    let res = await fetch("/change-password", {
         method: 'post',
         body: JSON.stringify(result),
         headers: {
