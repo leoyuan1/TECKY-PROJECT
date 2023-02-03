@@ -7,6 +7,7 @@ import { logger } from './util/logger';
 import { client } from './util/psql-config';
 import { User } from './util/session';
 import { unlink } from 'node:fs';
+import path from 'path';
 // import { User } from './util/session';
 // import { formidablePromise } from "./util/formidable"
 // import { io } from './util/connection-config';
@@ -385,13 +386,13 @@ async function deletePets(req: Request, res: Response) {
         await client.query('delete from post_request where post_id = $1', [id])
         await client.query('delete from posts where id = $1', [id])
 
-        // delete from folder
-        // for (let fileName of fileNames) {
-        //     unlink(`/pet-img/${fileName}`, (err) => {
-        //         if (err) throw err;
-        //         console.log(`/pet-img/${fileName} was deleted`);
-        //     })
-        // }
+        // delete from uploads folder
+        for (let fileName of fileNames) {
+            const pathLocation = path.join(__dirname, `uploads/pet-img/${fileName.file_name}`);
+            unlink(pathLocation, (err) => {
+                if (err) throw err;
+            })
+        }
 
         res.json({
             message: 'deleted'
