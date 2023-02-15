@@ -1,18 +1,18 @@
 import express from "express";
 import path from "path";
-import { logger } from './util/logger';
-import { petRoutes } from "./petRoutes";
-import { msgRoutes } from "./messageRoutes";
+import { msgRoutes } from "./routes/messageRoutes";
 import { app, PORT, server } from "./util/connection-config";
 import expressSession from "express-session";
 import grant from "grant";
 import { isLoggedIn } from "./util/guard";
-import { communityRoutes } from "./communityRoutes";
+import { communityRoutes } from "./routes/communityRoutes";
 import { io } from "./util/connection-config";
-import { userRoutes } from "./userRoutes";
-
-// import { io } from "./util/connection-config";
-// import { communityRoutes } from "./communities_route";
+import { makePetRoutes } from "./routes/petRoutes";
+import { userRoutes } from "./routes/userRoutes";
+import { client } from "./util/psql-config";
+import { PetService } from "./services/petService";
+import { PetController } from "./controllers/petController";
+import { User } from "./util/session";
 
 const Files = {
     APPLICATIONS: path.resolve("applications.json"),
@@ -47,6 +47,12 @@ const sessionMiddleware = expressSession({
     cookie: { secure: false },
 })
 
+declare module "express-session" {
+    interface SessionData {
+        user?: User;
+    }
+}
+
 app.use(sessionMiddleware);
 io.use((socket, next) => {
     let req = socket.request as express.Request;
@@ -57,11 +63,18 @@ io.use((socket, next) => {
 app.use(grantExpress as express.RequestHandler);
 app.use(express.static("public"));
 app.use(express.static("uploads"));
+
+// Application Routes
+export const petService = new PetService(client);
+export const petController = new PetController(petService);
+console.log(petController.testing);
+
 app.use('/', userRoutes)
-app.use('/pets', petRoutes);
+app.use('/pets', makePetRoutes());
 app.use('/msgs', msgRoutes);
-app.use(isLoggedIn, express.static('protect'));
 app.use('/community', communityRoutes);
+
+app.use(isLoggedIn, express.static('protect'));
 
 // //  404
 // app.use((req, res) => {
